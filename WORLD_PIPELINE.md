@@ -1,37 +1,9 @@
-# Atlas World Reconstruction Pipeline
+# Legacy world pipeline reference
 
-This repository is the public, read-only rendering window. It must never contain Atlas Core credentials, private memory, unrestricted write APIs, or private source material.
+**Deprecated. No pipeline architecture is active here.**
 
-## World representation
+The live world uses the causal network declared by `world-engine.js` and persisted in `world-state.json` under `rizoma`.
 
-Atlas treats a place as a persistent spatial memory cell, not as a hand-built scene:
+Canonical model: **Rizoma Ω — shared prior snapshot, causal nodes, typed relations, synchronized deltas, feedback, persistent state.**
 
-`coordinates + terrain + structures + imagery + semantics + time + provenance`
-
-## Source priority
-
-1. Official Panamanian geospatial services (IGN Tommy Guardia / ANATI and competent agencies).
-2. Licensed Google Maps Platform runtime data when a restricted API key and billing are available.
-3. Open global terrain / Earth-observation sources (for example Copernicus DEM) where appropriate.
-4. Public imagery only when its license allows the intended use and attribution.
-
-Google Street View imagery must not be scraped, prefetched, indexed, or persistently cached outside the allowances of Google Maps Platform. Google Photorealistic 3D Tiles are requested at runtime and attribution must remain visible.
-
-## Rendering strategy
-
-- Preferred: Google Photorealistic 3D Tiles + compliant renderer when coverage and credentials exist.
-- Fallback: image-driven spatial projection anchored to verified geospatial coordinates, using stable master imagery and continuous parallax / lighting / environmental simulation.
-- No invented building geometry is allowed to be promoted as verified reality.
-
-## Cell rollout
-
-Penonomé is the pilot cell. A cell graduates only when:
-
-- coordinates and administrative identity are verified;
-- source provenance is stored;
-- the renderer remains stable on iPhone;
-- public/private boundaries are enforced;
-- visual fallback and geospatial mode share the same world-cell identity;
-- missing data is represented as unknown rather than fabricated.
-
-Once the pipeline is validated, new cells can be added by data, not by rewriting the engine.
+`WORLD_PIPELINE.md` remains only as a compatibility filename for old links. It has no architectural authority.
