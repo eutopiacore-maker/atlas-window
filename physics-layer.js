@@ -1,1 +1,13 @@
-'use strict';const fs=require('fs'),F='world-state.json',s=JSON.parse(fs.readFileSync(F,'utf8')),C=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));if(!s.grid?.cells)process.exit(0);const a=s.grid.cells,W=s.grid.w,H=s.grid.h;s.schema=Math.max(4,s.schema||0);s.laws={version:1,models:{massConservation:'water storage is conserved across internal transfers',gravity:'surface water moves toward lower hydraulic head',solarCycle:'diurnal solar forcing attenuated by clouds'}};for(const c of a){c.fieldCapacityMm=c.fieldCapacityMm??55+25*(c.soil.organic??.3);c.soilWaterMm=c.soilWaterMm??c.soil.moisture*c.fieldCapacityMm;c.soil.moisture=C(c.soilWaterMm/c.fieldCapacityMm)}const d=(s.simMinutes/1440)%1,raw=Math.max(0,Math.sin((d-.25)*Math.PI*2));s.weather.solar=+(raw*(1-(s.weather.cloud??.5)*.72)).toFixed(3);const sum=()=>a.reduce((n,c)=>n+(c.waterMm||0)+(c.soilWaterMm||0),0),start=sum(),delta=new Array(a.length).fill(0);let moved=0;for(const c of a){if((c.waterMm||0)<=.01)continue;let best=null,bh=c.elevation+c.waterMm/1000;for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const x=c.x+dx,y=c.y+dy;if(x<0||x>=W||y<0||y>=H)continue;const n=a[y*W+x],h=n.elevation+(n.waterMm||0)/1000;if(h<bh){bh=h;best=n}}if(best){const f=Math.min(c.waterMm,c.waterMm*C((c.elevation-best.elevation)*8,0,.5));delta[c.id]-=f;delta[best.id]+=f;moved+=f}}for(const c of a)c.waterMm=Math.max(0,(c.waterMm||0)+delta[c.id]);const end=sum();s.physics=s.physics||{};s.physics.waterBalance={storageStartMm:+start.toFixed(3),runoffTransfersMm:+moved.toFixed(3),storageEndMm:+end.toFixed(3),massResidualMm:+(start-end).toFixed(6)};s.metrics=s.metrics||{};s.metrics.solar=s.weather.solar;s.metrics.surfaceWaterMm=+a.reduce((n,c)=>n+(c.waterMm||0),0).toFixed(2);s.metrics.soilWaterMm=+a.reduce((n,c)=>n+(c.soilWaterMm||0),0).toFixed(2);fs.writeFileSync(F,JSON.stringify(s,null,2)+'\n');
+'use strict';
+
+// LEGACY COMPATIBILITY STUB.
+// Physical laws are integrated as causal nodes/relations inside world-engine.js.
+// This file intentionally does not mutate world-state.json; running a second
+// post-engine physics pass would reintroduce sequential authority.
+
+console.log(JSON.stringify({
+  status: 'retired',
+  canon: 'Rizoma Ω',
+  replacement: 'world-engine.js synchronized causal rhizome',
+  mutatesWorldState: false
+}, null, 2));
