@@ -1,0 +1,16 @@
+{
+  "schema":"atlas.world-cell.v1",
+  "id":"pa.cocle.penonome",
+  "label":"Penonomé",
+  "center":{"lat":8.51208,"lng":-80.35468},
+  "role":"pilot-cell",
+  "sources":[
+    {"id":"ign-poblados-2025","type":"arcgis-rest","authority":"Instituto Geográfico Nacional Tommy Guardia","url":"https://sigigntg.anati.gob.pa/arcgisserver/rest/services/Mapa_Web_de_Poblados_2025_MIL1/MapServer","use":"official settlements and administrative context","runtime":true},
+    {"id":"ign-distrito","type":"arcgis-rest","authority":"Instituto Geográfico Nacional Tommy Guardia","url":"https://sigigntg.anati.gob.pa/arcgisserver/rest/services/Distrito/MapServer/0","use":"official district geometry","runtime":true},
+    {"id":"miviot-plan-normativo","type":"arcgis-rest","authority":"MIVIOT","url":"https://services5.arcgis.com/E1ALP94T33Es6ABz/arcgis/rest/services/PlanNormativo_Penonome/FeatureServer/2","use":"urban planning / land-use reference","runtime":true},
+    {"id":"google-photorealistic-3d","type":"google-map-tiles","authority":"Google Maps Platform","use":"photorealistic 3D surface when credentialed and covered","runtime":false,"requires":"restricted Google Maps Platform API key + billing"},
+    {"id":"copernicus-dem-glo30","type":"dem","authority":"Copernicus Data Space Ecosystem","use":"terrain/elevation fallback","runtime":false}
+  ],
+  "rendering":{"preferred":"google-photorealistic-3d","fallback":"image-spatial-projection","no_fake_geometry":true},
+  "privacy":{"public_people_reconstruction":false,"private_content":false,"public_window_read_only":true}
+}
