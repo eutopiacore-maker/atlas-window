@@ -1,0 +1,174 @@
+{
+  "schema": 6,
+  "world": "Eutopia/Penonome",
+  "cycle": 11,
+  "updatedAt": "2026-08-13T23:38:45.434Z",
+  "topology": "synchronized-causal-rhizome",
+  "geo": {
+    "anchor": {
+      "lat": 8.5163308,
+      "lon": -80.3584463,
+      "crs": "EPSG:4326",
+      "source": "miambienteMunicipalHead",
+      "verifiedAt": "2026-08-13T23:26:02.230Z"
+    },
+    "admin": {
+      "district": "PENONOME",
+      "province": "COCLE"
+    }
+  },
+  "grid": {
+    "w": 40,
+    "h": 32,
+    "cellMeters": 4.5,
+    "cells": 1280,
+    "extentMeters": {
+      "width": 180,
+      "height": 144
+    },
+    "provenance": {
+      "terrainStatus": "legacy-synthetic-prior-preserved-not-geographic-truth",
+      "refinedFrom": {
+        "w": 10,
+        "h": 8,
+        "cellMeters": 18
+      },
+      "method": "deterministic interpolation only; no new terrain facts",
+      "terrainTruth": "open-dem-calibrated",
+      "terrainUnits": "m",
+      "terrainSource": "awsTerrainTiles",
+      "terrainSourceResolution": "HGT 3601x3601 per degree",
+      "calibratedAt": "2026-08-13T23:26:02.897Z"
+    }
+  },
+  "gravity_m_s2": 9.781457761,
+  "metrics": {
+    "population": 43,
+    "plants": 89,
+    "germinations": 89,
+    "deaths": 0,
+    "seeds": 99,
+    "surfaceWater_L": 0,
+    "soilWater_L": 744647.08,
+    "meanSoilMoisture": 0.451,
+    "solar": 0.4913,
+    "waterMassResidual_L": 0,
+    "cells": 1280,
+    "cellMeters": 4.5
+  },
+  "waterBalance": {
+    "cellAreaM2": 20.25,
+    "storageBefore_L": 744746.9844,
+    "precipitation_L": 0,
+    "evaporation_L": 99.8864,
+    "plantUptake_L": 0.0208,
+    "storageAfter_L": 744647.0772,
+    "residual_L": 0
+  },
+  "matter": {
+    "model": "coarse-grained continuum",
+    "rule": "microscopic laws are retained conceptually; current scale tracks conserved macroscopic state",
+    "materials": {
+      "water": {
+        "formula": "H2O"
+      },
+      "soil": {
+        "state": "porous multiphase mixture"
+      },
+      "biomass": {
+        "state": "living organic matter; aggregate composition unresolved"
+      },
+      "air": {
+        "state": "gas mixture; composition unresolved"
+      }
+    }
+  },
+  "geodata": {
+    "checks": {
+      "terrain": {
+        "ok": true,
+        "at": "2026-08-13T23:38:45.434Z"
+      },
+      "land": {
+        "ok": true,
+        "at": "2026-08-13T23:38:45.434Z"
+      },
+      "vectors": {
+        "ok": true,
+        "at": "2026-08-13T23:38:45.434Z"
+      }
+    },
+    "landCover": {
+      "calibratedAt": "2026-08-13T23:37:07.483Z",
+      "source": "miambienteLand2021",
+      "paletteClasses": 33,
+      "maxRenderColorDistance": 0,
+      "classCounts": {
+        "Área poblada": 1054,
+        "Infraestructura": 226
+      },
+      "method": "one official raster export matched to colors decoded from the official ArcGIS legend"
+    },
+    "hydroFeatures": 1,
+    "roadFeatures": 3
+  },
+  "representation": {
+    "type": "spatial-intermediate-representation",
+    "schema": 2,
+    "frame": {
+      "anchor": {
+        "lat": 8.5163308,
+        "lon": -80.3584463,
+        "crs": "EPSG:4326",
+        "source": "miambienteMunicipalHead",
+        "verifiedAt": "2026-08-13T23:26:02.230Z"
+      },
+      "localExtentMeters": {
+        "width": 180,
+        "height": 144
+      },
+      "cellMeters": 4.5,
+      "orientation": {
+        "x": "east",
+        "y": "south"
+      }
+    },
+    "fields": {
+      "terrain": {
+        "path": "grid.cells[].elevation",
+        "units": "m",
+        "truthStatus": "open-dem-calibrated",
+        "source": "awsTerrainTiles"
+      },
+      "surfaceWater": {
+        "path": "grid.cells[].waterMm",
+        "units": "mm"
+      },
+      "soilMoisture": {
+        "path": "grid.cells[].soil.moisture"
+      },
+      "landCover": {
+        "path": "grid.cells[].landCover",
+        "status": "sampled",
+        "source": "miambienteLand2021"
+      }
+    },
+    "visualDecoderContract": {
+      "mode": "neural-ready",
+      "inputs": [
+        "semantic entities",
+        "terrain",
+        "land-cover",
+        "hydrography",
+        "roads",
+        "water",
+        "soil",
+        "weather",
+        "solar",
+        "camera"
+      ],
+      "hardRule": "appearance only; may not create/delete/relocate entities",
+      "fallback": "lightweight WebGL field renderer"
+    }
+  }
+}
