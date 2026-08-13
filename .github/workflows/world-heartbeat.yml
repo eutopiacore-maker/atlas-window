@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - 'world-engine.js'
+      - 'geodata-node.js'
       - '.github/workflows/world-heartbeat.yml'
 
 permissions:
