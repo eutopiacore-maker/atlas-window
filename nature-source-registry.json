@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "policy": {
+    "priority": ["measured local observation", "official Panama geodata/station data", "Panama primary research datasets", "authoritative Earth-system science", "regional priors"],
+    "rule": "Lower-priority sources may fill unknowns or constrain probabilities but may not overwrite higher-priority observations.",
+    "licensing": "Use public APIs/services and metadata lawfully. Respect dataset-specific access, attribution, non-redistribution and license requirements. Do not scrape restricted datasets."
+  },
+  "domains": {
+    "flora": [
+      {"id":"stri-panama-tree-plots","authority":"Smithsonian Tropical Research Institute / CTFS","url":"https://ctfs.si.edu/Public/Datasets/PanamaTreePlots/","scope":"186 tree census plots and inventories across Panama; species by site with elevation and rainfall context","use":"species-distribution calibration by ecological region","access":"public summaries; follow dataset terms for detailed data"},
+      {"id":"stri-bci-forestgeo","authority":"Smithsonian ForestGEO / STRI","url":"https://ctfs.si.edu/PanamaAtlas/datasets/bci/","scope":"long-term mapped tropical forest census on Barro Colorado Island","use":"growth, mortality, abundance and forest-dynamics calibration","access":"data request/terms apply"},
+      {"id":"stri-bci-soils","authority":"Smithsonian CTFS / STRI","url":"https://ctfs.si.edu/webatlas/datasets/bci/soilmaps/BCIsoil.html","scope":"mapped soil nutrients in a Panama tropical forest plot","use":"soil-plant relation research priors","access":"acknowledgement/citation conditions apply"},
+      {"id":"miambiente-vegetation","authority":"MiAmbiente / SINIA","url":"https://geoportal.miambiente.gob.pa/server/rest/services/Nodo_Bosque_Biodiversidad_2/MapServer","scope":"Panama vegetation, forest and biodiversity spatial layers","use":"vegetation class and habitat constraints"}
+    ],
+    "land_cover_soils_geology": [
+      {"id":"miambiente-landcover-2021","authority":"MiAmbiente / SINIA","url":"https://geoportal.miambiente.gob.pa/server/rest/services/Hosted/Cobertura_Boscosa_y_Uso_de_Suelo__año_2021__1_25_000__WTL1/MapServer","scope":"official Panama land cover/use 2021 at 1:25,000","use":"cell land-cover truth"},
+      {"id":"miambiente-soils","authority":"MiAmbiente / SINIA","url":"https://geoportal.miambiente.gob.pa/server/rest/services/Nodo_Suelos/MapServer","scope":"agrological capacity, geomorphology, tectonics and lithology plus land cover","use":"soil/geologic spatial constraints"},
+      {"id":"idiap-soils","authority":"IDIAP","url":"https://www.idiap.gob.pa/panama-en-mapa-de-suelos-de-america-latina/","scope":"Panama soil classification contribution to Latin America and Caribbean soil atlas","use":"national/regional soil taxonomy reference"},
+      {"id":"usda-soil-processes","authority":"USDA Agricultural Research Service","url":"https://www.ars.usda.gov/research/publications/publication/?seqNo115=370015","scope":"infiltration and bulk-density controls","use":"process relationships only; coefficients require local calibration"}
+    ],
+    "hydrography": [
+      {"id":"miambiente-watersheds","authority":"MiAmbiente / SINIA","url":"https://geoportal.miambiente.gob.pa/server/rest/services/Nodo_Agua_Saneamiento/MapServer/0","scope":"Panama hydrographic basin polygons including principal river, slope side and area fields","use":"watershed membership and drainage topology"},
+      {"id":"miambiente-watersheds-250k","authority":"MiAmbiente / SINIA","url":"https://geoportal.miambiente.gob.pa/server/rest/services/Hosted/Cuenca_Hidrográfica_250000/FeatureServer","scope":"national watershed boundaries at 1:250,000","use":"national basin cross-check"},
+      {"id":"imhpa-hydromet","authority":"IMHPA","url":"https://www.imhpa.gob.pa/es/red-estaciones","scope":"Panama meteorological/hydrological station variables","use":"measured precipitation, temperature, humidity, pressure, wind, radiation, soil temperature/humidity and hydrology where accessible"},
+      {"id":"acp-canal-water","authority":"Autoridad del Canal de Panamá","url":"https://pancanal.com/agua/","scope":"Gatun/Alhajuela levels, watershed rainfall and Canal water information","use":"Canal watershed/lake calibration"},
+      {"id":"usgs-water-cycle","authority":"U.S. Geological Survey","url":"https://www.usgs.gov/water-science-school/science/el-ciclo-del-agua-water-cycle-spanish","scope":"terrestrial water-cycle reservoirs and fluxes","use":"general process graph: evaporation, ET, precipitation, runoff, infiltration, recharge, groundwater discharge"}
+    ],
+    "climate_atmosphere_solar": [
+      {"id":"imhpa-climate","authority":"IMHPA","url":"https://www.imhpa.gob.pa/es/descripcion-generall-clima-panama","scope":"Panama climate drivers: intertropical location, orography, maritime influence, trade winds and ITCZ","use":"regional atmospheric constraints"},
+      {"id":"imhpa-koppen","authority":"IMHPA","url":"https://www.imhpa.gob.pa/es/clasificacion-climatica","scope":"Panama climate classification","use":"ecoclimate regional priors"},
+      {"id":"nasa-energy-budget","authority":"NASA Science","url":"https://science.nasa.gov/earth/earth-observatory/climate-and-earths-energy-budget/","scope":"Earth energy budget","use":"energy conservation and radiative/latent/sensible heat structure"},
+      {"id":"nasa-solar-irradiance","authority":"NASA GSFC","url":"https://earth.gsfc.nasa.gov/climate/projects/solar-irradiance","scope":"solar irradiance as Earth-system forcing","use":"solar input provenance and forcing hierarchy"},
+      {"id":"fao56-et","authority":"FAO","url":"https://www.fao.org/4/x0490s/x0490s00.htm","scope":"FAO-56 Penman-Monteith reference evapotranspiration","use":"physically based ET0 when radiation, temperature, humidity and wind data are available"}
+    ],
+    "ocean_coast": [
+      {"id":"noaa-tides-currents","authority":"NOAA National Ocean Service","url":"https://oceanservice.noaa.gov/navigation/tidesandcurrents/","scope":"tides and currents physics/measurement","use":"coastal/ocean process laws"},
+      {"id":"noaa-ocean-currents","authority":"NOAA Ocean Exploration","url":"https://oceanexplorer.noaa.gov/ocean-fact/currents/","scope":"wind, density, Coriolis, gravity and tide-driven ocean circulation","use":"ocean circulation constraints"},
+      {"id":"miambiente-mangroves","authority":"MiAmbiente","url":"https://miambiente.gob.pa/172368-2/","scope":"Panama mangrove/coastal ecosystem context","use":"coastal vegetation/habitat priors"}
+    ],
+    "universal_physics": [
+      {"id":"si-constants","authority":"SI definitions / CODATA-compatible exact constants already embedded in Atlas","scope":"universal constants","use":"exact constants where defined"},
+      {"id":"earth-gravity","authority":"WGS84 normal-gravity model already implemented in Atlas","scope":"latitude-dependent terrestrial gravity prior","use":"local gravity until higher-resolution geophysical observation exists"},
+      {"id":"conservation","authority":"fundamental physics","scope":"mass, energy, momentum and charge conservation","use":"hard invariants at represented scale; unresolved microscopic detail remains unknown"}
+    ]
+  }
+}
