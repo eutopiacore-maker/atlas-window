@@ -1,8 +1,8 @@
 {
   "schema": 6,
   "world": "Eutopia/Penonome",
-  "cycle": 12,
-  "updatedAt": "2026-08-14T05:20:32.245Z",
+  "cycle": 13,
+  "updatedAt": "2026-08-14T09:34:46.269Z",
   "topology": "synchronized-causal-rhizome",
   "geo": {
     "anchor": {
@@ -44,25 +44,25 @@
   "gravity_m_s2": 9.781457761,
   "metrics": {
     "population": 43,
-    "plants": 115,
-    "germinations": 115,
+    "plants": 143,
+    "germinations": 143,
     "deaths": 0,
-    "seeds": 81,
+    "seeds": 65,
     "surfaceWater_L": 0,
-    "soilWater_L": 738309.33,
-    "meanSoilMoisture": 0.447,
-    "solar": 0.5076,
+    "soilWater_L": 731150.42,
+    "meanSoilMoisture": 0.443,
+    "solar": 0.5297,
     "waterMassResidual_L": 0,
     "cells": 1280,
     "cellMeters": 4.5
   },
   "waterBalance": {
     "cellAreaM2": 20.25,
-    "storageBefore_L": 744647.0772,
+    "storageBefore_L": 738309.3294,
     "precipitation_L": 0,
-    "evaporation_L": 6335.953,
-    "plantUptake_L": 1.7948,
-    "storageAfter_L": 738309.3294,
+    "evaporation_L": 7156.4324,
+    "plantUptake_L": 2.475,
+    "storageAfter_L": 731150.422,
     "residual_L": 0
   },
   "matter": {
@@ -87,15 +87,15 @@
     "checks": {
       "terrain": {
         "ok": true,
-        "at": "2026-08-14T05:20:32.245Z"
+        "at": "2026-08-14T09:34:46.268Z"
       },
       "land": {
         "ok": true,
-        "at": "2026-08-14T05:20:32.245Z"
+        "at": "2026-08-14T09:34:46.268Z"
       },
       "vectors": {
         "ok": true,
-        "at": "2026-08-14T05:20:32.245Z"
+        "at": "2026-08-14T09:34:46.268Z"
       }
     },
     "landCover": {
