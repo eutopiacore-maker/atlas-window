@@ -1,25 +1,29 @@
 <!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Atlas Layer 3</title>
-<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;touch-action:none}#source{position:fixed;inset:0;width:100%;height:100%;border:0;background:#000;z-index:1}#out{position:fixed;inset:0;width:100%;height:100%;display:block;pointer-events:none;z-index:2}</style>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;touch-action:none}
+#source{position:fixed;inset:0;width:100%;height:100%;border:0;background:#000;z-index:1}
+#out{position:fixed;inset:0;width:100%;height:100%;display:block;pointer-events:none;z-index:2;opacity:0}
+</style>
 <iframe id="source" src="dynamics.html?embedded=1&l3source=1"></iframe><canvas id="out"></canvas>
 <script>
 (function(){'use strict';
-var src=document.getElementById('source'),out=document.getElementById('out'),ctx=out.getContext('2d',{alpha:false}),sourceCanvas=null,state=null,dpr=1;
-var W=320,H=480;
-var current=document.createElement('canvas'),prevSource=document.createElement('canvas'),prevOut=document.createElement('canvas'),nextOut=document.createElement('canvas');
-[current,prevSource,prevOut,nextOut].forEach(function(c){c.width=W;c.height=H});
-var cctx=current.getContext('2d',{willReadFrequently:true}),psctx=prevSource.getContext('2d',{willReadFrequently:true}),poctx=prevOut.getContext('2d',{willReadFrequently:true}),noctx=nextOut.getContext('2d',{willReadFrequently:true});
-var haveHistory=false,lastFrame=0,FPS=24,STEP=1000/FPS;
+const src=document.getElementById('source'),out=document.getElementById('out'),ctx=out.getContext('2d',{alpha:false});
+const W=320,H=480,FPS=24,STEP=1000/FPS;
+const current=document.createElement('canvas'),prevSource=document.createElement('canvas'),prevOut=document.createElement('canvas'),nextOut=document.createElement('canvas');
+[current,prevSource,prevOut,nextOut].forEach(c=>{c.width=W;c.height=H});
+const cctx=current.getContext('2d',{willReadFrequently:true}),psctx=prevSource.getContext('2d',{willReadFrequently:true}),poctx=prevOut.getContext('2d',{willReadFrequently:true}),noctx=nextOut.getContext('2d',{willReadFrequently:true});
+let capture=null,state=null,haveHistory=false,lastFrame=0,dpr=1;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);out.width=Math.max(1,innerWidth*dpr);out.height=Math.max(1,innerHeight*dpr);out.style.width=innerWidth+'px';out.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}resize();addEventListener('resize',resize,{passive:true});
-function findCanvas(){try{sourceCanvas=src.contentDocument&&src.contentDocument.querySelector('canvas')}catch(e){sourceCanvas=null}}
-src.addEventListener('load',function(){setTimeout(findCanvas,80);setTimeout(findCanvas,400)});
-async function syncState(){try{var r=await fetch('./world-state.json?v='+Date.now(),{cache:'no-store'});if(r.ok)state=await r.json()}catch(e){}}syncState();setInterval(syncState,5000);
-function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
-function physicalParams(){var solar=.55,cloud=.35,moist=.45;if(state&&state.weather){solar=Number(state.weather.solar||solar);cloud=Number(state.weather.cloud||cloud)}if(state&&state.metrics)moist=Number(state.metrics.meanSoilMoisture||moist);return{solar:solar,cloud:cloud,moist:moist}}
-function reinterpret(srcData,oldSrcData,oldOutData){var p=srcData.data,o=oldSrcData&&oldSrcData.data,h=oldOutData&&oldOutData.data,n=new ImageData(W,H),q=n.data,phys=physicalParams();for(var y=0;y<H;y++)for(var x=0;x<W;x++){var i=(y*W+x)*4,r=p[i],g=p[i+1],b=p[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b),sat=mx-mn;var sky=b>r*1.03&&b>g*.92&&y<H*.78,veg=g>r*1.06&&g>b*.78&&sat>10,ground=!sky&&!veg&&r>g*.82&&g>b*.88;var nr=r,ng=g,nb=b;if(sky){var depth=1-y/H;nr=r*(.93+phys.solar*.10)+depth*9;ng=g*(.96+phys.solar*.08)+depth*12;nb=b*(1.02+phys.solar*.05)+depth*14}else if(veg){nr=r*.76;ng=g*(1.06+phys.solar*.07);nb=b*.73}else if(ground){var wet=1-phys.moist*.16;nr=r*wet*(1+phys.solar*.05);ng=g*wet*(.98+phys.solar*.04);nb=b*wet*.90}
-var motion=255;if(o){motion=(Math.abs(r-o[i])+Math.abs(g-o[i+1])+Math.abs(b-o[i+2]))/3}var keep=haveHistory?clamp(1-motion/34,0,1)*.82:0;if(h){nr=nr*(1-keep)+h[i]*keep;ng=ng*(1-keep)+h[i+1]*keep;nb=nb*(1-keep)+h[i+2]*keep}q[i]=clamp(nr,0,255);q[i+1]=clamp(ng,0,255);q[i+2]=clamp(nb,0,255);q[i+3]=255}return n}
-function renderFrame(){if(!sourceCanvas||!sourceCanvas.width)return;cctx.drawImage(sourceCanvas,0,0,W,H);var srcData=cctx.getImageData(0,0,W,H),oldSrc=haveHistory?psctx.getImageData(0,0,W,H):null,oldOut=haveHistory?poctx.getImageData(0,0,W,H):null,next=reinterpret(srcData,oldSrc,oldOut);noctx.putImageData(next,0,0);psctx.clearRect(0,0,W,H);psctx.drawImage(current,0,0);poctx.clearRect(0,0,W,H);poctx.drawImage(nextOut,0,0);haveHistory=true;ctx.clearRect(0,0,innerWidth,innerHeight);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(nextOut,0,0,innerWidth,innerHeight)}
-function loop(t){if(!sourceCanvas)findCanvas();if(t-lastFrame>=STEP){lastFrame=t-(t-lastFrame)%STEP;renderFrame()}requestAnimationFrame(loop)}requestAnimationFrame(loop);
+function findCapture(){try{capture=src.contentDocument&&src.contentDocument.querySelector('canvas[data-atlas-capture="1"]')}catch(e){capture=null}}
+src.addEventListener('load',()=>{setTimeout(findCapture,120);setTimeout(findCapture,700)});
+async function syncState(){try{const r=await fetch('./world-state.json?v='+Date.now(),{cache:'no-store'});if(r.ok)state=await r.json()}catch(e){}}syncState();setInterval(syncState,5000);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function params(){let solar=.55,cloud=.35,moist=.45;if(state&&state.weather){solar=Number(state.weather.solar??solar);cloud=Number(state.weather.cloud??cloud)}if(state&&state.metrics)moist=Number(state.metrics.meanSoilMoisture??moist);return{solar,cloud,moist}}
+function usable(data){let sum=0,n=0;for(let i=0;i<data.data.length;i+=4096){sum+=data.data[i]+data.data[i+1]+data.data[i+2];n+=3}return n&&sum/n>6}
+function reinterpret(srcData,oldSrcData,oldOutData){const p=srcData.data,o=oldSrcData&&oldSrcData.data,h=oldOutData&&oldOutData.data,n=new ImageData(W,H),q=n.data,phys=params();for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=(y*W+x)*4,r=p[i],g=p[i+1],b=p[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b),sat=mx-mn;const sky=b>r*1.03&&b>g*.92&&y<H*.78,veg=g>r*1.06&&g>b*.78&&sat>10,ground=!sky&&!veg&&r>g*.82&&g>b*.88;let nr=r,ng=g,nb=b;if(sky){const d=1-y/H;nr=r*(.95+phys.solar*.06)+d*5;ng=g*(.97+phys.solar*.05)+d*7;nb=b*(1.01+phys.solar*.04)+d*9}else if(veg){nr=r*.82;ng=g*(1.04+phys.solar*.04);nb=b*.80}else if(ground){const wet=1-phys.moist*.10;nr=r*wet*(1+phys.solar*.035);ng=g*wet*(.99+phys.solar*.03);nb=b*wet*.94}let keep=0;if(h&&o){const motion=(Math.abs(r-o[i])+Math.abs(g-o[i+1])+Math.abs(b-o[i+2]))/3;keep=clamp(1-motion/40,0,1)*.72}q[i]=clamp(nr*(1-keep)+(h?h[i]:nr)*keep,0,255);q[i+1]=clamp(ng*(1-keep)+(h?h[i+1]:ng)*keep,0,255);q[i+2]=clamp(nb*(1-keep)+(h?h[i+2]:nb)*keep,0,255);q[i+3]=255}return n}
+function renderFrame(){if(!capture||capture.dataset.ready!=='1')return false;try{cctx.clearRect(0,0,W,H);cctx.drawImage(capture,0,0,W,H);const srcData=cctx.getImageData(0,0,W,H);if(!usable(srcData))return false;const oldSrc=haveHistory?psctx.getImageData(0,0,W,H):null,oldOut=haveHistory?poctx.getImageData(0,0,W,H):null,next=reinterpret(srcData,oldSrc,oldOut);noctx.putImageData(next,0,0);psctx.clearRect(0,0,W,H);psctx.drawImage(current,0,0);poctx.clearRect(0,0,W,H);poctx.drawImage(nextOut,0,0);haveHistory=true;ctx.clearRect(0,0,innerWidth,innerHeight);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(nextOut,0,0,innerWidth,innerHeight);out.style.opacity='1';return true}catch(e){console.warn('Atlas L3 frame',e);out.style.opacity='0';return false}}
+function loop(t){if(!capture)findCapture();if(t-lastFrame>=STEP){lastFrame=t-(t-lastFrame)%STEP;renderFrame()}requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 </script>
