@@ -1,15 +1,35 @@
 <!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Atlas Layer 3</title>
-<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;touch-action:none}#source{position:fixed;inset:0;width:100%;height:100%;border:0;background:#000;z-index:1}#out{position:fixed;inset:0;width:100%;height:100%;display:block;pointer-events:none;z-index:2}</style>
-<iframe id="source" src="dynamics.html?embedded=1&l3source=1"></iframe><canvas id="out"></canvas>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;touch-action:none;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif}
+#source{position:fixed;inset:0;width:100%;height:100%;border:0;background:#000;z-index:1}
+#out{position:fixed;inset:0;width:100%;height:100%;display:block;pointer-events:none;z-index:2}
+.layers{position:fixed;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:30;display:flex;gap:6px;padding:7px;border-radius:22px;background:#07100dcc;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.layers button{appearance:none;-webkit-appearance:none;border:1px solid #efbd6860;background:#0b1512ed;color:#eee;border-radius:16px;padding:9px 13px;font:11px -apple-system,sans-serif;letter-spacing:.08em;white-space:nowrap}.layers button.on{border-color:#efbd68;color:#efbd68}
+</style>
+<iframe id="source" src="dynamics.html?embedded=1&l3source=1"></iframe>
+<canvas id="out"></canvas>
+<div class="layers"><button onclick="top.location.href='index.html?layer=1'">CAPA 1</button><button onclick="top.location.href='index.html?layer=2'">CAPA 2</button><button class="on">CAPA 3</button></div>
 <script>
 (function(){'use strict';
 var src=document.getElementById('source'),out=document.getElementById('out'),ctx=out.getContext('2d',{alpha:false}),sourceCanvas=null,state=null,dpr=1;
+var work=document.createElement('canvas'),W=240,H=360,wctx=work.getContext('2d',{willReadFrequently:true});work.width=W;work.height=H;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);out.width=Math.max(1,innerWidth*dpr);out.height=Math.max(1,innerHeight*dpr);out.style.width=innerWidth+'px';out.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}resize();addEventListener('resize',resize,{passive:true});
 function findCanvas(){try{sourceCanvas=src.contentDocument&&src.contentDocument.querySelector('canvas')}catch(e){sourceCanvas=null}}
 src.addEventListener('load',function(){setTimeout(findCanvas,80);setTimeout(findCanvas,400)});
 async function syncState(){try{var r=await fetch('./world-state.json?v='+Date.now(),{cache:'no-store'});if(r.ok)state=await r.json()}catch(e){}}syncState();setInterval(syncState,15000);
-function frame(){if(!sourceCanvas||!sourceCanvas.width)findCanvas();if(sourceCanvas&&sourceCanvas.width){var solar=.55,cloud=.35,moist=.45;if(state&&state.weather){solar=Number(state.weather.solar||solar);cloud=Number(state.weather.cloud||cloud)}if(state&&state.metrics)moist=Number(state.metrics.meanSoilMoisture||moist);ctx.save();ctx.clearRect(0,0,innerWidth,innerHeight);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.filter='contrast('+(1.05+solar*.08)+') saturate('+(1.04+moist*.10)+') brightness('+(0.94+solar*.10-cloud*.05)+')';ctx.drawImage(sourceCanvas,0,0,innerWidth,innerHeight);ctx.filter='none';var sun=ctx.createRadialGradient(innerWidth*.72,innerHeight*.18,0,innerWidth*.72,innerHeight*.18,innerWidth*.75);sun.addColorStop(0,'rgba(255,238,195,'+(solar*.13)+')');sun.addColorStop(1,'rgba(255,238,195,0)');ctx.fillStyle=sun;ctx.fillRect(0,0,innerWidth,innerHeight);ctx.globalCompositeOperation='multiply';var depth=ctx.createLinearGradient(0,innerHeight*.35,0,innerHeight);depth.addColorStop(0,'rgba(30,38,32,0)');depth.addColorStop(1,'rgba(30,28,20,'+(.05+cloud*.035)+')');ctx.fillStyle=depth;ctx.fillRect(0,0,innerWidth,innerHeight);ctx.restore()}requestAnimationFrame(frame)}requestAnimationFrame(frame);
+function hash2(x,y){var n=Math.sin(x*127.1+y*311.7)*43758.5453;return n-Math.floor(n)}
+function smoothNoise(x,y){var x0=Math.floor(x),y0=Math.floor(y),fx=x-x0,fy=y-y0;var a=hash2(x0,y0),b=hash2(x0+1,y0),c=hash2(x0,y0+1),d=hash2(x0+1,y0+1);fx=fx*fx*(3-2*fx);fy=fy*fy*(3-2*fy);return (a*(1-fx)+b*fx)*(1-fy)+(c*(1-fx)+d*fx)*fy}
+function fbm(x,y){return .57*smoothNoise(x,y)+.27*smoothNoise(x*2.1,y*2.1)+.16*smoothNoise(x*5.3,y*5.3)}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function translate(){if(!sourceCanvas||!sourceCanvas.width)return;wctx.drawImage(sourceCanvas,0,0,W,H);var im=wctx.getImageData(0,0,W,H),p=im.data;var solar=.55,cloud=.35,moist=.45;if(state&&state.weather){solar=Number(state.weather.solar||solar);cloud=Number(state.weather.cloud||cloud)}if(state&&state.metrics)moist=Number(state.metrics.meanSoilMoisture||moist);var t=performance.now()*.00012;
+for(var y=0;y<H;y++)for(var x=0;x<W;x++){var i=(y*W+x)*4,r=p[i],g=p[i+1],b=p[i+2];var mx=Math.max(r,g,b),mn=Math.min(r,g,b),sat=mx-mn;var sky=(b>r*1.04&&b>g*.92&&y<H*.72);var veg=(g>r*1.05&&g>b*.78&&sat>12);var ground=!sky&&!veg&&r>g*.85&&g>b*.92;var n=fbm(x*.075,y*.075+t),micro=fbm(x*.29+17,y*.29+9);
+if(sky){var v=(1-y/H)*22+(n-.5)*(10+cloud*18);p[i]=clamp(142+v+solar*18,0,255);p[i+1]=clamp(181+v+solar*14,0,255);p[i+2]=clamp(199+v+solar*10,0,255)}
+else if(veg){var lum=(r+g+b)/3;var tex=(n-.5)*38+(micro-.5)*20;p[i]=clamp(28+lum*.10+tex*.45,0,255);p[i+1]=clamp(70+lum*.27+tex+solar*10,0,255);p[i+2]=clamp(26+lum*.09+tex*.32,0,255)}
+else if(ground){var base=moist*.65;var tex=(n-.5)*34+(micro-.5)*16;var shade=(y/H)*15;p[i]=clamp(126-base*34+tex+solar*14-shade,0,255);p[i+1]=clamp(111-base*27+tex*.72+solar*11-shade,0,255);p[i+2]=clamp(77-base*20+tex*.38+solar*6-shade,0,255)}
+else{var l=(r+g+b)/3,detail=(micro-.5)*18;p[i]=clamp(r+detail+(l>150?5:-4),0,255);p[i+1]=clamp(g+detail+(l>150?5:-4),0,255);p[i+2]=clamp(b+detail+(l>150?5:-4),0,255)} }
+wctx.putImageData(im,0,0);ctx.save();ctx.clearRect(0,0,innerWidth,innerHeight);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(work,0,0,innerWidth,innerHeight);var sun=ctx.createRadialGradient(innerWidth*.7,innerHeight*.16,0,innerWidth*.7,innerHeight*.16,innerWidth*.8);sun.addColorStop(0,'rgba(255,235,190,'+(solar*.10)+')');sun.addColorStop(1,'rgba(255,235,190,0)');ctx.fillStyle=sun;ctx.fillRect(0,0,innerWidth,innerHeight);ctx.restore()}
+var last=0;function loop(t){if(!sourceCanvas)findCanvas();if(t-last>90){last=t;translate()}requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 </script>
