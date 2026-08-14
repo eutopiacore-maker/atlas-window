@@ -1,13 +1,14 @@
-<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>Atlas Layer 3</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#8da5ae}#fallback{position:fixed;inset:0;width:100%;height:100%;border:0;display:none}.msg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);padding:10px 14px;border-radius:14px;background:#07100dcc;color:#fff;font:11px -apple-system,sans-serif;letter-spacing:.08em;z-index:5}</style><iframe id="fallback"></iframe><div id="msg" class="msg">CAPA 3 · COMPONIENDO</div><script type="module">
-const msg=document.getElementById('msg'),fallback=document.getElementById('fallback');
-function fb(reason){console.warn('Atlas appearance fallback',reason);fallback.src='world.html?layer=2&embedded=1';fallback.style.display='block';msg.textContent='CAPA 3 · APARIENCIA LOCAL';setTimeout(()=>msg.style.display='none',1600)}
+<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>Atlas Layer 3</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#8da5ae}.msg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);padding:10px 14px;border-radius:14px;background:#07100dcc;color:#fff;font:11px -apple-system,sans-serif;letter-spacing:.08em;z-index:5}</style><div id="msg" class="msg">CAPA 3 · CONSTRUYENDO LANDSCAPE</div><script type="module">
+const msg=document.getElementById('msg');
 try{
- const [{buildAppearanceScenePacket},{AtlasLocalRenderer}]=await Promise.all([import('./appearance-scene.js'),import('./local-render.js')]);
- const renderer=new AtlasLocalRenderer();
- async function sync(){try{const r=await fetch('world-state.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const state=await r.json();const packet=buildAppearanceScenePacket(state,{fov:58,height_m:1.65});
-   if(window.AtlasPhotorealDecoder&&window.AtlasPhotorealDecoder.render){try{const frame=await window.AtlasPhotorealDecoder.render(packet);if(frame){document.body.style.backgroundImage='url('+JSON.stringify(frame)+')';document.body.style.backgroundSize='cover';document.body.style.backgroundPosition='center';renderer.hide();fallback.style.display='none';msg.textContent='CAPA 3 · FOTOGRÁFICO LIVE';setTimeout(()=>msg.style.display='none',1200);return}}catch(e){console.info('photoreal endpoint unavailable',e.message)}}
-   renderer.render(packet);fallback.style.display='none';msg.textContent='CAPA 3 · REALISTA LOCAL';setTimeout(()=>msg.style.display='none',1200);
- }catch(e){fb(e)}}
- await sync();setInterval(sync,15000);
-}catch(e){fb(e)}
+  const [{buildAppearanceScenePacket},{AtlasPhotorealLandscape}]=await Promise.all([import('./appearance-scene.js'),import('./photoreal-landscape.js')]);
+  const renderer=new AtlasPhotorealLandscape();
+  async function sync(){
+    const r=await fetch('world-state.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);
+    const state=await r.json();const packet=buildAppearanceScenePacket(state,{fov:58,height_m:1.65});
+    renderer.render(packet,state);
+    msg.textContent='CAPA 3 · PBR LANDSCAPE LIVE';setTimeout(()=>msg.style.display='none',1200);
+  }
+  await sync();setInterval(sync,15000);
+}catch(e){console.error(e);msg.textContent='CAPA 3 · ERROR '+(e.message||e)}
 </script>
