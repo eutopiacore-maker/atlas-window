@@ -1,8 +1,18 @@
 {
   "schema": 6,
   "world": "Eutopia/Penonome",
-  "cycle": 14,
-  "updatedAt": "2026-08-14T12:01:16.126Z",
+  "cycle": 15,
+  "updatedAt": "2026-08-14T14:04:32.458Z",
+  "phase": {
+    "current": "landscape",
+    "order": [
+      "landscape",
+      "animals",
+      "humans"
+    ],
+    "rule": "environment must remain causally self-sustaining before fauna or humans become active",
+    "updatedAt": "2026-08-14T14:04:32.548Z"
+  },
   "topology": "synchronized-causal-rhizome",
   "geo": {
     "anchor": {
@@ -43,27 +53,61 @@
   },
   "gravity_m_s2": 9.781457761,
   "metrics": {
-    "population": 43,
-    "plants": 157,
-    "germinations": 157,
+    "population": 0,
+    "plants": 173,
+    "germinations": 173,
     "deaths": 0,
-    "seeds": 62,
+    "seeds": 66,
     "surfaceWater_L": 0,
-    "soilWater_L": 723019.46,
-    "meanSoilMoisture": 0.438,
-    "solar": 0.5169,
+    "soilWater_L": 714517.94,
+    "meanSoilMoisture": 0.433,
+    "solar": 0.4996,
     "waterMassResidual_L": 0,
     "cells": 1280,
-    "cellMeters": 4.5
+    "cellMeters": 4.5,
+    "activeAnimals": 0,
+    "phase": "landscape"
   },
   "waterBalance": {
     "cellAreaM2": 20.25,
-    "storageBefore_L": 731150.422,
+    "storageBefore_L": 723019.4559,
     "precipitation_L": 0,
-    "evaporation_L": 8127.7134,
-    "plantUptake_L": 3.2527,
-    "storageAfter_L": 723019.4559,
+    "evaporation_L": 8497.6463,
+    "plantUptake_L": 3.8648,
+    "storageAfter_L": 714517.9448,
     "residual_L": 0
+  },
+  "landscape": {
+    "budget": {
+      "erodedKg": 13.556104,
+      "transferredSedimentKg": 13.556104,
+      "sedimentTransferResidualKg": 0,
+      "litterTurnoverKg": 0.00144,
+      "stabilizedOrganicKg": 0.000001
+    },
+    "activeProcesses": [
+      "atmosphere",
+      "solar forcing",
+      "precipitation",
+      "surface runoff",
+      "infiltration",
+      "evapotranspiration",
+      "soil moisture",
+      "seed bank",
+      "germination",
+      "plant growth",
+      "plant death",
+      "seed dispersal",
+      "erosion",
+      "sediment transport",
+      "litter turnover",
+      "decomposition"
+    ],
+    "gates": {
+      "animals": false,
+      "humans": false,
+      "criteria": "activate only after landscape budgets remain stable and causal for sustained cycles"
+    }
   },
   "matter": {
     "model": "coarse-grained continuum",
@@ -87,15 +131,15 @@
     "checks": {
       "terrain": {
         "ok": true,
-        "at": "2026-08-14T12:01:16.126Z"
+        "at": "2026-08-14T14:04:32.458Z"
       },
       "land": {
         "ok": true,
-        "at": "2026-08-14T12:01:16.126Z"
+        "at": "2026-08-14T14:04:32.458Z"
       },
       "vectors": {
         "ok": true,
-        "at": "2026-08-14T12:01:16.126Z"
+        "at": "2026-08-14T14:04:32.458Z"
       }
     },
     "landCover": {
