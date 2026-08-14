@@ -1,32 +1,23 @@
 {
-  "schema": 2,
+  "schema": 3,
   "name": "atlas-photoreal-appearance-decoder",
+  "layer": 3,
   "authority": "observer-only",
   "placement": "atlas-window",
   "provider": "agnostic",
   "externalRuntimeRequired": false,
-  "input": "world-state.json#representation",
+  "input": "layer-1 state + layer-2 dynamics + camera",
   "scenePacket": {
     "builtLocally": true,
-    "required": [
-      "region",
-      "camera",
-      "weather",
-      "lighting",
-      "terrain",
-      "landCover",
-      "entities",
-      "actions",
-      "relationships"
-    ],
+    "required": ["region","camera","weather","lighting","terrain","landCover","entities","actions","relationships","motionState"],
     "identityPolicy": "stable synthetic identity keyed by causal entity id; never copy a real person's face",
     "culturalPolicy": "Panamanian/Cocle visual context is a prior, not a costume rule; no folklore caricature",
-    "truthPolicy": "appearance can infer texture/style but cannot create, delete, relocate, or write back causal entities"
+    "truthPolicy": "appearance can infer visible texture/style but cannot create, delete, relocate, or write back causal entities"
   },
   "target": {
     "quality": "photographic-realistic",
-    "temporal": "stable identities, geometry and materials across keyframes",
-    "behavior": "people visibly interact with causal narrative, environment, humans and animals",
+    "temporal": "stable identities, geometry, materials and motion continuity across frames",
+    "behavior": "people visibly reflect the causal narrative and interact with environment, humans and animals when those interactions exist in state/dynamics",
     "materials": "photographic skin, fabric, vegetation, soil, water, concrete, wood, metal and glass",
     "lighting": "natural physically plausible light and shadows derived from world state"
   },
