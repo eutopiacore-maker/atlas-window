@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "name": "atlas-photoreal-appearance-decoder",
+  "authority": "observer-only",
+  "input": "world-state.json#representation",
+  "scenePacket": {
+    "required": ["region", "camera", "weather", "lighting", "terrain", "entities", "actions", "relationships"],
+    "identityPolicy": "stable synthetic identity keyed by causal entity id; never copy a real person's face",
+    "culturalPolicy": "Panamanian/Cocle visual context is a prior, not a costume rule; no folklore caricature",
+    "truthPolicy": "appearance can infer texture/style but cannot create, delete, relocate, or write back causal entities"
+  },
+  "target": {
+    "quality": "photographic-realistic",
+    "temporal": "stable identities and geometry across keyframes",
+    "behavior": "people visibly interact with causal narrative, environment, humans and animals"
+  },
+  "runtime": {
+    "liveDecoder": "not-configured",
+    "fallback": "integrated photographic reference keyframe",
+    "costPolicy": "no paid inference without explicit approval"
+  }
+}
