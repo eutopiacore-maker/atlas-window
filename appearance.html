@@ -1,55 +1,15 @@
 <!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Atlas Layer 3</title>
-<style>
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;touch-action:none}
-#source{position:fixed;inset:0;width:100%;height:100%;border:0;background:#000;z-index:1}
-#out{position:fixed;inset:0;width:100%;height:100%;display:block;pointer-events:none;z-index:2;opacity:0;transition:opacity .25s linear}
-#work{display:none}
-</style>
-<iframe id="source" src="dynamics.html?embedded=1&l3source=1"></iframe>
-<canvas id="out"></canvas><canvas id="work" width="192" height="192"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;touch-action:none}#source{position:fixed;inset:0;width:100%;height:100%;border:0;background:#000;z-index:1}#out{position:fixed;inset:0;width:100%;height:100%;display:block;pointer-events:none;z-index:2}</style>
+<iframe id="source" src="dynamics.html?embedded=1&l3source=1"></iframe><canvas id="out"></canvas>
 <script>
-(function(){
-'use strict';
-var src=document.getElementById('source'),out=document.getElementById('out'),ctx=out.getContext('2d',{alpha:false}),work=document.getElementById('work'),wctx=work.getContext('2d',{alpha:false});
-var sourceCanvas=null,state=null,styleNet=null,transformNet=null,styleBottle=null,busy=false,last=0,dpr=1,ready=false;
-var STYLE_MODEL='https://cdn.jsdelivr.net/gh/reiinakano/arbitrary-image-stylization-tfjs@master/saved_model_style_js/model.json';
-var TRANSFORM_MODEL='https://cdn.jsdelivr.net/gh/reiinakano/arbitrary-image-stylization-tfjs@master/saved_model_transformer_separable_js/model.json';
-var STYLE_IMAGE='https://cdn.jsdelivr.net/gh/reiinakano/arbitrary-image-stylization-tfjs@master/images/beach.jpg';
-function resize(){dpr=Math.min(window.devicePixelRatio||1,2);out.width=Math.max(1,innerWidth*dpr);out.height=Math.max(1,innerHeight*dpr);out.style.width=innerWidth+'px';out.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize,{passive:true});resize();
+(function(){'use strict';
+var src=document.getElementById('source'),out=document.getElementById('out'),ctx=out.getContext('2d',{alpha:false}),sourceCanvas=null,state=null,dpr=1;
+function resize(){dpr=Math.min(devicePixelRatio||1,2);out.width=Math.max(1,innerWidth*dpr);out.height=Math.max(1,innerHeight*dpr);out.style.width=innerWidth+'px';out.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}resize();addEventListener('resize',resize,{passive:true});
 function findCanvas(){try{sourceCanvas=src.contentDocument&&src.contentDocument.querySelector('canvas')}catch(e){sourceCanvas=null}}
-src.addEventListener('load',function(){setTimeout(findCanvas,100);setTimeout(findCanvas,500)});
-async function syncState(){try{var r=await fetch('./world-state.json?v='+Date.now(),{cache:'no-store'});if(r.ok)state=await r.json()}catch(e){}}
-syncState();setInterval(syncState,15000);
-function loadImage(url){return new Promise(function(ok,no){var im=new Image();im.crossOrigin='anonymous';im.onload=function(){ok(im)};im.onerror=no;im.src=url})}
-async function initNeural(){
- try{
-   if(window.tf){try{await tf.setBackend('webgl')}catch(e){try{await tf.setBackend('wasm')}catch(x){}}await tf.ready();}
-   styleNet=await tf.loadGraphModel(STYLE_MODEL);transformNet=await tf.loadGraphModel(TRANSFORM_MODEL);
-   var styleImg=await loadImage(STYLE_IMAGE);
-   styleBottle=tf.tidy(function(){return styleNet.predict(tf.browser.fromPixels(styleImg).toFloat().div(255).expandDims())});
-   ready=true;
- }catch(e){console.warn('Atlas L3 neural init',e);ready=false;}
-}
-function physicalMix(){var solar=.55,moist=.45,cloud=.35;if(state&&state.weather){solar=Number(state.weather.solar||solar);cloud=Number(state.weather.cloud||cloud)}if(state&&state.metrics)moist=Number(state.metrics.meanSoilMoisture||moist);return Math.max(.18,Math.min(.72,.34+moist*.20+solar*.16-cloud*.08))}
-async function synth(){
- if(!ready||busy||!sourceCanvas||!sourceCanvas.width)return;busy=true;
- try{
-   wctx.drawImage(sourceCanvas,0,0,192,192);
-   var ratio=physicalMix(),identity=null,mixed=null,stylized=null;
-   var content=tf.browser.fromPixels(work).toFloat().div(255).expandDims();
-   identity=styleNet.predict(content);
-   mixed=tf.tidy(function(){return styleBottle.mul(ratio).add(identity.mul(1-ratio))});
-   stylized=transformNet.predict([content,mixed]).squeeze();
-   await tf.browser.toPixels(stylized,work);
-   var solar=state&&state.weather?Number(state.weather.solar||.55):.55,cloud=state&&state.weather?Number(state.weather.cloud||.35):.35;
-   ctx.save();ctx.clearRect(0,0,innerWidth,innerHeight);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.filter='contrast('+(1.02+solar*.06)+') saturate(1.06) brightness('+(0.96+solar*.08)+')';ctx.drawImage(work,0,0,innerWidth,innerHeight);ctx.filter='none';ctx.globalCompositeOperation='soft-light';var g=ctx.createLinearGradient(0,0,0,innerHeight);g.addColorStop(0,'rgba(255,240,210,'+(solar*.08)+')');g.addColorStop(1,'rgba(20,18,14,'+(cloud*.07)+')');ctx.fillStyle=g;ctx.fillRect(0,0,innerWidth,innerHeight);ctx.restore();out.style.opacity='1';
-   content.dispose();identity.dispose();mixed.dispose();stylized.dispose();
- }catch(e){console.warn('Atlas L3 neural frame',e);out.style.opacity='0'}finally{busy=false}
-}
-function tick(t){if(!sourceCanvas)findCanvas();if(t-last>850){last=t;synth()}requestAnimationFrame(tick)}
-initNeural();requestAnimationFrame(tick);
+src.addEventListener('load',function(){setTimeout(findCanvas,80);setTimeout(findCanvas,400)});
+async function syncState(){try{var r=await fetch('./world-state.json?v='+Date.now(),{cache:'no-store'});if(r.ok)state=await r.json()}catch(e){}}syncState();setInterval(syncState,15000);
+function frame(){if(!sourceCanvas||!sourceCanvas.width)findCanvas();if(sourceCanvas&&sourceCanvas.width){var solar=.55,cloud=.35,moist=.45;if(state&&state.weather){solar=Number(state.weather.solar||solar);cloud=Number(state.weather.cloud||cloud)}if(state&&state.metrics)moist=Number(state.metrics.meanSoilMoisture||moist);ctx.save();ctx.clearRect(0,0,innerWidth,innerHeight);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.filter='contrast('+(1.05+solar*.08)+') saturate('+(1.04+moist*.10)+') brightness('+(0.94+solar*.10-cloud*.05)+')';ctx.drawImage(sourceCanvas,0,0,innerWidth,innerHeight);ctx.filter='none';var sun=ctx.createRadialGradient(innerWidth*.72,innerHeight*.18,0,innerWidth*.72,innerHeight*.18,innerWidth*.75);sun.addColorStop(0,'rgba(255,238,195,'+(solar*.13)+')');sun.addColorStop(1,'rgba(255,238,195,0)');ctx.fillStyle=sun;ctx.fillRect(0,0,innerWidth,innerHeight);ctx.globalCompositeOperation='multiply';var depth=ctx.createLinearGradient(0,innerHeight*.35,0,innerHeight);depth.addColorStop(0,'rgba(30,38,32,0)');depth.addColorStop(1,'rgba(30,28,20,'+(.05+cloud*.035)+')');ctx.fillStyle=depth;ctx.fillRect(0,0,innerWidth,innerHeight);ctx.restore()}requestAnimationFrame(frame)}requestAnimationFrame(frame);
 })();
 </script>
