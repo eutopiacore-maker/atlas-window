@@ -1,1 +1,0 @@
-Layer 2 may display an integrated photographic reference keyframe only when the live decoder is not configured. This reference is appearance-only and must never be mistaken for causal state or live inference. The page must label the decoder state accordingly.
