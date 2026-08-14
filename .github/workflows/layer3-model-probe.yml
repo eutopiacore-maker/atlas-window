@@ -1,0 +1,63 @@
+name: Layer 3 Model Probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/layer3-model-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  models: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Query GitHub Models catalog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            https://models.github.ai/catalog/models > /tmp/models.json
+          python3 - <<'PY'
+          import json
+          data=json.load(open('/tmp/models.json'))
+          image=[]
+          for m in data:
+              out=m.get('supported_output_modalities') or []
+              caps=m.get('capabilities') or []
+              tags=m.get('tags') or []
+              if 'image' in out:
+                  image.append({
+                      'id':m.get('id'),
+                      'name':m.get('name'),
+                      'publisher':m.get('publisher'),
+                      'input':m.get('supported_input_modalities'),
+                      'output':out,
+                      'capabilities':caps,
+                      'tags':tags,
+                      'rate_limit_tier':m.get('rate_limit_tier')
+                  })
+          result={'catalog_count':len(data),'image_output_models':image,'image_output_count':len(image)}
+          open('layer3-model-catalog.json','w').write(json.dumps(result,indent=2)+'\n')
+          print(json.dumps(result,indent=2))
+          PY
+      - name: Persist probe result
+        run: |
+          git config user.name "atlas-layer3"
+          git config user.email "actions@users.noreply.github.com"
+          git add layer3-model-catalog.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Record Layer 3 model capabilities"
+          git pull --rebase origin main
+          git push origin HEAD:main
