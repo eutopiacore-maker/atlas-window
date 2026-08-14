@@ -1,8 +1,8 @@
 {
   "schema": 6,
   "world": "Eutopia/Penonome",
-  "cycle": 15,
-  "updatedAt": "2026-08-14T14:04:32.458Z",
+  "cycle": 16,
+  "updatedAt": "2026-08-14T14:18:08.014Z",
   "phase": {
     "current": "landscape",
     "order": [
@@ -11,7 +11,7 @@
       "humans"
     ],
     "rule": "environment must remain causally self-sustaining before fauna or humans become active",
-    "updatedAt": "2026-08-14T14:04:32.548Z"
+    "updatedAt": "2026-08-14T14:18:08.089Z"
   },
   "topology": "synchronized-causal-rhizome",
   "geo": {
@@ -54,14 +54,14 @@
   "gravity_m_s2": 9.781457761,
   "metrics": {
     "population": 0,
-    "plants": 173,
-    "germinations": 173,
+    "plants": 177,
+    "germinations": 177,
     "deaths": 0,
-    "seeds": 66,
+    "seeds": 64,
     "surfaceWater_L": 0,
-    "soilWater_L": 714517.94,
-    "meanSoilMoisture": 0.433,
-    "solar": 0.4996,
+    "soilWater_L": 712993.09,
+    "meanSoilMoisture": 0.432,
+    "solar": 0.8478,
     "waterMassResidual_L": 0,
     "cells": 1280,
     "cellMeters": 4.5,
@@ -70,20 +70,20 @@
   },
   "waterBalance": {
     "cellAreaM2": 20.25,
-    "storageBefore_L": 723019.4559,
+    "storageBefore_L": 714517.9448,
     "precipitation_L": 0,
-    "evaporation_L": 8497.6463,
-    "plantUptake_L": 3.8648,
-    "storageAfter_L": 714517.9448,
+    "evaporation_L": 1524.3824,
+    "plantUptake_L": 0.4682,
+    "storageAfter_L": 712993.0942,
     "residual_L": 0
   },
   "landscape": {
     "budget": {
-      "erodedKg": 13.556104,
-      "transferredSedimentKg": 13.556104,
+      "erodedKg": 13.554612,
+      "transferredSedimentKg": 13.554612,
       "sedimentTransferResidualKg": 0,
-      "litterTurnoverKg": 0.00144,
-      "stabilizedOrganicKg": 0.000001
+      "litterTurnoverKg": 0.001477,
+      "stabilizedOrganicKg": 0.000002
     },
     "activeProcesses": [
       "atmosphere",
@@ -106,7 +106,9 @@
     "gates": {
       "animals": false,
       "humans": false,
-      "criteria": "activate only after landscape budgets remain stable and causal for sustained cycles"
+      "criteria": "fauna gate requires >=12 consecutive viable landscape cycles with conservative water/sediment budgets, >=100 plants and viable mean soil moisture",
+      "consecutiveViableCycles": 1,
+      "requiredCycles": 12
     }
   },
   "matter": {
@@ -131,15 +133,15 @@
     "checks": {
       "terrain": {
         "ok": true,
-        "at": "2026-08-14T14:04:32.458Z"
+        "at": "2026-08-14T14:18:08.014Z"
       },
       "land": {
         "ok": true,
-        "at": "2026-08-14T14:04:32.458Z"
+        "at": "2026-08-14T14:18:08.014Z"
       },
       "vectors": {
         "ok": true,
-        "at": "2026-08-14T14:04:32.458Z"
+        "at": "2026-08-14T14:18:08.014Z"
       }
     },
     "landCover": {
