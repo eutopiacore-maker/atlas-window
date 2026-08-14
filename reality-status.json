@@ -1,8 +1,8 @@
 {
   "schema": 6,
   "world": "Eutopia/Penonome",
-  "cycle": 16,
-  "updatedAt": "2026-08-14T14:18:08.014Z",
+  "cycle": 17,
+  "updatedAt": "2026-08-14T14:26:49.201Z",
   "phase": {
     "current": "landscape",
     "order": [
@@ -11,9 +11,64 @@
       "humans"
     ],
     "rule": "environment must remain causally self-sustaining before fauna or humans become active",
-    "updatedAt": "2026-08-14T14:18:08.089Z"
+    "updatedAt": "2026-08-14T14:26:49.350Z"
   },
   "topology": "synchronized-causal-rhizome",
+  "regionalNature": {
+    "schema": 1,
+    "region": "Penonome, Cocle, Panama",
+    "hemisphere": "northern-tropics",
+    "climateContext": {
+      "coast": "Pacific side of Panama",
+      "month": 8,
+      "pacificSeason": "rainy-with-veranillo-window",
+      "confidence": "regional prior only; not a substitute for station observations",
+      "rules": [
+        "measured/observed weather overrides this prior",
+        "do not force rain merely because the season is rainy",
+        "season context may modulate probabilities only after calibration against station data"
+      ]
+    },
+    "physicalRules": {
+      "energy": "conserve tracked energy; solar forcing enters, storage/phase change/longwave/convection remove or redistribute it",
+      "water": "conserve tracked water mass across precipitation, storage, infiltration, runoff, uptake and evaporation",
+      "sediment": "erosion is a transfer between tracked soil/sediment reservoirs, not creation/destruction of mass",
+      "biology": "germination and growth require local water/temperature/resource viability; death returns matter to detrital/soil pools"
+    },
+    "sourcePolicy": "official Panama sources first; primary scientific sources for universal physics; unknown site-specific values stay unknown until observed or calibrated",
+    "sources": {
+      "imhpaRain": {
+        "authority": "Instituto de Meteorologia e Hidrologia de Panama (IMHPA)",
+        "url": "https://www.imhpa.gob.pa/es/regimen-pluviometrico-panama",
+        "scope": "Panama/Pacific rainfall regime",
+        "claim": "Pacific rainy season broadly May-November; dry season December-April; veranillo often July-August; afternoon convection common in rainy season"
+      },
+      "miambienteLand": {
+        "authority": "MiAmbiente / SINIA",
+        "url": "https://geoportal.miambiente.gob.pa/server/rest/services/Hosted/Cobertura_Boscosa_y_Uso_de_Suelo__año_2021__1_25_000__WTL1/MapServer",
+        "scope": "Panama land cover",
+        "claim": "official 2021 land-cover/use map at 1:25,000"
+      },
+      "miambienteSoils": {
+        "authority": "MiAmbiente / SINIA",
+        "url": "https://geoportal.miambiente.gob.pa/server/rest/services/Nodo_Suelos/MapServer",
+        "scope": "Panama soils/geomorphology/lithology",
+        "claim": "official soil, geomorphology, lithology and historical land-cover layers"
+      },
+      "miambienteHydro": {
+        "authority": "MiAmbiente / SINIA",
+        "url": "https://geoportal.miambiente.gob.pa/server/rest/services/Hosted/Cuencas_hidrograficas/FeatureServer",
+        "scope": "Panama watersheds",
+        "claim": "official hydrographic basin context where available"
+      },
+      "nasaEnergy": {
+        "authority": "NASA Science",
+        "url": "https://science.nasa.gov/earth/earth-observatory/climate-and-earths-energy-budget/",
+        "scope": "Earth energy balance",
+        "claim": "solar forcing, reflection, absorption, evaporation, convection and longwave emission must respect energy conservation"
+      }
+    }
+  },
   "geo": {
     "anchor": {
       "lat": 8.5163308,
@@ -54,14 +109,14 @@
   "gravity_m_s2": 9.781457761,
   "metrics": {
     "population": 0,
-    "plants": 177,
-    "germinations": 177,
+    "plants": 178,
+    "germinations": 178,
     "deaths": 0,
-    "seeds": 64,
+    "seeds": 65,
     "surfaceWater_L": 0,
-    "soilWater_L": 712993.09,
-    "meanSoilMoisture": 0.432,
-    "solar": 0.8478,
+    "soilWater_L": 712022.72,
+    "meanSoilMoisture": 0.431,
+    "solar": 0.871,
     "waterMassResidual_L": 0,
     "cells": 1280,
     "cellMeters": 4.5,
@@ -70,20 +125,20 @@
   },
   "waterBalance": {
     "cellAreaM2": 20.25,
-    "storageBefore_L": 714517.9448,
+    "storageBefore_L": 712993.0942,
     "precipitation_L": 0,
-    "evaporation_L": 1524.3824,
-    "plantUptake_L": 0.4682,
-    "storageAfter_L": 712993.0942,
+    "evaporation_L": 970.0683,
+    "plantUptake_L": 0.3056,
+    "storageAfter_L": 712022.7203,
     "residual_L": 0
   },
   "landscape": {
     "budget": {
-      "erodedKg": 13.554612,
-      "transferredSedimentKg": 13.554612,
+      "erodedKg": 13.553877,
+      "transferredSedimentKg": 13.553877,
       "sedimentTransferResidualKg": 0,
-      "litterTurnoverKg": 0.001477,
-      "stabilizedOrganicKg": 0.000002
+      "litterTurnoverKg": 0.001494,
+      "stabilizedOrganicKg": 0.000003
     },
     "activeProcesses": [
       "atmosphere",
@@ -107,8 +162,30 @@
       "animals": false,
       "humans": false,
       "criteria": "fauna gate requires >=12 consecutive viable landscape cycles with conservative water/sediment budgets, >=100 plants and viable mean soil moisture",
-      "consecutiveViableCycles": 1,
+      "consecutiveViableCycles": 2,
       "requiredCycles": 12
+    },
+    "stability": {
+      "consecutiveViableCycles": 2,
+      "requiredCycles": 12,
+      "history": [
+        {
+          "cycle": 16,
+          "ok": true,
+          "waterResidualL": 0,
+          "sedimentResidualKg": 0,
+          "plants": 177,
+          "meanSoilMoisture": 0.432
+        },
+        {
+          "cycle": 17,
+          "ok": true,
+          "waterResidualL": 0,
+          "sedimentResidualKg": 0,
+          "plants": 178,
+          "meanSoilMoisture": 0.431
+        }
+      ]
     }
   },
   "matter": {
@@ -133,15 +210,15 @@
     "checks": {
       "terrain": {
         "ok": true,
-        "at": "2026-08-14T14:18:08.014Z"
+        "at": "2026-08-14T14:26:49.201Z"
       },
       "land": {
         "ok": true,
-        "at": "2026-08-14T14:18:08.014Z"
+        "at": "2026-08-14T14:26:49.201Z"
       },
       "vectors": {
         "ok": true,
-        "at": "2026-08-14T14:18:08.014Z"
+        "at": "2026-08-14T14:26:49.201Z"
       }
     },
     "landCover": {
