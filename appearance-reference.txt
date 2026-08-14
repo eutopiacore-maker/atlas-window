@@ -1,1 +1,0 @@
-This repository uses an integrated photographic reference keyframe for Atlas Reality Stack Layer 2 while the live neural decoder is not configured. The keyframe is appearance-only, not causal state, and must never be treated as world truth. It exists to establish the photographic target and product behavior until a live decoder is connected.
