@@ -1,0 +1,3 @@
+let cfgPromise=null;async function cfg(){if(!cfgPromise)cfgPromise=fetch(`decoder-endpoint.json?${Date.now()}`,{cache:'no-store'}).then(r=>r.json()).catch(()=>({endpoint:null,status:'config-error'}));return cfgPromise}
+export const AtlasPhotorealDecoder={async render(packet){const c=await cfg();if(!c?.endpoint)throw Error(c?.status||'decoder-endpoint-unconfigured');const r=await fetch(c.endpoint,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(packet),cache:'no-store'});const j=await r.json().catch(()=>({}));if(!r.ok)throw Error(j.message||j.error||`decoder HTTP ${r.status}`);if(!j.dataURI)throw Error('decoder returned no frame');return j.dataURI}};
+if(typeof window!=='undefined')window.AtlasPhotorealDecoder=AtlasPhotorealDecoder;
