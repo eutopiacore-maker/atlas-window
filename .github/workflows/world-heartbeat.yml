@@ -9,6 +9,7 @@ on:
     paths:
       - 'world-engine.js'
       - 'geodata-node.js'
+      - 'landscape-phase.js'
       - '.github/workflows/world-heartbeat.yml'
 
 permissions:
@@ -31,6 +32,8 @@ jobs:
           node-version: 24
       - name: Evolve persistent world state
         run: node world-engine.js
+      - name: Enforce autonomous landscape phase
+        run: node landscape-phase.js
       - name: Publish compact reality status
         run: |
           node - <<'NODE'
@@ -38,12 +41,14 @@ jobs:
           const w=JSON.parse(fs.readFileSync('world-state.json','utf8'));
           const out={
             schema:w.schema,world:w.world,cycle:w.cycle,updatedAt:w.updatedAt,
+            phase:w.phase,
             topology:w.rizoma?.topology,
             geo:w.geo,
             grid:{w:w.grid?.w,h:w.grid?.h,cellMeters:w.grid?.cellMeters,cells:w.grid?.cells?.length,extentMeters:w.grid?.extentMeters,provenance:w.grid?.provenance},
             gravity_m_s2:w.physics?.gravityUsed_m_s2,
             metrics:w.metrics,
             waterBalance:w.physics?.waterBalance,
+            landscape:{budget:w.landscape?.budget,activeProcesses:w.landscape?.activeProcesses,gates:w.landscape?.gates},
             matter:w.matter,
             geodata:{checks:w.geodata?.checks,landCover:w.geodata?.landCover,hydroFeatures:w.geodata?.hydrography?.features?.length||0,roadFeatures:w.geodata?.roads?.features?.length||0},
             representation:{type:w.representation?.type,schema:w.representation?.schema,frame:w.representation?.frame,fields:w.representation?.fields,visualDecoderContract:w.representation?.visualDecoderContract}
