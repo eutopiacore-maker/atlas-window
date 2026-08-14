@@ -1,1 +1,53 @@
-<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>Atlas Dynamics</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#091312;touch-action:none}</style><script type="module">import{AtlasDynamicsObserver}from'./dynamics.js';const observer=new AtlasDynamicsObserver(document.body);async function sync(){try{const s=await fetch(`world-state.json?${Date.now()}`,{cache:'no-store'}).then(r=>r.json());observer.applyState(s)}catch(e){console.warn('Atlas dynamics sync',e)}}sync();setInterval(sync,15000);</script>
+<!doctype html>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Atlas Dynamics</title>
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#091312;touch-action:none}#atlasCapture{display:none}</style>
+<canvas id="atlasCapture" data-atlas-capture="1" width="320" height="480"></canvas>
+<script type="module">
+import * as T from 'https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js';
+import {AtlasDynamicsObserver} from './dynamics.js';
+
+const observer=new AtlasDynamicsObserver(document.body);
+const capture=document.getElementById('atlasCapture');
+const cap=capture.getContext('2d',{alpha:false});
+const temp=document.createElement('canvas');
+temp.width=320;temp.height=480;
+const tmp=temp.getContext('2d',{alpha:false});
+const rt=new T.WebGLRenderTarget(320,480,{depthBuffer:true,stencilBuffer:false});
+rt.texture.colorSpace=T.SRGBColorSpace;
+const pixels=new Uint8Array(320*480*4);
+const originalRender=observer.renderer.render.bind(observer.renderer);
+let lastCapture=0,capturing=false;
+
+observer.renderer.render=function(scene,camera){
+  originalRender(scene,camera);
+  const now=performance.now();
+  if(capturing||now-lastCapture<41.6)return;
+  lastCapture=now;capturing=true;
+  try{
+    const previous=observer.renderer.getRenderTarget();
+    observer.renderer.setRenderTarget(rt);
+    originalRender(scene,camera);
+    observer.renderer.readRenderTargetPixels(rt,0,0,320,480,pixels);
+    observer.renderer.setRenderTarget(previous);
+    const image=new ImageData(new Uint8ClampedArray(pixels),320,480);
+    tmp.putImageData(image,0,0);
+    cap.save();
+    cap.setTransform(1,0,0,-1,0,480);
+    cap.drawImage(temp,0,0);
+    cap.restore();
+    capture.dataset.ready='1';
+  }catch(e){
+    capture.dataset.ready='0';
+    console.warn('Atlas frame bridge',e);
+  }finally{capturing=false}
+};
+
+async function sync(){
+  try{
+    const s=await fetch(`world-state.json?${Date.now()}`,{cache:'no-store'}).then(r=>r.json());
+    observer.applyState(s);
+  }catch(e){console.warn('Atlas dynamics sync',e)}
+}
+sync();setInterval(sync,15000);
+</script>
