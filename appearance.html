@@ -1,22 +1,36 @@
 <!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Atlas Layer 3</title>
-<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#9db7c1;touch-action:none}canvas{position:fixed;inset:0;width:100%;height:100%;display:block}</style>
-<script type="module">
-import * as T from 'https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js';
-const scene=new T.Scene(),camera=new T.PerspectiveCamera(55,innerWidth/innerHeight,.1,500),renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;document.body.appendChild(renderer.domElement);
-const world=new T.Group();scene.add(world);const hemi=new T.HemisphereLight(0xd9ecff,0x3c3328,1.35),sun=new T.DirectionalLight(0xffd7a8,3.2);sun.position.set(-20,28,14);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(hemi,sun);
-let state=null,z=.31,base=0,ys=.12;const M=(c,r=.92)=>new T.MeshStandardMaterial({color:c,roughness:r});
-function clear(){while(world.children.length){const o=world.children.pop();o.traverse?.(n=>{n.geometry?.dispose?.();n.material?.dispose?.()})}}
-function cell(w,x,y){x=Math.max(0,Math.min(w.grid.w-1,x));y=Math.max(0,Math.min(w.grid.h-1,y));return w.grid.cells[y*w.grid.w+x]}
-function ey(q){return((+q.elevation||0)-base)*ys}function E(w,x,y){return ey(cell(w,Math.floor(x*w.grid.w),Math.floor(y*w.grid.h)))}
-function terrain(w){const p=[],c=[],ix=[];for(let y=0;y<w.grid.h;y++)for(let x=0;x<w.grid.w;x++){const q=cell(w,x,y),mo=q.soil?.moisture||0,org=q.soil?.organic||0,cc=new T.Color(0x8a7754).lerp(new T.Color(0x574a36),mo*.65).lerp(new T.Color(0x51633a),org*.3);p.push((x-(w.grid.w-1)/2)*z,ey(q),(y-(w.grid.h-1)/2)*z);c.push(cc.r,cc.g,cc.b)}for(let y=0;y<w.grid.h-1;y++)for(let x=0;x<w.grid.w-1;x++){const a=y*w.grid.w+x,d=a+w.grid.w;ix.push(a,d,a+1,a+1,d,d+1)}const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(p,3));g.setAttribute('color',new T.Float32BufferAttribute(c,3));g.setIndex(ix);g.computeVertexNormals();const m=new T.Mesh(g,new T.MeshStandardMaterial({vertexColors:true,roughness:.96}));m.receiveShadow=true;world.add(m)}
-function plant(w,p){const x=(p.x-.5)*(w.grid.w-1)*z,d=(p.y-.5)*(w.grid.h-1)*z,y=E(w,p.x,p.y),kind=p.kind||p.species,bio=Math.max(.02,p.biomassKg??p.biomass??.02);if(kind==='grass'){const h=.10+Math.min(.48,bio*.8),q=new T.Mesh(new T.ConeGeometry(.014,h,5),M(0x355f35,1));q.position.set(x,y+h/2,d);world.add(q)}else{const s=.42+Math.min(1.1,Math.sqrt(bio)*.28),tr=new T.Mesh(new T.CylinderGeometry(.03,.055,.5*s,8),M(0x5a402b,1));tr.position.set(x,y+.25*s,d);tr.castShadow=true;world.add(tr);const leaf=M(0x2f5b33,.88);for(let i=0;i<3;i++){const le=new T.Mesh(new T.IcosahedronGeometry(.19*s,2),leaf);le.scale.set(1.2,.85,1);le.position.set(x+(i-1)*.11*s,y+.58*s+(i%2)*.08*s,d+((i%2)-.5)*.12*s);le.castShadow=true;world.add(le)}}}
-function water(w){for(const q of w.grid.cells){if((q.waterMm||0)<.2)continue;const m=new T.Mesh(new T.PlaneGeometry(z*.96,z*.96),new T.MeshPhysicalMaterial({color:0x557f91,roughness:.08,transparent:true,opacity:.72}));m.rotation.x=-Math.PI/2;m.position.set((q.x-(w.grid.w-1)/2)*z,ey(q)+.012,(q.y-(w.grid.h-1)/2)*z);world.add(m)}}
-function draw(w){state=w;clear();z=(w.grid.cellMeters||4.5)*.07;base=Math.min(...w.grid.cells.map(q=>+q.elevation||0));const cloud=w.weather?.cloud??.5,solar=w.weather?.solar??.5;scene.background=new T.Color().setHSL(.55-.02*solar,.3,.58+.16*solar-cloud*.05);scene.fog=new T.FogExp2(scene.background,.018+.015*cloud);hemi.intensity=1+solar*1.5;sun.intensity=.8+solar*3.4;terrain(w);water(w);for(const p of w.plants||[])plant(w,p);cam()}
-async function sync(){try{const r=await fetch('world-state.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);draw(await r.json())}catch(e){console.error(e)}}
-let target=new T.Vector3(0,.8,0),yaw=.72,pitch=-.18,dist=8,drag=false,lx=0,ly=0,pinch=0;function cam(){camera.position.set(target.x+Math.sin(yaw)*Math.cos(pitch)*dist,target.y+Math.sin(-pitch)*dist,target.z+Math.cos(yaw)*Math.cos(pitch)*dist);camera.lookAt(target);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix()}
-renderer.domElement.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;renderer.domElement.setPointerCapture?.(e.pointerId)});addEventListener('pointerup',()=>drag=false);addEventListener('pointermove',e=>{if(!drag)return;yaw-=(e.clientX-lx)*.006;pitch=Math.max(-.65,Math.min(.05,pitch-(e.clientY-ly)*.004));lx=e.clientX;ly=e.clientY;cam()});renderer.domElement.addEventListener('wheel',e=>{dist=Math.max(2.5,Math.min(24,dist+e.deltaY*.01));cam()},{passive:true});
-renderer.domElement.addEventListener('touchstart',e=>{if(e.touches.length===2)pinch=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)},{passive:true});renderer.domElement.addEventListener('touchmove',e=>{if(e.touches.length===2){const n=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(pinch){dist=Math.max(2.5,Math.min(24,dist-(n-pinch)*.02));cam()}pinch=n}},{passive:true});
-function loop(){requestAnimationFrame(loop);renderer.render(scene,camera)}sync();setInterval(sync,15000);cam();loop();addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);cam()});
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;touch-action:none}
+#source{position:fixed;inset:0;width:100%;height:100%;border:0;background:#000}
+#out{position:fixed;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+</style>
+<iframe id="source" src="dynamics.html?embedded=1"></iframe>
+<canvas id="out"></canvas>
+<script>
+(function(){
+'use strict';
+var src=document.getElementById('source'),out=document.getElementById('out'),ctx=out.getContext('2d',{alpha:false}),dpr=1,sourceCanvas=null;
+function resize(){dpr=Math.min(window.devicePixelRatio||1,2);out.width=Math.max(1,innerWidth*dpr);out.height=Math.max(1,innerHeight*dpr);out.style.width=innerWidth+'px';out.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
+addEventListener('resize',resize,{passive:true});resize();
+function findCanvas(){try{sourceCanvas=src.contentDocument&&src.contentDocument.querySelector('canvas')}catch(e){sourceCanvas=null}}
+src.addEventListener('load',function(){setTimeout(findCanvas,250);setTimeout(findCanvas,1000)});
+function frame(){
+  if(!sourceCanvas||!sourceCanvas.width){findCanvas();requestAnimationFrame(frame);return}
+  try{
+    ctx.save();
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    ctx.filter='contrast(1.12) saturate(1.12) brightness(1.02)';
+    ctx.drawImage(sourceCanvas,0,0,innerWidth,innerHeight);
+    ctx.filter='none';
+    ctx.globalCompositeOperation='soft-light';
+    var g=ctx.createLinearGradient(0,0,0,innerHeight);g.addColorStop(0,'rgba(255,244,220,.10)');g.addColorStop(.55,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(25,20,12,.08)');ctx.fillStyle=g;ctx.fillRect(0,0,innerWidth,innerHeight);
+    ctx.globalCompositeOperation='source-over';
+    ctx.restore();
+  }catch(e){out.style.display='none';src.style.filter='contrast(1.12) saturate(1.12) brightness(1.02)'}
+  requestAnimationFrame(frame)
+}
+requestAnimationFrame(frame);
+})();
 </script>
