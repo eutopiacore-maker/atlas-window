@@ -1,22 +1,40 @@
 {
-  "schema": 1,
+  "schema": 2,
   "name": "atlas-photoreal-appearance-decoder",
   "authority": "observer-only",
+  "placement": "atlas-window",
+  "provider": "agnostic",
+  "externalRuntimeRequired": false,
   "input": "world-state.json#representation",
   "scenePacket": {
-    "required": ["region", "camera", "weather", "lighting", "terrain", "entities", "actions", "relationships"],
+    "builtLocally": true,
+    "required": [
+      "region",
+      "camera",
+      "weather",
+      "lighting",
+      "terrain",
+      "landCover",
+      "entities",
+      "actions",
+      "relationships"
+    ],
     "identityPolicy": "stable synthetic identity keyed by causal entity id; never copy a real person's face",
     "culturalPolicy": "Panamanian/Cocle visual context is a prior, not a costume rule; no folklore caricature",
     "truthPolicy": "appearance can infer texture/style but cannot create, delete, relocate, or write back causal entities"
   },
   "target": {
     "quality": "photographic-realistic",
-    "temporal": "stable identities and geometry across keyframes",
-    "behavior": "people visibly interact with causal narrative, environment, humans and animals"
+    "temporal": "stable identities, geometry and materials across keyframes",
+    "behavior": "people visibly interact with causal narrative, environment, humans and animals",
+    "materials": "photographic skin, fabric, vegetation, soil, water, concrete, wood, metal and glass",
+    "lighting": "natural physically plausible light and shadows derived from world state"
   },
   "runtime": {
-    "liveDecoder": "not-configured",
-    "fallback": "integrated photographic reference keyframe",
+    "liveDecoder": "optional-approved-provider",
+    "currentMode": "local-fallback",
+    "fallback": "integrated local appearance observer",
+    "noCanonicalExternalService": true,
     "costPolicy": "no paid inference without explicit approval"
   }
 }
