@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "provider": "cloudflare-workers-ai",
+  "endpoint": null,
+  "status": "awaiting-deployment",
+  "publicClientSecretRequired": false,
+  "notes": "Atlas Window calls this HTTPS endpoint with the causal neural-render packet. Provider remains replaceable."
+}
