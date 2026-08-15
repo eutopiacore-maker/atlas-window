@@ -1,11 +1,12 @@
 {
-  "schema": 1,
-  "generation": 1,
+  "schema": 2,
+  "generation": 2,
   "node": {
     "enabled": true,
     "autostart": true,
     "controlMode": "pull-only",
-    "managedScope": "atlas-runtime-only"
+    "managedScope": "atlas-runtime-only",
+    "zeroHumanOperations": true
   },
   "layer3": {
     "requested": true,
@@ -22,15 +23,41 @@
     "staleFrameMs": 2500,
     "healthyChecksBeforeRestore": 3,
     "backoffSeconds": [1, 2, 4, 8, 15, 30],
-    "keepRetryingForever": true
+    "keepRetryingForever": true,
+    "recoverAfterBoot": true,
+    "recoverAfterNetworkReturn": true,
+    "recoverAfterSleep": true,
+    "recoverAfterTranslatorCrash": true,
+    "recoverAfterRuntimeCrash": true
   },
   "updates": {
     "channel": "main",
     "automatic": true,
+    "pollSeconds": 20,
     "atomicActivation": true,
     "verifyHashes": true,
+    "healthTestBeforeActivation": true,
     "rollbackOnFailedHealthCheck": true,
-    "keepLastKnownGood": true
+    "keepLastKnownGood": true,
+    "selfUpdateRuntime": true,
+    "selfUpdateSupervisor": true,
+    "abSlots": true,
+    "rescueSlot": true
+  },
+  "remoteManagement": {
+    "enabled": true,
+    "mechanism": "repository-desired-state",
+    "humanApprovalAfterBootstrap": false,
+    "allowConfigChanges": true,
+    "allowRuntimeReplacement": true,
+    "allowModelReplacement": true,
+    "allowManagedFileEdits": true,
+    "allowServiceRestart": true,
+    "allowTransportRestart": true,
+    "allowHealthDiagnostics": true,
+    "allowAutomaticRollback": true,
+    "allowArbitrarySystemCommands": false,
+    "allowGeneralRemoteShell": false
   },
   "translator": {
     "runtimeVersion": "bootstrap",
@@ -50,6 +77,8 @@
     "allowManagedRuntimeReplacement": true,
     "allowModelSwitch": true,
     "allowServiceRestart": true,
-    "allowTransportRestart": true
+    "allowTransportRestart": true,
+    "leastPrivilege": true,
+    "runtimeSandboxed": true
   }
 }
