@@ -1,6 +1,6 @@
 {
-  "schema": 4,
-  "generation": 4,
+  "schema": 5,
+  "generation": 5,
   "node": {
     "enabled": true,
     "role": "atlas-general-capability-host",
@@ -8,6 +8,35 @@
     "controlMode": "pull-primary-live-channel-optional",
     "managedScope": "atlas-runtime-and-capability-sandbox",
     "zeroHumanOperations": true
+  },
+  "worldRuntime": {
+    "enabled": true,
+    "role": "persistent-causal-runtime",
+    "localHostPrimary": true,
+    "browserAdvancesWorld": false,
+    "githubAdvancesWorld": false,
+    "continueWithoutInternet": true,
+    "continueWithUiClosed": true,
+    "wallClockAnchored": true,
+    "monotonicSequence": true,
+    "deterministicRandomStreams": true,
+    "eventJournal": true,
+    "atomicCheckpoints": true,
+    "checkpointSeconds": 60,
+    "retainKnownGoodCheckpoints": 3,
+    "catchUpAfterRebootOrPowerLoss": true,
+    "catchUpMode": "adaptive-causal-replay",
+    "preserveEventOrder": true,
+    "subsystemCatchUpStepLimits": true,
+    "invariantChecksDuringCatchUp": true,
+    "remoteCommandsQueueWhileOffline": true,
+    "observerReconnectToLatestSequence": true,
+    "futureReplication": {
+      "enabled": true,
+      "singleActiveWriterLease": true,
+      "epochBasedFailover": true,
+      "readComputeReplicasMayBeMultiple": true
+    }
   },
   "rizoma": {
     "enabled": true,
@@ -74,6 +103,33 @@
     "allowManagedToolchainInstallation": true,
     "allowAtlasJobPackages": true
   },
+  "addons": {
+    "enabled": true,
+    "catalogVisibleInDesktop": true,
+    "manualInstallForOptionalAddons": true,
+    "autoInstallApprovedDependencies": true,
+    "autoInstallTrustedRequiredAddons": true,
+    "physicalPresenceRequiredAfterBootstrap": false,
+    "interactiveUacForRoutineAtlasChanges": false,
+    "installFromDesiredState": true,
+    "requireVersionedManifest": true,
+    "verifyHashOrSignature": true,
+    "compatibilityCheckBeforeInstall": true,
+    "stageBeforeActivation": true,
+    "healthTestBeforeActivation": true,
+    "automaticRollback": true,
+    "recordAuditEvent": true,
+    "restartPolicy": [
+      "hot-reload",
+      "addon-restart",
+      "atlas-runtime-restart",
+      "host-service-restart",
+      "windows-reboot"
+    ],
+    "windowsRebootLastResort": true,
+    "checkpointWorldBeforeDisruptiveRestart": true,
+    "resumeTransactionAfterRestart": true
+  },
   "efficiency": {
     "localFirstWhenCompetitive": true,
     "lazyLoadCapabilities": true,
@@ -82,6 +138,7 @@
     "avoidGpuCpuGpuRoundTripsWhenPossible": true,
     "batchCompatibleBackgroundWork": true,
     "protectInteractiveLatencyBudgets": true,
+    "protectCausalWorldRuntime": true,
     "dynamicPrecision": true,
     "dynamicResolution": true,
     "dynamicGenerationRate": true,
@@ -118,6 +175,7 @@
     "durableChannel": "repository-desired-state",
     "liveOutboundChannel": "auto-when-available",
     "workQueue": true,
+    "offlineQueue": true,
     "telemetry": true,
     "capabilityReports": true,
     "routeExperienceReports": true,
@@ -149,6 +207,7 @@
     "recoverAfterRuntimeCrash": true,
     "recoverAfterDependencyFailure": true,
     "recoverAfterControlChannelFailure": true,
+    "recoverWorldAfterUncleanShutdown": true,
     "routeAroundFailedCapabilities": true
   },
   "updates": {
@@ -176,6 +235,7 @@
     "allowManagedFileEdits": true,
     "allowManagedDependencyInstall": true,
     "allowManagedToolInstall": true,
+    "allowTrustedRequiredAddonInstall": true,
     "allowManagedJobExecution": true,
     "allowServiceRestart": true,
     "allowTransportRestart": true,
@@ -183,6 +243,14 @@
     "allowAutomaticRollback": true,
     "allowArbitrarySystemCommands": false,
     "allowGeneralRemoteShell": false
+  },
+  "privilegedHelper": {
+    "installedAtBootstrap": true,
+    "runsAsWindowsService": true,
+    "routineAtlasOperationsWithoutInteractiveUac": true,
+    "contractScopedOperationsOnly": true,
+    "supportSignedSystemPrerequisitesWhenAllowed": true,
+    "reportHostPrerequisiteGapInsteadOfPromptLoop": true
   },
   "translator": {
     "runtimeVersion": "bootstrap",
