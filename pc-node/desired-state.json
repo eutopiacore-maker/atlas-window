@@ -1,6 +1,6 @@
 {
-  "schema": 3,
-  "generation": 3,
+  "schema": 4,
+  "generation": 4,
   "node": {
     "enabled": true,
     "role": "atlas-general-capability-host",
@@ -8,6 +8,17 @@
     "controlMode": "pull-primary-live-channel-optional",
     "managedScope": "atlas-runtime-and-capability-sandbox",
     "zeroHumanOperations": true
+  },
+  "rizoma": {
+    "enabled": true,
+    "topology": "dynamic-capability-graph",
+    "fixedPipeline": false,
+    "singleComputeCenterRequired": false,
+    "hotPlugCapabilityNodes": true,
+    "hotPlugTrustedHosts": true,
+    "alternateRouteOnFailure": true,
+    "versionedCapabilityContracts": true,
+    "experienceWeightedRouting": true
   },
   "capabilityBroker": {
     "enabled": true,
@@ -41,7 +52,17 @@
       "model-training-or-finetuning",
       "general-atlas-managed-jobs"
     ],
-    "resourceSelection": "automatic-best-available",
+    "resourceSelection": "multi-objective-best-available",
+    "routeObjectives": [
+      "quality",
+      "latency",
+      "throughput",
+      "memory",
+      "stability",
+      "recovery-cost",
+      "energy-thermal-pressure"
+    ],
+    "learnFromObservedPerformance": true,
     "allowCpuFallback": true,
     "allowGpuUse": true,
     "allowRamCaching": true,
@@ -53,12 +74,54 @@
     "allowManagedToolchainInstallation": true,
     "allowAtlasJobPackages": true
   },
+  "efficiency": {
+    "localFirstWhenCompetitive": true,
+    "lazyLoadCapabilities": true,
+    "contentAddressedCache": true,
+    "keepHotResourcesResidentWhenBeneficial": true,
+    "avoidGpuCpuGpuRoundTripsWhenPossible": true,
+    "batchCompatibleBackgroundWork": true,
+    "protectInteractiveLatencyBudgets": true,
+    "dynamicPrecision": true,
+    "dynamicResolution": true,
+    "dynamicGenerationRate": true,
+    "dynamicInterpolation": true,
+    "garbageCollectColdArtifacts": true
+  },
+  "selfImprovement": {
+    "enabled": true,
+    "loop": [
+      "observe",
+      "diagnose",
+      "propose",
+      "sandbox",
+      "benchmark",
+      "canary",
+      "promote-or-reject",
+      "remember"
+    ],
+    "candidateScope": "atlas-managed-components-and-routing",
+    "editActiveSlotInPlace": false,
+    "benchmarkAgainstCurrentBest": true,
+    "multiObjectiveScoring": true,
+    "profileSpecificLearning": true,
+    "safeExploration": true,
+    "recordRejectedCandidates": true,
+    "emitCapabilityGapWhenNoRouteFits": true,
+    "autoResolveCapabilityGapsWhenAllowed": true,
+    "automaticPromotion": true,
+    "automaticRollbackOnRegression": true,
+    "preserveLastKnownGood": true,
+    "neverModifyLayer1TruthToImproveBenchmarks": true
+  },
   "controlPlane": {
     "durableChannel": "repository-desired-state",
     "liveOutboundChannel": "auto-when-available",
     "workQueue": true,
     "telemetry": true,
     "capabilityReports": true,
+    "routeExperienceReports": true,
+    "candidateEvaluationReports": true,
     "humanApprovalAfterBootstrap": false,
     "reconnectForever": true
   },
@@ -68,7 +131,8 @@
     "targetDisplayFps": 24,
     "nativeGenerationFps": "auto",
     "temporalCoherence": true,
-    "interpolation": "auto"
+    "interpolation": "auto",
+    "useBestHealthyRizomaRoute": true
   },
   "recovery": {
     "automatic": true,
@@ -84,7 +148,8 @@
     "recoverAfterTranslatorCrash": true,
     "recoverAfterRuntimeCrash": true,
     "recoverAfterDependencyFailure": true,
-    "recoverAfterControlChannelFailure": true
+    "recoverAfterControlChannelFailure": true,
+    "routeAroundFailedCapabilities": true
   },
   "updates": {
     "channel": "main",
