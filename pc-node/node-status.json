@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "nodeId": null,
+  "state": "UNENROLLED",
+  "online": false,
+  "translatorHealthy": false,
+  "transportHealthy": false,
+  "endpoint": null,
+  "lastSeen": null,
+  "lastFrameAt": null,
+  "runtimeVersion": null,
+  "modelProfile": null,
+  "gpu": null,
+  "lastKnownGood": null,
+  "note": "Written by the Atlas PC node after one-time enrollment. Browser must never depend on this file to keep Layers 1 or 2 alive."
+}
