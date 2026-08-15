@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "generation": 1,
+  "node": {
+    "enabled": true,
+    "autostart": true,
+    "controlMode": "pull-only",
+    "managedScope": "atlas-runtime-only"
+  },
+  "layer3": {
+    "requested": true,
+    "visibleFallback": "layer2",
+    "targetDisplayFps": 24,
+    "nativeGenerationFps": "auto",
+    "temporalCoherence": true,
+    "interpolation": "auto"
+  },
+  "recovery": {
+    "automatic": true,
+    "healthProbeMs": 1000,
+    "failuresBeforeFallback": 3,
+    "staleFrameMs": 2500,
+    "healthyChecksBeforeRestore": 3,
+    "backoffSeconds": [1, 2, 4, 8, 15, 30],
+    "keepRetryingForever": true
+  },
+  "updates": {
+    "channel": "main",
+    "automatic": true,
+    "atomicActivation": true,
+    "verifyHashes": true,
+    "rollbackOnFailedHealthCheck": true,
+    "keepLastKnownGood": true
+  },
+  "translator": {
+    "runtimeVersion": "bootstrap",
+    "modelProfile": "auto-detect-gpu",
+    "qualityProfile": "balanced",
+    "localHealthPort": 8765
+  },
+  "transport": {
+    "mode": "auto",
+    "outboundOnly": true,
+    "autoReconnect": true,
+    "publishEndpointOnChange": true
+  },
+  "security": {
+    "generalRemoteShell": false,
+    "allowArbitrarySystemCommands": false,
+    "allowManagedRuntimeReplacement": true,
+    "allowModelSwitch": true,
+    "allowServiceRestart": true,
+    "allowTransportRestart": true
+  }
+}
