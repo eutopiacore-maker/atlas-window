@@ -29,8 +29,10 @@ Install/register:
 - outbound transport manager
 - sandbox executor
 - secrets-vault interface
+- Atlas desktop shell
+- Add-ons catalog client + installer bridge
 
-The supervisor must start independently of any model, translator or optional runtime.
+The supervisor must start independently of any model, translator or optional runtime. The desktop shell is replaceable UI; it must never be required for recovery or background operation.
 
 ## Phase 2 — Hardware profile
 Publish a machine-readable hardware/software fingerprint and benchmark basic CPU/GPU/storage/network primitives.
@@ -42,7 +44,21 @@ Provision only the minimal managed toolchains justified by active workloads and 
 
 These live in Atlas-managed locations and remain replaceable.
 
-## Phase 4 — First workload activation
+## Phase 4 — Product shell + Add-ons
+The desktop shell opens to **Eutopia** and exposes four intentionally simple surfaces:
+- Eutopia
+- Add-ons
+- Activity
+- System
+
+The Add-ons surface reads the versioned catalog. A user-facing capability is installed with one action. Atlas resolves all technical dependencies automatically, stages and verifies the package, runs health checks, activates atomically and rolls back on failure.
+
+Restart scope is minimized automatically:
+`none -> capability -> atlas-shell -> host-service -> os-reboot`
+
+A full OS reboot is used only for genuine driver/OS prerequisites, never as the default add-on installation behavior.
+
+## Phase 5 — First workload activation
 Request Layer 3 through the capability broker:
 `need = temporally coherent image-to-image translation`
 
@@ -50,12 +66,14 @@ The broker resolves the best compatible model/runtime path for the detected PC, 
 
 If Layer 3 cannot yet satisfy its floor, Layers 1 and 2 remain unaffected while the node reports a structured capability gap.
 
-## Phase 5 — Autonomous mode
+## Phase 6 — Autonomous mode
 After successful substrate health checks:
 - supervisor owns future convergence
 - repository/live desired state drives changes
 - node reconnects after boot, sleep and network loss
 - capability packages can be installed/replaced automatically
+- approved user-facing add-ons can self-resolve dependencies
+- new finished add-ons appear in the catalog without reinstalling Atlas Host
 - bad updates roll back
 - missing dependencies become self-provisioning tasks
 - no routine user operation is expected
@@ -65,11 +83,12 @@ Every permanent mutation is journaled. Bootstrap is transactional:
 - failure before service activation -> remove staged substrate
 - failure after service activation -> supervisor enters rescue mode
 - capability failure -> preserve substrate and mark capability unavailable
+- shell failure -> supervisor remains operational and restores/replaces the shell
 
-Never leave the PC dependent on a half-installed translator.
+Never leave the PC dependent on a half-installed translator or a broken UI.
 
 ## Upgrade path
-The bootstrap itself is not rerun for ordinary growth. Future expansion occurs through supervisor/capability updates.
+The bootstrap itself is not rerun for ordinary growth. Future expansion occurs through supervisor/capability/add-on updates.
 
 A new bootstrap should be required only if an OS-level prerequisite genuinely cannot be established by the installed supervisor under its permitted privilege model.
 
@@ -81,5 +100,7 @@ Bootstrap is complete only when:
 4. A/B update and rollback are verified;
 5. resource inventory is published;
 6. capability package install/remove is verified;
-7. Layer 2 remains usable while the node is unavailable;
-8. Layer 3 can request a route through the broker rather than being hard-wired to one runtime.
+7. Add-ons catalog can discover and install a compatible test package end-to-end;
+8. desktop shell can be replaced/restarted without breaking supervisor recovery;
+9. Layer 2 remains usable while the node is unavailable;
+10. Layer 3 can request a route through the broker rather than being hard-wired to one runtime.
