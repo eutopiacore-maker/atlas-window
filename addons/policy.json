@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "catalog": "addons/catalog.json",
+  "discovery": {
+    "automatic": true,
+    "showDevelopmentEntries": true,
+    "notifyOnNewAvailableAddon": true,
+    "notifyOnCompatibleUpdate": true
+  },
+  "installation": {
+    "newUserFacingCapabilitiesRequireInstallAction": true,
+    "technicalDependenciesOfApprovedCapabilitiesAutoResolve": true,
+    "stageBeforeActivation": true,
+    "verifyArtifacts": true,
+    "healthTestBeforeActivation": true,
+    "rollbackOnFailure": true
+  },
+  "updates": {
+    "securityAndRecoveryComponents": "automatic",
+    "compatibleDependencyUpdates": "automatic-after-canary",
+    "userFacingAddonFeatureUpdates": "show-update-action",
+    "rollbackOnRegression": true
+  },
+  "restart": {
+    "policy": "minimum-required-scope",
+    "preference": ["none", "capability", "atlas-shell", "host-service", "os-reboot"],
+    "osRebootLastResort": true,
+    "resumeAutomaticallyAfterRestart": true
+  },
+  "interface": {
+    "defaultSections": ["Eutopia", "Add-ons", "Actividad", "Sistema"],
+    "advancedDiagnosticsSecondary": true,
+    "technicalDependencyPrompts": false,
+    "showShortDescriptions": true,
+    "showVersion": true,
+    "showInstallUpdateState": true
+  }
+}
