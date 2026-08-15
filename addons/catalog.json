@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "updatedAt": "2026-08-15T17:36:00Z",
+  "addons": [
+    {
+      "id": "atlas.layer3.neural-renderer",
+      "name": "Capa 3 · Neural Renderer",
+      "version": "0.1.0-dev",
+      "publisher": "Atlas",
+      "description": "Traduce la vista dinámica de Eutopia a una representación visual coherente y más realista usando el mejor cómputo disponible.",
+      "status": "development",
+      "category": "Visual",
+      "capabilities": ["image-to-image", "temporal-coherence", "video-stream"],
+      "restartPolicy": "capability",
+      "installable": false,
+      "featured": true
+    },
+    {
+      "id": "atlas.media.foundation",
+      "name": "Media Foundation",
+      "version": "0.1.0-dev",
+      "publisher": "Atlas",
+      "description": "Codificación, decodificación, conversión e interpolación de imagen y video para otras capacidades de Atlas.",
+      "status": "development",
+      "category": "Foundation",
+      "capabilities": ["media-encode", "media-decode", "video-processing", "temporal-interpolation"],
+      "restartPolicy": "capability",
+      "installable": false,
+      "featured": false
+    },
+    {
+      "id": "atlas.local-inference.foundation",
+      "name": "Local Inference",
+      "version": "0.1.0-dev",
+      "publisher": "Atlas",
+      "description": "Base adaptable para ejecutar modelos de IA localmente según el hardware real del Host Node.",
+      "status": "development",
+      "category": "Foundation",
+      "capabilities": ["neural-inference", "model-runtime", "model-quantization"],
+      "restartPolicy": "capability",
+      "installable": false,
+      "featured": false
+    }
+  ]
+}
