@@ -1,12 +1,66 @@
 {
-  "schema": 2,
-  "generation": 2,
+  "schema": 3,
+  "generation": 3,
   "node": {
     "enabled": true,
+    "role": "atlas-general-capability-host",
     "autostart": true,
-    "controlMode": "pull-only",
-    "managedScope": "atlas-runtime-only",
+    "controlMode": "pull-primary-live-channel-optional",
+    "managedScope": "atlas-runtime-and-capability-sandbox",
     "zeroHumanOperations": true
+  },
+  "capabilityBroker": {
+    "enabled": true,
+    "autoDiscover": true,
+    "autoProvisionManagedDependencies": true,
+    "inventory": [
+      "cpu",
+      "gpu",
+      "vram",
+      "ram",
+      "disk",
+      "network",
+      "os",
+      "accelerators",
+      "media-codecs",
+      "installed-runtimes",
+      "thermals",
+      "power-state"
+    ],
+    "workloadClasses": [
+      "image-generation",
+      "image-to-image",
+      "video-processing",
+      "temporal-interpolation",
+      "local-language-models",
+      "simulation",
+      "data-processing",
+      "compilation",
+      "media-encoding",
+      "model-conversion",
+      "model-training-or-finetuning",
+      "general-atlas-managed-jobs"
+    ],
+    "resourceSelection": "automatic-best-available",
+    "allowCpuFallback": true,
+    "allowGpuUse": true,
+    "allowRamCaching": true,
+    "allowDiskCache": true,
+    "allowLocalModelStore": true,
+    "allowManagedContainersOrSandboxes": true,
+    "allowManagedRuntimeInstallation": true,
+    "allowManagedLibraryInstallation": true,
+    "allowManagedToolchainInstallation": true,
+    "allowAtlasJobPackages": true
+  },
+  "controlPlane": {
+    "durableChannel": "repository-desired-state",
+    "liveOutboundChannel": "auto-when-available",
+    "workQueue": true,
+    "telemetry": true,
+    "capabilityReports": true,
+    "humanApprovalAfterBootstrap": false,
+    "reconnectForever": true
   },
   "layer3": {
     "requested": true,
@@ -28,7 +82,9 @@
     "recoverAfterNetworkReturn": true,
     "recoverAfterSleep": true,
     "recoverAfterTranslatorCrash": true,
-    "recoverAfterRuntimeCrash": true
+    "recoverAfterRuntimeCrash": true,
+    "recoverAfterDependencyFailure": true,
+    "recoverAfterControlChannelFailure": true
   },
   "updates": {
     "channel": "main",
@@ -41,17 +97,21 @@
     "keepLastKnownGood": true,
     "selfUpdateRuntime": true,
     "selfUpdateSupervisor": true,
+    "selfUpdateCapabilityAdapters": true,
     "abSlots": true,
     "rescueSlot": true
   },
   "remoteManagement": {
     "enabled": true,
-    "mechanism": "repository-desired-state",
+    "mechanism": "repository-desired-state-plus-outbound-control",
     "humanApprovalAfterBootstrap": false,
     "allowConfigChanges": true,
     "allowRuntimeReplacement": true,
     "allowModelReplacement": true,
     "allowManagedFileEdits": true,
+    "allowManagedDependencyInstall": true,
+    "allowManagedToolInstall": true,
+    "allowManagedJobExecution": true,
     "allowServiceRestart": true,
     "allowTransportRestart": true,
     "allowHealthDiagnostics": true,
@@ -79,6 +139,8 @@
     "allowServiceRestart": true,
     "allowTransportRestart": true,
     "leastPrivilege": true,
-    "runtimeSandboxed": true
+    "runtimeSandboxed": true,
+    "personalFilesOutsideAtlasScope": "deny-by-default",
+    "personalApplicationsOutsideAtlasScope": "deny-by-default"
   }
 }
