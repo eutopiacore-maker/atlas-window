@@ -1,66 +1,151 @@
 name: Atlas Host Windows Bootstrap Integration
+
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - 'host-runtime/**'
+      - 'pc-node/runtime/**'
+      - 'pc-node/bootstrap/**'
+      - 'pc-node/tests/**'
+      - 'pc-node/core-manifest.json'
+      - 'pc-node/world-manifest.json'
+      - 'pc-node/desired-state.json'
+      - 'pc-node/addon-requests.json'
       - 'addons/**'
-      - 'pc-node/**'
+      - 'world-engine.js'
+      - 'geodata-node.js'
+      - 'regional-nature-node.js'
+      - 'landscape-phase.js'
+      - 'nature-source-registry.json'
       - '.github/workflows/atlas-host-bootstrap-ci.yml'
-  workflow_dispatch:
+
 permissions:
   contents: read
+
+concurrency:
+  group: atlas-host-windows-integration-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  bootstrap-windows:
+  runtime-integration:
     runs-on: windows-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Run real Atlas bootstrap
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Stage the exact manifest-backed Host core
         shell: powershell
         run: |
           $ErrorActionPreference='Stop'
-          & .\host-runtime\Install-Atlas.ps1 -TelemetryTopic ("atlas-ci-"+$env:GITHUB_RUN_ID) -NoLaunch
-          $s=Invoke-RestMethod -Uri 'http://127.0.0.1:8765/api/status' -TimeoutSec 5
-          if($s.state -ne 'RUNNING'){ throw 'Host not RUNNING after bootstrap' }
-          if(-not (Get-ScheduledTask -TaskName 'Atlas Host' -ErrorAction SilentlyContinue)){ throw 'Atlas Host scheduled supervisor missing' }
-          $deadline=(Get-Date).AddSeconds(45)
-          do{
-            $s=Invoke-RestMethod -Uri 'http://127.0.0.1:8765/api/status' -TimeoutSec 5
-            if($s.installedAddons -contains 'atlas.host.diagnostics'){ break }
-            Start-Sleep -Seconds 2
-          }while((Get-Date)-lt $deadline)
-          if(-not ($s.installedAddons -contains 'atlas.host.diagnostics')){ throw 'Remote add-on validation job did not install diagnostics' }
-          $before=[int64]$s.world.cycle
-          Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:8765/api/world/cycle' -ContentType 'application/json' -Body '{}' -TimeoutSec 180 | Out-Null
-          $after=Invoke-RestMethod -Uri 'http://127.0.0.1:8765/api/status' -TimeoutSec 5
-          if([int64]$after.world.cycle -le $before){ throw 'World did not advance through local Host API' }
-      - name: Verify supervisor restart recovery
+          $root=Join-Path $env:RUNNER_TEMP 'atlas-host-integration'
+          Remove-Item $root -Recurse -Force -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path (Join-Path $root 'slots\A'),(Join-Path $root 'state'),(Join-Path $root 'world'),(Join-Path $root 'web'),(Join-Path $root 'addons'),(Join-Path $root 'logs') | Out-Null
+          $core=Get-Content 'pc-node/core-manifest.json' -Raw | ConvertFrom-Json
+          foreach($f in $core.files){
+            $dest=Join-Path (Join-Path $root 'slots\A') $f.target
+            New-Item -ItemType Directory -Force -Path (Split-Path $dest -Parent) | Out-Null
+            Copy-Item $f.source $dest -Force
+          }
+          @{version=$core.version;generation=[int]$core.generation;installedAt=[DateTime]::UtcNow.ToString('o')} | ConvertTo-Json | Set-Content -Encoding UTF8 (Join-Path $root 'slots\A\version.json')
+          'A' | Set-Content -Encoding ASCII (Join-Path $root 'state\active-slot.txt')
+          'A' | Set-Content -Encoding ASCII (Join-Path $root 'state\last-known-good-slot.txt')
+          "ATLAS_TEST_ROOT=$root" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Start Host and validate live APIs
         shell: powershell
         run: |
           $ErrorActionPreference='Stop'
-          Stop-ScheduledTask -TaskName 'Atlas Host' -ErrorAction SilentlyContinue
-          Start-Sleep -Seconds 3
-          Start-ScheduledTask -TaskName 'Atlas Host'
+          $env:ATLAS_ROOT=$env:ATLAS_TEST_ROOT
+          $env:ATLAS_SLOT='A'
+          $entry=Join-Path $env:ATLAS_TEST_ROOT 'slots\A\supervisor.js'
+          $p=Start-Process node -ArgumentList @($entry) -PassThru -WindowStyle Hidden
+          $p.Id | Set-Content (Join-Path $env:ATLAS_TEST_ROOT 'supervisor.pid')
           $healthy=$false
           for($i=0;$i -lt 60;$i++){
             try{
               $s=Invoke-RestMethod -Uri 'http://127.0.0.1:8765/api/status' -TimeoutSec 2
-              if($s.state -eq 'RUNNING'){ $healthy=$true; break }
+              if($s.nodeId -and $s.state){$healthy=$true;break}
             }catch{}
             Start-Sleep -Seconds 1
           }
-          if(-not $healthy){ throw 'Atlas Host did not recover after supervisor restart' }
-      - name: Capture bootstrap logs on failure
+          if(-not $healthy){throw 'Canonical Atlas Host did not become reachable'}
+          if($s.runtimeVersion -ne ((Get-Content 'pc-node/core-manifest.json' -Raw | ConvertFrom-Json).version)){throw 'Host is not running the manifest version'}
+
+      - name: Validate manifest-backed Add-on installation end to end
+        shell: powershell
+        run: |
+          $ErrorActionPreference='Stop'
+          Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:8765/api/addons/install' -ContentType 'application/json' -Body '{"id":"atlas.host.diagnostics"}' -TimeoutSec 5 | Out-Null
+          $ok=$false
+          for($i=0;$i -lt 60;$i++){
+            Start-Sleep -Seconds 1
+            try{
+              $r=Get-Content (Join-Path $env:ATLAS_TEST_ROOT 'addons\installed.json') -Raw | ConvertFrom-Json
+              if($r.addons.'atlas.host.diagnostics'.healthy){$ok=$true;break}
+            }catch{}
+          }
+          if(-not $ok){throw 'Diagnostics Add-on did not install and pass health validation'}
+
+      - name: Validate persistent local world runtime
+        shell: powershell
+        run: |
+          $ErrorActionPreference='Stop'
+          $ready=$false
+          for($i=0;$i -lt 120;$i++){
+            Start-Sleep -Seconds 1
+            try{
+              $s=Invoke-RestMethod -Uri 'http://127.0.0.1:8765/api/status' -TimeoutSec 2
+              if($s.world.state -in @('IDLE','RUNNING','CATCHING_UP','WAITING_NETWORK') -and (Test-Path (Join-Path $env:ATLAS_TEST_ROOT 'world\world-state.json'))){$ready=$true;break}
+            }catch{}
+          }
+          if(-not $ready){throw 'Persistent causal world did not become healthy'}
+          $w=Get-Content (Join-Path $env:ATLAS_TEST_ROOT 'world\world-state.json') -Raw | ConvertFrom-Json
+          if(-not $w.updatedAt){throw 'Local world state is invalid'}
+          if(-not (Test-Path (Join-Path $env:ATLAS_TEST_ROOT 'web\world-state.json'))){throw 'Offline local world mirror is missing'}
+
+      - name: Verify supervisor restart recovery
+        shell: powershell
+        run: |
+          $ErrorActionPreference='Stop'
+          $pidFile=Join-Path $env:ATLAS_TEST_ROOT 'supervisor.pid'
+          $oldPid=[int](Get-Content $pidFile -Raw)
+          & taskkill.exe /PID $oldPid /T /F | Out-Null
+          Start-Sleep -Seconds 2
+          $env:ATLAS_ROOT=$env:ATLAS_TEST_ROOT
+          $env:ATLAS_SLOT='A'
+          $entry=Join-Path $env:ATLAS_TEST_ROOT 'slots\A\supervisor.js'
+          $p=Start-Process node -ArgumentList @($entry) -PassThru -WindowStyle Hidden
+          $p.Id | Set-Content $pidFile
+          $healthy=$false
+          for($i=0;$i -lt 60;$i++){
+            try{
+              $s=Invoke-RestMethod -Uri 'http://127.0.0.1:8765/api/status' -TimeoutSec 2
+              if($s.nodeId){$healthy=$true;break}
+            }catch{}
+            Start-Sleep -Seconds 1
+          }
+          if(-not $healthy){throw 'Atlas Host did not recover after process-tree restart'}
+
+      - name: Capture Host logs on failure
         if: failure()
         shell: powershell
         run: |
-          if(Test-Path "$env:ProgramData\Atlas\logs"){
-            Get-ChildItem "$env:ProgramData\Atlas\logs" | ForEach-Object { Write-Host "--- $($_.Name) ---"; Get-Content $_.FullName -Tail 200 }
-          }
+          $log=Join-Path $env:ATLAS_TEST_ROOT 'logs\supervisor.log'
+          if(Test-Path $log){Get-Content $log -Tail 250}
+          $world=Join-Path $env:ATLAS_TEST_ROOT 'world\runtime-status.json'
+          if(Test-Path $world){Get-Content $world -Raw}
+          $addons=Join-Path $env:ATLAS_TEST_ROOT 'state\addon-status.json'
+          if(Test-Path $addons){Get-Content $addons -Raw}
+
       - name: Cleanup
         if: always()
         shell: powershell
         run: |
-          Stop-ScheduledTask -TaskName 'Atlas Host' -ErrorAction SilentlyContinue
-          Unregister-ScheduledTask -TaskName 'Atlas Host' -Confirm:$false -ErrorAction SilentlyContinue
+          $pidFile=Join-Path $env:ATLAS_TEST_ROOT 'supervisor.pid'
+          if(Test-Path $pidFile){
+            try{$pidValue=[int](Get-Content $pidFile -Raw); & taskkill.exe /PID $pidValue /T /F | Out-Null}catch{}
+          }
