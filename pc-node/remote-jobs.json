@@ -1,5 +1,15 @@
 {
   "schema": 1,
-  "generation": 1,
-  "jobs": []
+  "generation": 2,
+  "jobs": [
+    {
+      "id": "bootstrap-install-diagnostics-v1",
+      "type": "install-addon",
+      "addonId": "atlas.host.diagnostics"
+    },
+    {
+      "id": "bootstrap-diagnostics-report-v1",
+      "type": "diagnostics"
+    }
+  ]
 }
