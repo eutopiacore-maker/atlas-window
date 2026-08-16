@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "generation": 1,
+  "version": "world-0.1.0",
+  "files": [
+    {"source":"world-engine.js","target":"world-engine.js","gitBlobSha":"fe742f0406bcfec1088cf9db7495ab70985e4f7b"},
+    {"source":"geodata-node.js","target":"geodata-node.js","gitBlobSha":"a1d3cab83e1f36343920380baeec17adb495411a"},
+    {"source":"regional-nature-node.js","target":"regional-nature-node.js","gitBlobSha":"41c176a20a135d436ea728facef1797cf95c1469"},
+    {"source":"landscape-phase.js","target":"landscape-phase.js","gitBlobSha":"ec0f0a35c47f163626759c602a5d76c43e5b83b9"},
+    {"source":"nature-source-registry.json","target":"nature-source-registry.json","gitBlobSha":"47ffbd304308ea1408a152e6bda3630f44edbe67"}
+  ],
+  "activation": {
+    "stageBeforeActivate": true,
+    "syntaxCheckJavaScript": true,
+    "checkpointWorldFirst": true,
+    "rollbackCodeAndStateOnFailure": true
+  }
+}
