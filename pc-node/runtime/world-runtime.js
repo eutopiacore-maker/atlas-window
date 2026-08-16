@@ -13,12 +13,14 @@ const STATE=path.join(WORLD,'world-state.json');
 const STATUS=path.join(WORLD,'runtime-status.json');
 const CHECKPOINTS=path.join(WORLD,'checkpoints');
 const PACKAGE_META=path.join(WORLD,'package-meta.json');
+const AUTH_META=path.join(WORLD,'authority-meta.json');
 const REPO='eutopiacore-maker/atlas-window';
 const API=`https://api.github.com/repos/${REPO}`;
 const TOKEN=process.env.ATLAS_GH_TOKEN||'';
 const STEP_MS=15*60*1000;
 const LOOP_MS=60*1000;
 const REMOTE_PUBLISH_MS=15*60*1000;
+const AUTH_RECHECK_MS=15*60*1000;
 for(const d of[WORLD,WEB,CHECKPOINTS])fs.mkdirSync(d,{recursive:true});
 
 function readJson(f,d){try{return JSON.parse(fs.readFileSync(f,'utf8'))}catch{return d}}
@@ -56,7 +58,19 @@ function runStep(at,remote=false){const env={ATLAS_NOW:new Date(at).toISOString(
 
 async function catchUp(){const before=readWorld(),now=Date.now();let cursor=Date.parse(before.updatedAt||new Date(now).toISOString());if(!Number.isFinite(cursor)||cursor>now+60000)cursor=now;const gap=Math.max(0,now-cursor);if(gap<60000){status({state:'IDLE',cycle:before.cycle,caughtUpThrough:before.updatedAt,backlogMs:gap});return false}checkpoint('pre-catchup-'+Date.now());let steps=0;try{while(cursor+60000<now){cursor=Math.min(now,cursor+STEP_MS);runStep(cursor,false);steps++;if(steps%8===0)status({state:'CATCHING_UP',steps,caughtUpThrough:new Date(cursor).toISOString(),backlogMs:Math.max(0,now-cursor)})}const w=readWorld();status({state:'IDLE',cycle:w.cycle,caughtUpThrough:w.updatedAt,backlogMs:0,lastCatchupSteps:steps});return steps>0}catch(e){restoreCheckpoint();rollbackWorldCode();status({state:'ERROR',error:e.message,lastCatchupSteps:steps,rolledBack:true});throw e}}
 async function refreshRemote(){if(!TOKEN)return false;const f=path.join(WORLD,'remote-refresh.json'),m=readJson(f,{});if(Date.now()-Date.parse(m.at||0)<6*60*60*1000)return false;try{runStep(Date.now(),true);atomic(f,JSON.stringify({at:new Date().toISOString()},null,2));return true}catch{return false}}
-async function claim(){if(!TOKEN)return false;const idf=path.join(ROOT,'state','node-id.txt'),id=fs.existsSync(idf)?fs.readFileSync(idf,'utf8').trim():null;const d={schema:1,authority:'atlas-host',nodeId:id,claimedAt:new Date().toISOString(),rule:'single-writer causal authority; GitHub heartbeat becomes observer-only while Atlas Host is authoritative'};try{await putRepoText('pc-node/world-authority.json',JSON.stringify(d,null,2)+'\n','Atlas Host claims causal world authority');return true}catch{return false}}
+async function claim(){
+  if(!TOKEN)return false;
+  const idf=path.join(ROOT,'state','node-id.txt'),id=fs.existsSync(idf)?fs.readFileSync(idf,'utf8').trim():null;
+  const meta=readJson(AUTH_META,{}),last=Date.parse(meta.checkedAt||0);
+  if(meta.nodeId===id&&meta.claimed===true&&Date.now()-last<AUTH_RECHECK_MS)return true;
+  try{
+    let remote=null;try{remote=JSON.parse((await repoText('pc-node/world-authority.json')).text)}catch{}
+    if(remote?.authority==='atlas-host'&&remote?.nodeId===id){atomic(AUTH_META,JSON.stringify({claimed:true,nodeId:id,checkedAt:new Date().toISOString()},null,2));return true}
+    const d={schema:1,authority:'atlas-host',nodeId:id,claimedAt:new Date().toISOString(),rule:'single-writer causal authority; GitHub heartbeat becomes observer-only while Atlas Host is authoritative'};
+    await putRepoText('pc-node/world-authority.json',JSON.stringify(d,null,2)+'\n','Atlas Host claims causal world authority');
+    atomic(AUTH_META,JSON.stringify({claimed:true,nodeId:id,checkedAt:new Date().toISOString()},null,2));return true
+  }catch{return false}
+}
 async function publish(force=false){if(!TOKEN)return false;const meta=path.join(WORLD,'publish-meta.json'),m=readJson(meta,{});if(!force&&Date.now()-Date.parse(m.at||0)<REMOTE_PUBLISH_MS)return false;try{await putRepoText('world-state.json',fs.readFileSync(STATE,'utf8'),'Eutopia host world sync');await putRepoText('pc-node/world-runtime-status.json',fs.readFileSync(STATUS,'utf8'),'Eutopia host runtime status');atomic(meta,JSON.stringify({at:new Date().toISOString()},null,2));return true}catch(e){status({state:'WAITING_NETWORK',error:e.message});return false}}
 async function cycle(){await ensureState();await ensureWorldPackage();await catchUp();await refreshRemote();await claim();await publish();mirror()}
 async function selfTest(){const sample="function pulse(s){const now=new Date(),r=R(1);return s}\nasync function main(){let s={};s=await official(s);s=ensure(s);s=await enrich(s);s=pulse(s);}";let p=sample.replace('function pulse(s){const now=new Date(),r=R(',"function pulse(s){const now=new Date(process.env.ATLAS_NOW||Date.now()),r=R(");p=p.replace('s=await official(s);s=ensure(s);s=await enrich(s);s=pulse(s);',"if(process.env.ATLAS_SKIP_REMOTE!=='1')s=await official(s);s=ensure(s);if(process.env.ATLAS_SKIP_REMOTE!=='1')s=await enrich(s);s=pulse(s);");if(!p.includes('ATLAS_NOW')||!p.includes('ATLAS_SKIP_REMOTE'))throw Error('patch self-test failed');console.log('Atlas world runtime self-test OK')}
