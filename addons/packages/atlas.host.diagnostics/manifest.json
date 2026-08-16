@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "atlas.host.diagnostics",
+  "name": "Host Diagnostics",
+  "version": "0.1.0",
+  "publisher": "Atlas",
+  "capabilities": ["host-diagnostics", "resource-snapshot"],
+  "permissions": {
+    "filesystem": "addon-directory-only",
+    "network": false,
+    "devices": []
+  },
+  "files": [
+    {
+      "source": "addons/packages/atlas.host.diagnostics/probe.js",
+      "target": "probe.js",
+      "gitBlobSha": "eead20931af9940fe366f6cf8cddc57ccce8ddf6"
+    }
+  ],
+  "health": {
+    "type": "node-self-test",
+    "entry": "probe.js"
+  },
+  "restartPolicy": "none"
+}
