@@ -7,7 +7,7 @@
     {
       "path": "atlas-host.js",
       "source": "host-runtime/atlas-host.js",
-      "sha256": "6c203b6a5c386cbfde2ba5404f6ba57c9843fb2e0ff7d8cfc75584b92345d826"
+      "sha256": "107faa2146c05e606bc9d76d5f8d7d26006f628fcff3615a64c654806409ca59"
     },
     {
       "path": "world-shim.js",
@@ -17,7 +17,7 @@
     {
       "path": "world-runner.js",
       "source": "host-runtime/world-runner.js",
-      "sha256": "4166ceb48f791296e59b34b5e3693fa1cdf00d57175ee1709cd01ecb08ef80e2"
+      "sha256": "69232af70c21d4f928830239189c7c43eb5a902f5d602758fb8f5d57e174a732"
     }
   ],
   "launcher": {
