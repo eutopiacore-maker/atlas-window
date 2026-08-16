@@ -1,5 +1,3 @@
-import './photoreal-adapter.js';
-
 const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
 function hash(s){let h=2166136261;for(const c of String(s||'')){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 function meters(a,b,w){return Math.hypot((a.x-b.x)*(w.grid.w-1)*w.grid.cellMeters,(a.y-b.y)*(w.grid.h-1)*w.grid.cellMeters)}
