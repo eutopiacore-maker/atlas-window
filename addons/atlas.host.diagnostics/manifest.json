@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "id": "atlas.host.diagnostics",
+  "name": "Host Diagnostics",
+  "version": "0.1.0",
+  "publisher": "Atlas",
+  "restartPolicy": "none",
+  "files": [
+    {
+      "path": "diagnostics.json",
+      "url": "addons/atlas.host.diagnostics/diagnostics.json",
+      "sha256": "655433d5a0366087c1f1798692a92dea9fd37ad000ef91898d22b5ebf92373c5"
+    }
+  ],
+  "health": {
+    "type": "file-exists",
+    "path": "diagnostics.json"
+  }
+}
