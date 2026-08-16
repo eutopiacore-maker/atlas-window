@@ -11,6 +11,7 @@ on:
       - 'geodata-node.js'
       - 'regional-nature-node.js'
       - 'landscape-phase.js'
+      - 'pc-node/world-authority.json'
       - '.github/workflows/world-heartbeat.yml'
 
 permissions:
@@ -31,13 +32,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - name: Resolve causal writer
+        id: authority
+        shell: bash
+        run: |
+          MODE=$(node -e "const fs=require('fs');try{console.log(JSON.parse(fs.readFileSync('pc-node/world-authority.json','utf8')).authority||'github-heartbeat')}catch{console.log('github-heartbeat')}")
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+          echo "Causal authority: $MODE"
       - name: Evolve persistent world state
+        if: steps.authority.outputs.mode != 'atlas-host'
         run: node world-engine.js
       - name: Apply Panama regional natural context
+        if: steps.authority.outputs.mode != 'atlas-host'
         run: node regional-nature-node.js
       - name: Enforce autonomous landscape phase
+        if: steps.authority.outputs.mode != 'atlas-host'
         run: node landscape-phase.js
       - name: Publish compact reality status
+        if: steps.authority.outputs.mode != 'atlas-host'
         run: |
           node - <<'NODE'
           const fs=require('fs');
@@ -60,6 +72,7 @@ jobs:
           fs.writeFileSync('reality-status.json',JSON.stringify(out,null,2)+'\n');
           NODE
       - name: Persist world
+        if: steps.authority.outputs.mode != 'atlas-host'
         run: |
           git config user.name "atlas-world"
           git config user.email "actions@users.noreply.github.com"
@@ -68,3 +81,6 @@ jobs:
           git commit -m "Eutopia world heartbeat"
           git pull --rebase origin main
           git push origin HEAD:main
+      - name: Host owns causal clock
+        if: steps.authority.outputs.mode == 'atlas-host'
+        run: echo "Atlas Host is the single causal writer; GitHub heartbeat is observer-only."
