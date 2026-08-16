@@ -1,0 +1,66 @@
+name: Atlas Host Windows Bootstrap Integration
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'host-runtime/**'
+      - 'addons/**'
+      - 'pc-node/**'
+      - '.github/workflows/atlas-host-bootstrap-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bootstrap-windows:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run real Atlas bootstrap
+        shell: powershell
+        run: |
+          $ErrorActionPreference='Stop'
+          & .\host-runtime\Install-Atlas.ps1 -TelemetryTopic ("atlas-ci-"+$env:GITHUB_RUN_ID) -NoLaunch
+          $s=Invoke-RestMethod -Uri 'http://127.0.0.1:8765/api/status' -TimeoutSec 5
+          if($s.state -ne 'RUNNING'){ throw 'Host not RUNNING after bootstrap' }
+          if(-not (Get-ScheduledTask -TaskName 'Atlas Host' -ErrorAction SilentlyContinue)){ throw 'Atlas Host scheduled supervisor missing' }
+          $deadline=(Get-Date).AddSeconds(45)
+          do{
+            $s=Invoke-RestMethod -Uri 'http://127.0.0.1:8765/api/status' -TimeoutSec 5
+            if($s.installedAddons -contains 'atlas.host.diagnostics'){ break }
+            Start-Sleep -Seconds 2
+          }while((Get-Date)-lt $deadline)
+          if(-not ($s.installedAddons -contains 'atlas.host.diagnostics')){ throw 'Remote add-on validation job did not install diagnostics' }
+          $before=[int64]$s.world.cycle
+          Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:8765/api/world/cycle' -ContentType 'application/json' -Body '{}' -TimeoutSec 180 | Out-Null
+          $after=Invoke-RestMethod -Uri 'http://127.0.0.1:8765/api/status' -TimeoutSec 5
+          if([int64]$after.world.cycle -le $before){ throw 'World did not advance through local Host API' }
+      - name: Verify supervisor restart recovery
+        shell: powershell
+        run: |
+          $ErrorActionPreference='Stop'
+          Stop-ScheduledTask -TaskName 'Atlas Host' -ErrorAction SilentlyContinue
+          Start-Sleep -Seconds 3
+          Start-ScheduledTask -TaskName 'Atlas Host'
+          $healthy=$false
+          for($i=0;$i -lt 60;$i++){
+            try{
+              $s=Invoke-RestMethod -Uri 'http://127.0.0.1:8765/api/status' -TimeoutSec 2
+              if($s.state -eq 'RUNNING'){ $healthy=$true; break }
+            }catch{}
+            Start-Sleep -Seconds 1
+          }
+          if(-not $healthy){ throw 'Atlas Host did not recover after supervisor restart' }
+      - name: Capture bootstrap logs on failure
+        if: failure()
+        shell: powershell
+        run: |
+          if(Test-Path "$env:ProgramData\Atlas\logs"){
+            Get-ChildItem "$env:ProgramData\Atlas\logs" | ForEach-Object { Write-Host "--- $($_.Name) ---"; Get-Content $_.FullName -Tail 200 }
+          }
+      - name: Cleanup
+        if: always()
+        shell: powershell
+        run: |
+          Stop-ScheduledTask -TaskName 'Atlas Host' -ErrorAction SilentlyContinue
+          Unregister-ScheduledTask -TaskName 'Atlas Host' -Confirm:$false -ErrorAction SilentlyContinue
