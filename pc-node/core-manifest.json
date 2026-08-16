@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "0.1.2",
-  "generation": 3,
+  "version": "0.1.3",
+  "generation": 4,
   "minimumBootstrap": "0.1.0",
   "files": [
     {
@@ -12,7 +12,7 @@
     {
       "source": "pc-node/runtime/world-runtime.js",
       "target": "world-runtime.js",
-      "gitBlobSha": "9a25887921d3be908b29118059be36ae147b6b9e"
+      "gitBlobSha": "37a60a47671a16a5d3df6c86ff068590c4024013"
     },
     {
       "source": "pc-node/runtime/addon-manager.js",
