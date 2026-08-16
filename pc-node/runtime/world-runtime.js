@@ -22,12 +22,23 @@ const AUTH_RECHECK_MS=15*60*1000;
 const WORLD_FILES=['world-engine.js','geodata-node.js','regional-nature-node.js','landscape-phase.js','nature-source-registry.json'];
 for(const d of[WORLD,WEB,CHECKPOINTS])fs.mkdirSync(d,{recursive:true});
 
-function readJson(f,d){try{return JSON.parse(fs.readFileSync(f,'utf8'))}catch{return d}}
+function readJson(f,d){try{return JSON.parse(fs.readFileSync(f,'utf8').replace(/^\uFEFF/,''))}catch{return d}}
 function atomic(f,t){fs.mkdirSync(path.dirname(f),{recursive:true});const x=f+'.tmp-'+process.pid;fs.writeFileSync(x,t);fs.renameSync(x,f)}
 function mirror(){try{if(fs.existsSync(STATE))fs.copyFileSync(STATE,path.join(WEB,'world-state.json'));if(fs.existsSync(STATUS))fs.copyFileSync(STATUS,path.join(WEB,'world-runtime-status.json'))}catch{}}
 function setStatus(extra={}){const w=readJson(STATE,{});atomic(STATUS,JSON.stringify({schema:4,state:'RUNNING',pid:process.pid,updatedAt:new Date().toISOString(),localWorldState:fs.existsSync(STATE),cycle:w.cycle??null,caughtUpThrough:w.updatedAt??null,timeScale:configuredTimeScale(),package:readJson(PACKAGE_META,null),...extra},null,2));mirror()}
-function request(url,o={},body=null){return new Promise((resolve,reject)=>{const u=new URL(url),h={'User-Agent':'Atlas-World-Runtime/0.3','Accept':'application/vnd.github+json',...(o.headers||{})};if(TOKEN&&u.hostname==='api.github.com')h.Authorization=`Bearer ${TOKEN}`;const q=https.request(u,{method:o.method||'GET',headers:h,timeout:15000},r=>{const c=[];r.on('data',d=>c.push(d));r.on('end',()=>resolve({status:r.statusCode,body:Buffer.concat(c)}))});q.on('timeout',()=>q.destroy(new Error('timeout')));q.on('error',reject);if(body)q.write(body);q.end()})}
-async function repoText(p){const r=await request(`${API}/contents/${p}?ref=main`);if(r.status<200||r.status>=300)throw new Error(`GET ${p} ${r.status}`);const j=JSON.parse(r.body.toString('utf8'));return{text:Buffer.from(j.content,'base64').toString('utf8'),sha:j.sha}}
+function request(url,o={},body=null){return new Promise((resolve,reject)=>{const u=new URL(url),h={'User-Agent':'Atlas-World-Runtime/0.4','Accept':'application/vnd.github+json',...(o.headers||{})};if(TOKEN&&u.hostname==='api.github.com')h.Authorization=`Bearer ${TOKEN}`;const q=https.request(u,{method:o.method||'GET',headers:h,timeout:o.timeout||30000},r=>{const c=[];r.on('data',d=>c.push(d));r.on('end',()=>resolve({status:r.statusCode,body:Buffer.concat(c),headers:r.headers}))});q.on('timeout',()=>q.destroy(new Error('timeout')));q.on('error',reject);if(body)q.write(body);q.end()})}
+async function repoText(p){
+  const r=await request(`${API}/contents/${p}?ref=main`);
+  if(r.status<200||r.status>=300)throw new Error(`GET ${p} ${r.status}`);
+  const j=JSON.parse(r.body.toString('utf8'));
+  if(j.content)return{text:Buffer.from(j.content,'base64').toString('utf8'),sha:j.sha};
+  if(j.git_url){
+    const b=await request(j.git_url);
+    if(b.status>=200&&b.status<300){const x=JSON.parse(b.body.toString('utf8'));if(x.content)return{text:Buffer.from(x.content.replace(/\s/g,''),'base64').toString('utf8'),sha:j.sha||x.sha}}
+  }
+  if(j.download_url){const raw=await request(j.download_url,{headers:{Accept:'application/octet-stream'}});if(raw.status>=200&&raw.status<300)return{text:raw.body.toString('utf8'),sha:j.sha}}
+  throw new Error(`Repository content unavailable for ${p}`);
+}
 async function putRepoText(p,text,msg){if(!TOKEN)return false;let sha=null;const g=await request(`${API}/contents/${p}?ref=main`);if(g.status>=200&&g.status<300)sha=JSON.parse(g.body.toString('utf8')).sha;const body=JSON.stringify({message:msg,content:Buffer.from(text).toString('base64'),branch:'main',...(sha?{sha}:{})});const r=await request(`${API}/contents/${p}`,{method:'PUT',headers:{'Content-Type':'application/json'}},body);if(r.status<200||r.status>=300)throw new Error(`PUT ${p} ${r.status}`);return true}
 function configuredTimeScale(){const d=readJson(path.join(ROOT,'state','desired-state.json'),{});const n=Number(d?.worldRuntime?.timeScale??1);return Number.isFinite(n)&&n>0&&n<=100?n:1}
 function nodeCheck(f){const r=spawnSync(process.execPath,['--check',f],{encoding:'utf8',timeout:30000});if(r.status!==0)throw new Error(`${path.basename(f)} syntax: ${r.stderr||r.stdout}`)}
@@ -35,7 +46,7 @@ function checkpoint(label){if(!fs.existsSync(STATE))return null;const f=path.joi
 function latestCheckpoint(){const a=fs.readdirSync(CHECKPOINTS).filter(x=>x.endsWith('.json')).sort();return a.length?path.join(CHECKPOINTS,a[a.length-1]):null}
 function restoreCheckpoint(){const f=latestCheckpoint();if(!f)return false;fs.copyFileSync(f,STATE);mirror();return true}
 
-async function ensureState(){if(fs.existsSync(STATE)){mirror();return}const g=await repoText('world-state.json');atomic(STATE,g.text);checkpoint('initial-'+Date.now());mirror()}
+async function ensureState(){if(fs.existsSync(STATE)){mirror();return}const g=await repoText('world-state.json');if(!g.text.trim())throw new Error('Downloaded world state is empty');JSON.parse(g.text.replace(/^\uFEFF/,''));atomic(STATE,g.text);checkpoint('initial-'+Date.now());mirror()}
 async function ensureWorldPackage(){
   const local=readJson(PACKAGE_META,null);let manifest=null;
   try{manifest=JSON.parse((await repoText('pc-node/world-manifest.json')).text)}catch{if(local&&WORLD_FILES.every(f=>fs.existsSync(path.join(WORLD,f))))return;throw new Error('No verified local causal package and repository unavailable')}
