@@ -1,7 +1,21 @@
 {
-  "schema": 1,
-  "updatedAt": "2026-08-15T17:36:00Z",
+  "schema": 2,
+  "updatedAt": "2026-08-16T13:20:00Z",
   "addons": [
+    {
+      "id": "atlas.host.diagnostics",
+      "name": "Host Diagnostics",
+      "version": "0.1.0",
+      "publisher": "Atlas",
+      "description": "Verifica instalación, almacenamiento, hardware y salud básica del Atlas Host.",
+      "status": "available",
+      "category": "System",
+      "capabilities": ["host-diagnostics", "health-report"],
+      "restartPolicy": "none",
+      "installable": true,
+      "manifest": "addons/atlas.host.diagnostics/manifest.json",
+      "featured": false
+    },
     {
       "id": "atlas.layer3.neural-renderer",
       "name": "Capa 3 · Neural Renderer",
