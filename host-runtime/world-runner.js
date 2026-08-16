@@ -6,11 +6,13 @@ const { spawnSync } = require('child_process');
 const worldDir = process.env.ATLAS_WORLD_DIR || process.cwd();
 const stateFile = path.join(worldDir, 'world-state.json');
 const shim = path.join(__dirname, 'world-shim.js');
+const virtualRunner = path.join(__dirname, 'virtual-runner.js');
 const timeScale = Number(process.env.ATLAS_TIME_SCALE || 1);
 const offline = process.env.ATLAS_OFFLINE === '1';
 const target = new Date(process.env.ATLAS_TARGET_TIME || new Date().toISOString());
 if (!fs.existsSync(stateFile)) throw new Error('world-state.json missing');
 if (!fs.existsSync(shim)) throw new Error('world-shim.js missing');
+if (!fs.existsSync(virtualRunner)) throw new Error('virtual-runner.js missing');
 if (!Number.isFinite(target.getTime())) throw new Error('invalid target time');
 
 function state() { return JSON.parse(fs.readFileSync(stateFile, 'utf8')); }
@@ -23,8 +25,8 @@ function runNode(file, virtualNow, args = []) {
 function runPlain(rel, virtualNow) {
   const file = path.join(worldDir, rel);
   if (!fs.existsSync(file)) return;
-  const env = { ...process.env, ATLAS_OFFLINE: offline ? '1':'0', ATLAS_VIRTUAL_NOW: virtualNow.toISOString() };
-  const r = spawnSync(process.execPath, [file], { cwd: worldDir, env, encoding: 'utf8', timeout: 120000, windowsHide: true });
+  const env = { ...process.env, ATLAS_SCRIPT: file, ATLAS_OFFLINE: offline ? '1':'0', ATLAS_VIRTUAL_NOW: virtualNow.toISOString() };
+  const r = spawnSync(process.execPath, [virtualRunner], { cwd: worldDir, env, encoding: 'utf8', timeout: 120000, windowsHide: true });
   if (r.error) throw r.error;
   if (r.status !== 0) throw new Error(`${rel} exit ${r.status}: ${(r.stderr || r.stdout || '').slice(0,1600)}`);
 }
