@@ -7,6 +7,9 @@ on:
       - 'addons/**'
       - 'pc-node/**'
       - 'world-engine.js'
+      - 'regional-nature-node.js'
+      - 'landscape-phase.js'
+      - 'nature-source-registry.json'
       - '.github/workflows/atlas-host-ci.yml'
   workflow_dispatch:
 permissions:
@@ -20,6 +23,7 @@ jobs:
         with:
           node-version: 24
       - run: node host-runtime/test/smoke.js
+      - run: node host-runtime/test/world-offline-smoke.js
       - run: node host-runtime/test/contracts.js
       - run: node --check host-runtime/atlas-host.js
       - run: node --check host-runtime/world-shim.js
@@ -33,6 +37,8 @@ jobs:
           node-version: 24
       - name: Node smoke on Windows
         run: node host-runtime/test/smoke.js
+      - name: Offline world smoke on Windows
+        run: node host-runtime/test/world-offline-smoke.js
       - name: Parse PowerShell bootstrap and launcher
         shell: powershell
         run: |
