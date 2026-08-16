@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "capability": "host-diagnostics",
+  "description": "Declares the baseline Atlas Host diagnostics capability used to verify end-to-end add-on installation.",
+  "entry": "built-in:diagnostics"
+}
