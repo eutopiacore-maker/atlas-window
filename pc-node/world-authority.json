@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "authority": "github-heartbeat",
+  "nodeId": null,
+  "claimedAt": null,
+  "rule": "Exactly one causal writer at a time. Bootstrap transfers authority to Atlas Host only after local runtime health passes."
+}
