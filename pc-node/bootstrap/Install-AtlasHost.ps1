@@ -4,9 +4,11 @@ $ProgressPreference='SilentlyContinue'
 $Repo='eutopiacore-maker/atlas-window'
 $Root='C:\ProgramData\AtlasHost'
 $Raw="https://raw.githubusercontent.com/$Repo/main"
+$Api="https://api.github.com/repos/$Repo"
 $TaskName='Atlas Host Supervisor'
-$BootstrapVersion='0.1.5'
-$BootstrapGeneration=6
+$BootstrapVersion='0.1.6'
+$BootstrapGeneration=7
+$script:Token=$null
 
 function Is-Admin {
   $id=[Security.Principal.WindowsIdentity]::GetCurrent()
@@ -17,6 +19,15 @@ function Say([string]$s){ Write-Host "[Atlas] $s" -ForegroundColor Cyan }
 function Ensure-Dir([string]$p){ if(-not(Test-Path $p)){ New-Item -ItemType Directory -Path $p -Force | Out-Null } }
 function Download([string]$url,[string]$out){ Ensure-Dir (Split-Path $out -Parent); Invoke-WebRequest -UseBasicParsing -Uri $url -OutFile $out }
 function RawFile([string]$repoPath,[string]$out){ Download "$Raw/$repoPath" $out }
+function Repo-File([string]$repoPath,[string]$out,[string]$expectedSha=''){
+  $headers=@{'Accept'='application/vnd.github+json';'User-Agent'='Atlas-Bootstrap'}
+  if($script:Token){ $headers['Authorization']="Bearer $script:Token" }
+  $meta=Invoke-RestMethod -UseBasicParsing -Headers $headers -Uri "$Api/contents/$repoPath`?ref=main" -TimeoutSec 60
+  if($expectedSha -and $meta.sha -ne $expectedSha){ throw "Repository integrity mismatch: $repoPath" }
+  $bytes=[Convert]::FromBase64String(($meta.content -replace '\s',''))
+  Ensure-Dir (Split-Path $out -Parent); [IO.File]::WriteAllBytes($out,$bytes)
+  return $meta.sha
+}
 
 if($DryRun){
   if($PSVersionTable.PSVersion.Major -lt 5){ throw 'PowerShell 5+ required' }
@@ -40,7 +51,7 @@ $txn=Join-Path $Root 'state\bootstrap-transaction.json'
 try{
   Say 'Instalando el runtime base según el hardware de esta PC…'
   $machineArch=$env:PROCESSOR_ARCHITECTURE
-  $nodeArch=if($machineArch -eq 'ARM64'){'arm64'}else{'x64'}
+  $nodeArch=if($machineArch -eq 'ARM64'){'arm64'}elseif($machineArch -eq 'AMD64'){'x64'}else{throw "Arquitectura Windows no soportada: $machineArch"}
   $nodeBase='https://nodejs.org/dist/latest-v22.x'
   $sums=(Invoke-WebRequest -UseBasicParsing "$nodeBase/SHASUMS256.txt").Content
   $line=($sums -split "`n" | Where-Object { $_ -match "node-v.+-win-$nodeArch\.zip$" } | Select-Object -First 1).Trim()
@@ -66,6 +77,7 @@ try{
   & $ghExe auth login --hostname github.com --git-protocol https --web
   if($LASTEXITCODE -ne 0){ throw 'GitHub enrollment was not completed' }
   $token=(& $ghExe auth token).Trim(); if(-not $token){ throw 'GitHub token unavailable after enrollment' }
+  $script:Token=$token
   $env:GH_TOKEN=$token; & $ghExe api "repos/$Repo" | Out-Null; if($LASTEXITCODE -ne 0){ throw 'The enrolled GitHub account cannot access the Atlas repository' }
 
   Add-Type -AssemblyName System.Security
@@ -74,18 +86,19 @@ try{
   & icacls $tokenFile /inheritance:r /grant:r '*S-1-5-18:(F)' '*S-1-5-32-544:(F)' | Out-Null
   Remove-Item Env:GH_TOKEN -ErrorAction SilentlyContinue
 
-  Say 'Instalando supervisor, mundo persistente y sistema de Add-ons…'
+  Say 'Instalando el núcleo verificado de Atlas Host…'
+  $manifestFile=Join-Path $Root 'cache\core-manifest.json'; Repo-File 'pc-node/core-manifest.json' $manifestFile | Out-Null
+  $core=Get-Content $manifestFile -Raw | ConvertFrom-Json
+  if($core.version -ne $BootstrapVersion -or [int]$core.generation -ne $BootstrapGeneration){ throw "Bootstrap/core version mismatch: $($core.version)/$($core.generation)" }
   $slotA=Join-Path $Root 'slots\A'; Remove-Item "$slotA\*" -Recurse -Force -ErrorAction SilentlyContinue
-  foreach($f in @('supervisor.js','world-runtime.js','addon-manager.js')){ RawFile "pc-node/runtime/$f" (Join-Path $slotA $f) }
-  @{version=$BootstrapVersion;generation=$BootstrapGeneration;installedAt=[DateTime]::UtcNow.ToString('o')} | ConvertTo-Json | Set-Content -Encoding UTF8 (Join-Path $slotA 'version.json')
-  $stableLauncher=Join-Path $Root 'bootstrap\run-supervisor.ps1'; RawFile 'pc-node/runtime/run-supervisor.ps1' $stableLauncher
+  foreach($f in $core.files){ Repo-File $f.source (Join-Path $slotA $f.target) $f.gitBlobSha | Out-Null }
+  @{version=$core.version;generation=[int]$core.generation;installedAt=[DateTime]::UtcNow.ToString('o')} | ConvertTo-Json | Set-Content -Encoding UTF8 (Join-Path $slotA 'version.json')
+  $stableLauncher=Join-Path $Root 'bootstrap\run-supervisor.ps1'; Repo-File $core.launcher.source $stableLauncher $core.launcher.gitBlobSha | Out-Null
   Remove-Item (Join-Path $Root 'rescue\*') -Recurse -Force -ErrorAction SilentlyContinue; Copy-Item "$slotA\*" (Join-Path $Root 'rescue') -Recurse -Force
   'A' | Set-Content -Encoding ASCII (Join-Path $Root 'state\active-slot.txt'); 'A' | Set-Content -Encoding ASCII (Join-Path $Root 'state\last-known-good-slot.txt')
 
-  foreach($js in @('supervisor.js','world-runtime.js','addon-manager.js')){
-    & $nodeExe --check (Join-Path $slotA $js); if($LASTEXITCODE -ne 0){ throw "$js syntax check failed" }
-    & $nodeExe (Join-Path $slotA $js) --self-test; if($LASTEXITCODE -ne 0){ throw "$js self-test failed" }
-  }
+  foreach($js in $core.activation.requiredSyntaxChecks){ & $nodeExe --check (Join-Path $slotA $js); if($LASTEXITCODE -ne 0){ throw "$js syntax check failed" } }
+  foreach($name in $core.activation.requiredSelfTests){ $js="$name.js"; & $nodeExe (Join-Path $slotA $js) --self-test; if($LASTEXITCODE -ne 0){ throw "$js self-test failed" } }
 
   foreach($f in @('host.html','index.html','world.html','world.js','dynamics.html','dynamics.js','appearance.html','appearance-scene.js','appearance-decoder.json','eutopia-detail.js')){ try{ RawFile $f (Join-Path $Root "web\$f") }catch{} }
   RawFile 'addons/catalog.json' (Join-Path $Root 'web\addons-catalog.json')
@@ -116,7 +129,7 @@ try{
 
   Say 'Verificando que Eutopia tomó el reloj causal local…'
   $worldHealthy=$false
-  for($i=0;$i -lt 90;$i++){ Start-Sleep 1; try{$s=Invoke-RestMethod -UseBasicParsing 'http://127.0.0.1:8765/api/status' -TimeoutSec 2;if($s.world.state -in @('IDLE','RUNNING','CATCHING_UP','WAITING_NETWORK')){$worldHealthy=$true;break}}catch{} }
+  for($i=0;$i -lt 120;$i++){ Start-Sleep 1; try{$s=Invoke-RestMethod -UseBasicParsing 'http://127.0.0.1:8765/api/status' -TimeoutSec 2;if($s.world.state -in @('IDLE','RUNNING','CATCHING_UP','WAITING_NETWORK')){$worldHealthy=$true;break}}catch{} }
   if(-not $worldHealthy){ throw 'Persistent world runtime did not become healthy' }
 
   Say 'Confirmando el traspaso del reloj causal para evitar dos mundos escribiendo a la vez…'
@@ -125,7 +138,7 @@ try{
   for($i=0;$i -lt 60;$i++){
     Start-Sleep 1
     try{
-      $meta=Invoke-RestMethod -Headers $headers -Uri "https://api.github.com/repos/$Repo/contents/pc-node/world-authority.json?ref=main"
+      $meta=Invoke-RestMethod -Headers $headers -Uri "$Api/contents/pc-node/world-authority.json?ref=main"
       $raw=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String(($meta.content -replace '\s','')))
       $authority=$raw | ConvertFrom-Json
       if($authority.authority -eq 'atlas-host' -and $authority.nodeId -eq $status.nodeId){$authorityHealthy=$true;break}
