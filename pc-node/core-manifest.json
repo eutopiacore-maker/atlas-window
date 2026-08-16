@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "version": "0.1.0",
+  "generation": 1,
+  "minimumBootstrap": "0.1.0",
+  "files": [
+    {
+      "source": "pc-node/runtime/supervisor.js",
+      "target": "supervisor.js",
+      "gitBlobSha": "9587ff56e96ca3f07a9794ddeaa0025823a2eed4"
+    },
+    {
+      "source": "pc-node/runtime/world-runtime.js",
+      "target": "world-runtime.js",
+      "gitBlobSha": "9a25887921d3be908b29118059be36ae147b6b9e"
+    },
+    {
+      "source": "pc-node/runtime/run-supervisor.ps1",
+      "target": "run-supervisor.ps1",
+      "gitBlobSha": "9c4cabd805f5fdc2ec30181e72fa7ecab65b7e57"
+    }
+  ],
+  "activation": {
+    "strategy": "inactive-slot-then-health-check",
+    "rollback": "last-known-good",
+    "restartCode": 75
+  }
+}
