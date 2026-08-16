@@ -11,6 +11,7 @@
     {"source":"pc-node/runtime/virtual-runner.js","target":"virtual-runner.js","gitBlobSha":"11de2d9b9056ac022d412548e71eb5b586243d02"},
     {"source":"pc-node/runtime/addon-manager.js","target":"addon-manager.js","gitBlobSha":"52a2fe8d03884ee2ad3f0c4a40c4aa72d35e788a"}
   ],
+  "launcher": {"source":"pc-node/runtime/run-supervisor.ps1","gitBlobSha":"9c4cabd805f5fdc2ec30181e72fa7ecab65b7e57"},
   "activation": {
     "strategy": "inactive-slot-then-health-check",
     "rollback": "last-known-good",
