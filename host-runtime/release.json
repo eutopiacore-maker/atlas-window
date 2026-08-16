@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "version": "0.1.0",
+  "channel": "main",
+  "minimumNodeMajor": 22,
+  "files": [
+    {
+      "path": "atlas-host.js",
+      "source": "host-runtime/atlas-host.js",
+      "sha256": "6c203b6a5c386cbfde2ba5404f6ba57c9843fb2e0ff7d8cfc75584b92345d826"
+    },
+    {
+      "path": "world-shim.js",
+      "source": "host-runtime/world-shim.js",
+      "sha256": "85ddfcc20e2b4e6853bead831583afaeea9a64cf7a4baea3018e16b4dcc8d312"
+    },
+    {
+      "path": "world-runner.js",
+      "source": "host-runtime/world-runner.js",
+      "sha256": "4166ceb48f791296e59b34b5e3693fa1cdf00d57175ee1709cd01ecb08ef80e2"
+    }
+  ],
+  "launcher": {
+    "source": "host-runtime/launcher.ps1",
+    "sha256": "eb0ad2b3ecd44e0fedae045b63be67734c377af3721871bf9f4e961a76a242d2"
+  },
+  "ui": {
+    "source": "host-runtime/ui/host.html",
+    "sha256": "2236829dc392c3fa9b53ad7505d9c15970b7a8d14f357a14ef5e2a9821a5e750"
+  }
+}
