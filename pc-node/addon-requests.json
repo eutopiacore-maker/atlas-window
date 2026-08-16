@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "generation": 1,
+  "requested": [],
+  "rule": "Atlas Host may install only catalogued, manifest-backed, hash-verified add-ons. Unknown IDs remain pending and are never executed as arbitrary commands."
+}
