@@ -5,7 +5,7 @@
   "minimumBootstrap": "0.1.0",
   "files": [
     {"source":"pc-node/runtime/supervisor.js","target":"supervisor.js","gitBlobSha":"7a0c3f64acbf381aa5a64155322b867102555a5b"},
-    {"source":"pc-node/runtime/world-runtime.js","target":"world-runtime.js","gitBlobSha":"b83840bc91765ddb6cf77e77bf356b363b58cb6b"},
+    {"source":"pc-node/runtime/world-runtime.js","target":"world-runtime.js","gitBlobSha":"266f68fcf766e74612d661a185adb8c6bcbd6937"},
     {"source":"pc-node/runtime/world-runner.js","target":"world-runner.js","gitBlobSha":"dfb02a2f4bea5b9e8773d26675c71983f9ac5678"},
     {"source":"pc-node/runtime/world-shim.js","target":"world-shim.js","gitBlobSha":"594d78dd58faeeebb9dcba566d6a0bee232e3345"},
     {"source":"pc-node/runtime/virtual-runner.js","target":"virtual-runner.js","gitBlobSha":"11de2d9b9056ac022d412548e71eb5b586243d02"},
