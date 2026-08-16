@@ -191,7 +191,7 @@ async function publishTelemetry(event = 'heartbeat', extra = {}) {
   try {
     await fetchBuffer(`https://ntfy.sh/${encodeURIComponent(topic)}`, {
       method: 'POST', timeoutMs: 7000,
-      headers: { 'Content-Type': 'application/json', 'Title': `Atlas ${event}`, 'Tags': 'computer' },
+      headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Title': `Atlas ${event}`, 'Tags': 'computer' },
       body: Buffer.from(JSON.stringify(payload)),
     });
   } catch (e) { /* telemetry is never allowed to break the host */ }
@@ -519,7 +519,7 @@ function scheduleLoops() {
   if (TEST_MODE) return;
   setInterval(() => syncControlPlane().catch(() => {}), Number(desiredState?.updates?.pollSeconds || 20) * 1000).unref();
   setInterval(() => runWorldCycle({ reason: 'clock' }).catch(() => {}), 15 * 60 * 1000).unref();
-  setInterval(() => { hardware = detectHardware().catch(() => hardware); persistStatus(); }, 5 * 60 * 1000).unref();
+  setInterval(async () => { try { hardware = await detectHardware(); persistStatus(); } catch {} }, 5 * 60 * 1000).unref();
   setInterval(() => publishTelemetry('heartbeat').catch(() => {}), 5 * 60 * 1000).unref();
 }
 
