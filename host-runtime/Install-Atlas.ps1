@@ -106,7 +106,7 @@ try {
   Verify-Sha256 $uiFile $rel.ui.sha256
 
   Log 'Installing local Eutopia world assets'
-  $worldAssets=@('world-engine.js','geodata-node.js','regional-nature-node.js','landscape-phase.js','world.html','index.html','dynamics.html','dynamics.js','appearance.html','appearance-scene.js','appearance-decoder.json')
+  $worldAssets=@('world-engine.js','geodata-node.js','regional-nature-node.js','landscape-phase.js','nature-source-registry.json','world.html','index.html','dynamics.html','dynamics.js','appearance.html','appearance-scene.js','appearance-decoder.json')
   foreach($name in $worldAssets){ Download "$RepoRaw/$name" (Join-Path $WorldDir $name) }
   if(-not (Test-Path (Join-Path $WorldDir 'world-state.json'))){ Download "$RepoRaw/world-state.json" (Join-Path $WorldDir 'world-state.json') }
   New-Item -ItemType Directory -Force -Path (Join-Path $WorldDir 'vendor') | Out-Null
