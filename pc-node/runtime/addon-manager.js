@@ -25,12 +25,13 @@ function saveRegistry(r){atomic(REGISTRY,JSON.stringify(r,null,2))}
 function setStatus(x){atomic(STATUS,JSON.stringify({schema:1,updatedAt:new Date().toISOString(),...x},null,2))}
 
 async function loadInputs(){
-  let desired=readJson(path.join(STATE,'desired-state.json'),{}),catalog=null;
+  let desired=readJson(path.join(STATE,'desired-state.json'),{}),catalog=null,remote={requested:[]};
   try{desired=JSON.parse((await repoText('pc-node/desired-state.json')).text);atomic(path.join(STATE,'desired-state.json'),JSON.stringify(desired,null,2))}catch{}
   try{catalog=JSON.parse((await repoText('addons/catalog.json')).text)}catch{catalog=readJson(path.join(ROOT,'web','addons-catalog.json'),{addons:[]})}
+  try{remote=JSON.parse((await repoText('pc-node/addon-requests.json')).text);atomic(path.join(STATE,'addon-requests.remote.json'),JSON.stringify(remote,null,2))}catch{remote=readJson(path.join(STATE,'addon-requests.remote.json'),{requested:[]})}
   const local=readJson(path.join(STATE,'local-addon-requests.json'),{requested:[]});
-  const requested=[...new Set([...(desired?.addons?.requested||[]),...(local.requested||[])])];
-  return{desired,catalog,local,requested};
+  const requested=[...new Set([...(desired?.addons?.requested||[]),...(remote.requested||[]),...(local.requested||[])])];
+  return{desired,catalog,local,remote,requested};
 }
 
 async function installOne(id,catalog,stack=new Set()){
@@ -43,7 +44,6 @@ async function installOne(id,catalog,stack=new Set()){
   const manifest=JSON.parse((await repoText(entry.manifest)).text);
   if(manifest.id!==id||manifest.version!==entry.version)throw Error(`manifest identity mismatch for ${id}`);
   for(const dep of manifest.dependencies||[])await installOne(dep,catalog,new Set(stack));
-
   const base=path.join(ADDONS,id),stage=base+'.staging-'+Date.now(),target=path.join(base,manifest.version);
   fs.rmSync(stage,{recursive:true,force:true});fs.mkdirSync(stage,{recursive:true});
   try{
@@ -62,20 +62,20 @@ async function installOne(id,catalog,stack=new Set()){
 }
 
 async function cycle(){
-  const {catalog,local,requested}=await loadInputs();
+  const {catalog,local,remote,requested}=await loadInputs();
   const results=[];
   for(const id of requested){try{const x=await installOne(id,catalog);results.push({id,state:'installed',version:x.version})}catch(e){results.push({id,state:'waiting-or-failed',error:e.message})}}
-  const installed=registry();
-  const done=new Set(Object.keys(installed.addons||{}));
+  const installed=registry(),done=new Set(Object.keys(installed.addons||{}));
   const remain=(local.requested||[]).filter(id=>!done.has(id));
   atomic(path.join(STATE,'local-addon-requests.json'),JSON.stringify({requested:remain},null,2));
-  setStatus({state:'IDLE',requested,results,installed:installed.addons});
+  setStatus({state:'IDLE',requested,remoteGeneration:remote.generation||null,results,installed:installed.addons});
 }
 
 async function selfTest(){
-  const t=fs.mkdtempSync(path.join(os.tmpdir(),'atlas-addon-'));
-  const r={schema:1,addons:{x:{version:'1',healthy:true}}};
-  const f=path.join(t,'r.json');fs.writeFileSync(f,JSON.stringify(r));if(readJson(f,{}).addons.x.version!=='1')throw Error('registry test failed');fs.rmSync(t,{recursive:true,force:true});console.log('Atlas add-on manager self-test OK')
+  const t=fs.mkdtempSync(path.join(os.tmpdir(),'atlas-addon-')),f=path.join(t,'r.json');
+  fs.writeFileSync(f,JSON.stringify({schema:1,addons:{x:{version:'1',healthy:true}}}));
+  if(readJson(f,{}).addons.x.version!=='1')throw Error('registry test failed');
+  fs.rmSync(t,{recursive:true,force:true});console.log('Atlas add-on manager self-test OK')
 }
 async function daemon(){while(true){try{await cycle()}catch(e){setStatus({state:'ERROR',error:e.message})}await new Promise(r=>setTimeout(r,30000))}}
 if(process.argv.includes('--self-test'))selfTest().catch(e=>{console.error(e);process.exit(1)});else if(process.argv.includes('--daemon'))daemon();else cycle().catch(e=>{console.error(e);process.exit(1)});
