@@ -1,18 +1,18 @@
 {
   "schema": 1,
-  "version": "0.1.4",
-  "generation": 5,
+  "version": "0.1.5",
+  "generation": 6,
   "minimumBootstrap": "0.1.0",
   "files": [
     {
       "source": "pc-node/runtime/supervisor.js",
       "target": "supervisor.js",
-      "gitBlobSha": "599a622c5c7efa389ca509306c588a94ece89cf9"
+      "gitBlobSha": "0b1252cdf866f72eb7edc9a5159e3a08d56082af"
     },
     {
       "source": "pc-node/runtime/world-runtime.js",
       "target": "world-runtime.js",
-      "gitBlobSha": "37a60a47671a16a5d3df6c86ff068590c4024013"
+      "gitBlobSha": "921ec239b2a093b4b3ada6f2c20d29142687d580"
     },
     {
       "source": "pc-node/runtime/addon-manager.js",
