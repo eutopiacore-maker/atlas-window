@@ -17,12 +17,12 @@
     {
       "path": "world-runner.js",
       "source": "host-runtime/world-runner.js",
-      "sha256": "69232af70c21d4f928830239189c7c43eb5a902f5d602758fb8f5d57e174a732"
+      "sha256": "09fd256dc61dfb4b01b01622c1d8832dd10d4c88056a76a7598b0368be682379"
     },
     {
       "path": "virtual-runner.js",
       "source": "host-runtime/virtual-runner.js",
-      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      "sha256": "92017f0446a895092ddfa955e1ee2c9b3baf5034542857b14340f052b7e7b00f"
     }
   ],
   "launcher": {
