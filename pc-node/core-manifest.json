@@ -1,13 +1,13 @@
 {
   "schema": 1,
-  "version": "0.1.3",
-  "generation": 4,
+  "version": "0.1.4",
+  "generation": 5,
   "minimumBootstrap": "0.1.0",
   "files": [
     {
       "source": "pc-node/runtime/supervisor.js",
       "target": "supervisor.js",
-      "gitBlobSha": "f84ebc7b8ab7e7f92c153776fa452d579539fe4c"
+      "gitBlobSha": "599a622c5c7efa389ca509306c588a94ece89cf9"
     },
     {
       "source": "pc-node/runtime/world-runtime.js",
