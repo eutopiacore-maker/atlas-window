@@ -1,50 +1,94 @@
 name: Atlas Host CI
+
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - 'host-runtime/**'
+      - 'pc-node/runtime/**'
+      - 'pc-node/bootstrap/**'
+      - 'pc-node/tests/**'
+      - 'pc-node/core-manifest.json'
+      - 'pc-node/world-manifest.json'
+      - 'pc-node/world-authority.json'
+      - 'pc-node/addon-requests.json'
       - 'addons/**'
-      - 'pc-node/**'
       - 'world-engine.js'
+      - 'geodata-node.js'
       - 'regional-nature-node.js'
       - 'landscape-phase.js'
       - 'nature-source-registry.json'
+      - 'appearance-scene.js'
+      - '.github/workflows/world-heartbeat.yml'
       - '.github/workflows/atlas-host-ci.yml'
-  workflow_dispatch:
+
 permissions:
   contents: read
+
+concurrency:
+  group: atlas-host-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  node-tests:
+  integrity:
+    name: Runtime and manifest integrity (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate Atlas Host repository
+        run: node pc-node/tests/validate-repo.js
+
+  world-offline:
+    name: Deterministic offline world smoke
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
-      - run: node host-runtime/test/smoke.js
-      - run: node host-runtime/test/world-offline-smoke.js
-      - run: node host-runtime/test/contracts.js
-      - run: node --check host-runtime/atlas-host.js
-      - run: node --check host-runtime/world-shim.js
-      - run: node --check host-runtime/world-runner.js
-  windows-contract:
+          node-version: 22
+      - name: Run one virtual-clock causal step without network
+        shell: bash
+        run: |
+          set -euo pipefail
+          TMP="$RUNNER_TEMP/atlas-world"
+          mkdir -p "$TMP"
+          cp world-state.json world-engine.js geodata-node.js regional-nature-node.js landscape-phase.js nature-source-registry.json "$TMP/"
+          BEFORE=$(node -e "const w=require('$TMP/world-state.json'); console.log(JSON.stringify({cycle:w.cycle,updatedAt:w.updatedAt}))")
+          TARGET=$(node -e "const w=require('$TMP/world-state.json'); console.log(new Date(new Date(w.updatedAt).getTime()+60000).toISOString())")
+          ATLAS_WORLD_DIR="$TMP" ATLAS_TARGET_TIME="$TARGET" ATLAS_TIME_SCALE=1 ATLAS_OFFLINE=1 node pc-node/runtime/world-runner.js > "$TMP/result.json"
+          node - <<'NODE' "$TMP" "$BEFORE" "$TARGET"
+          const fs=require('fs');
+          const dir=process.argv[2], before=JSON.parse(process.argv[3]), target=process.argv[4];
+          const after=JSON.parse(fs.readFileSync(dir+'/world-state.json','utf8'));
+          if(!(after.cycle>before.cycle)) throw Error('world cycle did not advance');
+          if(new Date(after.updatedAt).getTime()!==new Date(target).getTime()) throw Error(`virtual clock mismatch ${after.updatedAt} != ${target}`);
+          console.log('Offline causal step OK', before.cycle, '->', after.cycle, after.updatedAt);
+          NODE
+
+  windows-bootstrap:
+    name: Windows bootstrap preflight
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-      - name: Node smoke on Windows
-        run: node host-runtime/test/smoke.js
-      - name: Offline world smoke on Windows
-        run: node host-runtime/test/world-offline-smoke.js
-      - name: Parse PowerShell bootstrap and launcher
+      - name: Parse bootstrap script
         shell: powershell
         run: |
-          $files = @('host-runtime/Install-Atlas.ps1','host-runtime/launcher.ps1')
-          foreach($file in $files){
-            $tokens=$null; $errors=$null
-            [void][System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $file),[ref]$tokens,[ref]$errors)
-            if($errors.Count -gt 0){ $errors | Format-List | Out-String | Write-Error; exit 1 }
-          }
+          $tokens=$null; $errors=$null
+          [void][System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path 'pc-node/bootstrap/Install-AtlasHost.ps1'),[ref]$tokens,[ref]$errors)
+          if($errors.Count -gt 0){ $errors | Format-List | Out-String | Write-Error; exit 1 }
+      - name: Bootstrap dry run
+        shell: powershell
+        run: ./pc-node/bootstrap/Install-AtlasHost.ps1 -DryRun
+      - name: Validate single-file launcher contract
+        shell: powershell
+        run: |
+          $cmd=Get-Content 'pc-node/bootstrap/Atlas-Setup.cmd' -Raw
+          if($cmd -notmatch 'Install-AtlasHost\.ps1'){ throw 'Launcher does not point to bootstrap' }
+          if($cmd -notmatch 'raw\.githubusercontent\.com'){ throw 'Launcher source is unexpected' }
