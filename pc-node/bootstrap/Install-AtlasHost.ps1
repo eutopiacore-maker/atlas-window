@@ -5,7 +5,8 @@ $Repo='eutopiacore-maker/atlas-window'
 $Root='C:\ProgramData\AtlasHost'
 $Raw="https://raw.githubusercontent.com/$Repo/main"
 $TaskName='Atlas Host Supervisor'
-$BootstrapVersion='0.1.1'
+$BootstrapVersion='0.1.5'
+$BootstrapGeneration=6
 
 function Is-Admin {
   $id=[Security.Principal.WindowsIdentity]::GetCurrent()
@@ -19,7 +20,8 @@ function RawFile([string]$repoPath,[string]$out){ Download "$Raw/$repoPath" $out
 
 if($DryRun){
   if($PSVersionTable.PSVersion.Major -lt 5){ throw 'PowerShell 5+ required' }
-  Say 'Dry-run OK: bootstrap syntax and Windows plan are valid.'
+  if($env:OS -and $env:OS -ne 'Windows_NT'){ throw 'Atlas Host bootstrap currently targets Windows' }
+  Say "Dry-run OK: bootstrap $BootstrapVersion syntax and Windows plan are valid."
   exit 0
 }
 
@@ -33,7 +35,7 @@ if(-not(Is-Admin)){
 $dirs=@('bootstrap','toolchains','slots\A','slots\B','rescue','state','secrets','logs','cache','web','world','addons')
 foreach($d in $dirs){ Ensure-Dir (Join-Path $Root $d) }
 $txn=Join-Path $Root 'state\bootstrap-transaction.json'
-@{startedAt=[DateTime]::UtcNow.ToString('o');state='installing';version=$BootstrapVersion} | ConvertTo-Json | Set-Content -Encoding UTF8 $txn
+@{startedAt=[DateTime]::UtcNow.ToString('o');state='installing';version=$BootstrapVersion;generation=$BootstrapGeneration} | ConvertTo-Json | Set-Content -Encoding UTF8 $txn
 
 try{
   Say 'Instalando el runtime base según el hardware de esta PC…'
@@ -61,7 +63,7 @@ try{
   $ghExe=(Get-ChildItem $ghStage -Filter gh.exe -Recurse | Select-Object -First 1).FullName; if(-not $ghExe){ throw 'GitHub CLI extraction failed' }
 
   Say 'GitHub se abrirá una sola vez para autorizar este nodo. Después Atlas opera sin pedirte instalaciones técnicas.'
-  & $ghExe auth login --hostname github.com --git-protocol https --web --scopes public_repo
+  & $ghExe auth login --hostname github.com --git-protocol https --web
   if($LASTEXITCODE -ne 0){ throw 'GitHub enrollment was not completed' }
   $token=(& $ghExe auth token).Trim(); if(-not $token){ throw 'GitHub token unavailable after enrollment' }
   $env:GH_TOKEN=$token; & $ghExe api "repos/$Repo" | Out-Null; if($LASTEXITCODE -ne 0){ throw 'The enrolled GitHub account cannot access the Atlas repository' }
@@ -75,7 +77,7 @@ try{
   Say 'Instalando supervisor, mundo persistente y sistema de Add-ons…'
   $slotA=Join-Path $Root 'slots\A'; Remove-Item "$slotA\*" -Recurse -Force -ErrorAction SilentlyContinue
   foreach($f in @('supervisor.js','world-runtime.js','addon-manager.js')){ RawFile "pc-node/runtime/$f" (Join-Path $slotA $f) }
-  @{version='0.1.1';generation=2;installedAt=[DateTime]::UtcNow.ToString('o')} | ConvertTo-Json | Set-Content -Encoding UTF8 (Join-Path $slotA 'version.json')
+  @{version=$BootstrapVersion;generation=$BootstrapGeneration;installedAt=[DateTime]::UtcNow.ToString('o')} | ConvertTo-Json | Set-Content -Encoding UTF8 (Join-Path $slotA 'version.json')
   $stableLauncher=Join-Path $Root 'bootstrap\run-supervisor.ps1'; RawFile 'pc-node/runtime/run-supervisor.ps1' $stableLauncher
   Remove-Item (Join-Path $Root 'rescue\*') -Recurse -Force -ErrorAction SilentlyContinue; Copy-Item "$slotA\*" (Join-Path $Root 'rescue') -Recurse -Force
   'A' | Set-Content -Encoding ASCII (Join-Path $Root 'state\active-slot.txt'); 'A' | Set-Content -Encoding ASCII (Join-Path $Root 'state\last-known-good-slot.txt')
@@ -117,13 +119,27 @@ try{
   for($i=0;$i -lt 90;$i++){ Start-Sleep 1; try{$s=Invoke-RestMethod -UseBasicParsing 'http://127.0.0.1:8765/api/status' -TimeoutSec 2;if($s.world.state -in @('IDLE','RUNNING','CATCHING_UP','WAITING_NETWORK')){$worldHealthy=$true;break}}catch{} }
   if(-not $worldHealthy){ throw 'Persistent world runtime did not become healthy' }
 
-  @{startedAt=(Get-Content $txn -Raw | ConvertFrom-Json).startedAt;completedAt=[DateTime]::UtcNow.ToString('o');state='installed';version=$BootstrapVersion;nodeId=$status.nodeId;validated=@('supervisor','world-runtime','addon-install')} | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 $txn
+  Say 'Confirmando el traspaso del reloj causal para evitar dos mundos escribiendo a la vez…'
+  $authorityHealthy=$false
+  $headers=@{'Authorization'="Bearer $token";'Accept'='application/vnd.github+json';'User-Agent'='Atlas-Bootstrap'}
+  for($i=0;$i -lt 60;$i++){
+    Start-Sleep 1
+    try{
+      $meta=Invoke-RestMethod -Headers $headers -Uri "https://api.github.com/repos/$Repo/contents/pc-node/world-authority.json?ref=main"
+      $raw=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String(($meta.content -replace '\s','')))
+      $authority=$raw | ConvertFrom-Json
+      if($authority.authority -eq 'atlas-host' -and $authority.nodeId -eq $status.nodeId){$authorityHealthy=$true;break}
+    }catch{}
+  }
+  if(-not $authorityHealthy){ throw 'Causal authority handoff was not confirmed' }
+
+  @{startedAt=(Get-Content $txn -Raw | ConvertFrom-Json).startedAt;completedAt=[DateTime]::UtcNow.ToString('o');state='installed';version=$BootstrapVersion;generation=$BootstrapGeneration;nodeId=$status.nodeId;validated=@('supervisor','world-runtime','causal-authority','addon-install')} | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 $txn
   Say 'Atlas Host quedó instalado y validado.'
   Start-Process $lnkPath
 }
 catch{
   Say "La instalación no pasó sus pruebas: $($_.Exception.Message)"
   try{ Stop-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue; Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false -ErrorAction SilentlyContinue }catch{}
-  @{failedAt=[DateTime]::UtcNow.ToString('o');state='failed';error=$_.Exception.Message;version=$BootstrapVersion} | ConvertTo-Json | Set-Content -Encoding UTF8 $txn
+  @{failedAt=[DateTime]::UtcNow.ToString('o');state='failed';error=$_.Exception.Message;version=$BootstrapVersion;generation=$BootstrapGeneration} | ConvertTo-Json | Set-Content -Encoding UTF8 $txn
   throw
 }
