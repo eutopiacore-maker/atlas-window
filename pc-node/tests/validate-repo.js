@@ -2,7 +2,6 @@
 
 const fs=require('fs');
 const path=require('path');
-const crypto=require('crypto');
 const {spawnSync}=require('child_process');
 
 const ROOT=path.resolve(__dirname,'../..');
@@ -12,8 +11,8 @@ const text=p=>read(p).toString('utf8');
 const json=p=>JSON.parse(text(p));
 const exists=p=>fs.existsSync(path.join(ROOT,p));
 const fail=m=>{throw new Error(m)};
-function blobSha(buf){const head=Buffer.from(`blob ${buf.length}\0`);return crypto.createHash('sha1').update(Buffer.concat([head,buf])).digest('hex')}
-function assertBlob(p,sha){if(!exists(p))fail(`missing ${p}`);const got=blobSha(read(p));if(got!==sha)fail(`blob SHA mismatch ${p}: ${got} != ${sha}`)}
+function repoBlobSha(p){const r=spawnSync('git',['rev-parse',`HEAD:${p.replace(/\\/g,'/')}`],{cwd:ROOT,encoding:'utf8'});if(r.status!==0)fail(`cannot resolve repository blob ${p}: ${r.stderr||r.stdout}`);return r.stdout.trim()}
+function assertBlob(p,sha){if(!exists(p))fail(`missing ${p}`);const got=repoBlobSha(p);if(got!==sha)fail(`blob SHA mismatch ${p}: ${got} != ${sha}`)}
 function checkJs(p){const r=spawnSync(process.execPath,['--check',path.join(ROOT,p)],{encoding:'utf8'});if(r.status!==0)fail(`${p} syntax: ${r.stderr||r.stdout}`)}
 function selfTest(p){const r=spawnSync(process.execPath,[path.join(ROOT,p),'--self-test'],{encoding:'utf8',timeout:30000,env:{...process.env,ATLAS_ROOT:TEST_ROOT}});if(r.status!==0)fail(`${p} self-test: ${r.stderr||r.stdout}`)}
 
@@ -81,7 +80,7 @@ try{
   if(!supervisor.includes('remoteStatus()'))fail('remote telemetry sanitizer missing');
   if(supervisor.includes("putRepoText(`pc-node/nodes/${ID}.json`,JSON.stringify(local"))fail('full local status may be published remotely');
   if(!supervisor.includes("path.join(WEB,'vendor','three.module.js')"))fail('offline Three.js cache missing');
-  if(!text('pc-node/runtime/addon-manager.js').includes("pc-node/addon-requests.json"))fail('remote add-on request queue not wired');
+  if(!text('pc-node/runtime/addon-manager.js').includes('pc-node/addon-requests.json'))fail('remote add-on request queue not wired');
 
   const scene=text('appearance-scene.js');
   for(const m of scene.matchAll(/(?:import\s+(?:[^'\"]+from\s+)?|import\()\s*['\"](\.\/[^'\"]+)['\"]/g)){
