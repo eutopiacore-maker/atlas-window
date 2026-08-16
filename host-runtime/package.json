@@ -1,0 +1,9 @@
+{
+  "name": "atlas-host-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Autonomous local capability host for Atlas / Eutopia",
+  "main": "atlas-host.js",
+  "scripts": { "test": "node test/smoke.js" },
+  "engines": { "node": ">=22" }
+}
