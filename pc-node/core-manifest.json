@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": "0.1.1",
-  "generation": 2,
+  "version": "0.1.2",
+  "generation": 3,
   "minimumBootstrap": "0.1.0",
   "files": [
     {
@@ -17,7 +17,7 @@
     {
       "source": "pc-node/runtime/addon-manager.js",
       "target": "addon-manager.js",
-      "gitBlobSha": "253e640cc5c9f57f76b353fdc4e49f62786b954e"
+      "gitBlobSha": "52a2fe8d03884ee2ad3f0c4a40c4aa72d35e788a"
     }
   ],
   "activation": {
