@@ -1,13 +1,13 @@
 {
   "schema": 1,
-  "version": "0.1.0",
-  "generation": 1,
+  "version": "0.1.1",
+  "generation": 2,
   "minimumBootstrap": "0.1.0",
   "files": [
     {
       "source": "pc-node/runtime/supervisor.js",
       "target": "supervisor.js",
-      "gitBlobSha": "9587ff56e96ca3f07a9794ddeaa0025823a2eed4"
+      "gitBlobSha": "f84ebc7b8ab7e7f92c153776fa452d579539fe4c"
     },
     {
       "source": "pc-node/runtime/world-runtime.js",
@@ -15,14 +15,15 @@
       "gitBlobSha": "9a25887921d3be908b29118059be36ae147b6b9e"
     },
     {
-      "source": "pc-node/runtime/run-supervisor.ps1",
-      "target": "run-supervisor.ps1",
-      "gitBlobSha": "9c4cabd805f5fdc2ec30181e72fa7ecab65b7e57"
+      "source": "pc-node/runtime/addon-manager.js",
+      "target": "addon-manager.js",
+      "gitBlobSha": "253e640cc5c9f57f76b353fdc4e49f62786b954e"
     }
   ],
   "activation": {
     "strategy": "inactive-slot-then-health-check",
     "rollback": "last-known-good",
-    "restartCode": 75
+    "restartCode": 75,
+    "requiredSelfTests": ["supervisor", "world-runtime", "addon-manager"]
   }
 }
