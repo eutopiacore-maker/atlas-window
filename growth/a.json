@@ -1,1 +1,1 @@
-{"engine":"A","focus":"INTELLIGENCE","status":"ACTIVE","receipt":"Atlas ahora detecta cuando dos estrategias incompatibles han sido promovidas al mismo tiempo y profundiza el razonamiento en vez de tratarlas como certeza compatible.","updatedAt":"2026-08-31T10:19:04Z"}
+{"engine":"A","focus":"INTELLIGENCE","status":"ACTIVE","receipt":"Atlas ahora impide que evidencia de una estrategia anterior valide automáticamente una decisión nueva con significado distinto, y exige respaldo propio antes de responder directo.","updatedAt":"2026-08-31T11:17:59Z"}
