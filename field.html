@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050807">
+<title>Atlas · Field</title>
+<style>
+:root{--bg:#050807;--panel:rgba(13,20,17,.72);--panel2:rgba(18,28,23,.58);--line:rgba(239,189,104,.18);--gold:#efbd68;--text:#f3f4f1;--muted:#8f9993;--green:#8fe0b0}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% -10%,#173326 0,#0b1611 28%,#050807 65%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}body{min-height:100svh;overflow-x:hidden}
+.noise{position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:radial-gradient(rgba(255,255,255,.12) .45px,transparent .45px);background-size:4px 4px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.55),transparent 70%)}
+.wrap{width:min(1120px,100%);margin:auto;padding:max(74px,env(safe-area-inset-top)) 22px max(44px,env(safe-area-inset-bottom))}
+.hero{min-height:38svh;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 4px 36px}.eyebrow{font-size:11px;letter-spacing:.24em;color:var(--gold);text-transform:uppercase;margin-bottom:14px}.title{font-size:clamp(52px,12vw,118px);line-height:.83;letter-spacing:-.065em;font-weight:650;margin:0}.title span{color:transparent;-webkit-text-stroke:1px rgba(239,189,104,.5)}.statement{max-width:650px;margin:24px 0 0;color:#bdc5c0;font-size:clamp(17px,2.3vw,24px);line-height:1.38;font-weight:420}.statement b{color:#fff;font-weight:560}
+.statusbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:rgba(7,12,10,.55);backdrop-filter:blur(14px);padding:9px 12px;border-radius:999px;font-size:11px;letter-spacing:.08em;color:#c7cec9;text-transform:uppercase}.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 14px rgba(143,224,176,.7);animation:pulse 2.4s ease-in-out infinite}@keyframes pulse{50%{opacity:.4;box-shadow:0 0 5px rgba(143,224,176,.2)}}
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:24px 4px 14px}.section-head h2{margin:0;font-size:15px;letter-spacing:.12em;text-transform:uppercase;font-weight:560}.section-head p{margin:0;color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.card{position:relative;min-height:210px;border:1px solid rgba(255,255,255,.08);border-radius:22px;background:linear-gradient(160deg,var(--panel),var(--panel2));backdrop-filter:blur(18px);padding:18px;overflow:hidden}.card:after{content:"";position:absolute;inset:auto -20% -55% 25%;height:140px;background:radial-gradient(circle,rgba(239,189,104,.13),transparent 68%);pointer-events:none}.engine{font-size:10px;letter-spacing:.17em;color:var(--muted);text-transform:uppercase}.focus{font-size:20px;letter-spacing:-.03em;font-weight:580;margin:8px 0 24px}.state{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:8px}.receipt{font-size:13px;line-height:1.42;color:#b4bdb7;min-height:56px}.updated{position:absolute;left:18px;bottom:16px;font-size:10px;color:#6f7873;letter-spacing:.04em}
+.truth{margin-top:10px;border:1px solid rgba(255,255,255,.07);border-radius:22px;background:rgba(6,11,9,.64);padding:18px 20px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}.truth strong{display:block;font-size:14px;margin-bottom:6px}.truth span{font-size:12px;color:var(--muted);line-height:1.45}.mark{font-size:11px;color:var(--gold);letter-spacing:.15em;white-space:nowrap}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.grid .card:last-child{grid-column:1/-1}.hero{min-height:34svh}}@media(max-width:560px){.wrap{padding-left:14px;padding-right:14px}.grid{grid-template-columns:1fr}.grid .card:last-child{grid-column:auto}.card{min-height:170px}.truth{grid-template-columns:1fr}.mark{margin-top:4px}.section-head p{display:none}.hero{padding-bottom:28px}.title{font-size:62px}}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<main class="wrap">
+<section class="hero">
+<div class="eyebrow">ATLAS · CANONICAL SURFACE</div>
+<h1 class="title">FIELD<span>.</span></h1>
+<p class="statement">Atlas ya no está detrás de un dashboard viejo. <b>Field es Atlas.</b> Esta ventana existe para que el progreso vuelva a ser algo que puedas ver, no solamente algo que te cuenten.</p>
+<div class="statusbar"><div class="pill"><span class="dot"></span> Field activo</div><div class="pill">Migración completa</div><div class="pill">5 motores de crecimiento</div></div>
+</section>
+<div class="section-head"><h2>Crecimiento vivo</h2><p>Solo aparecen recibos verificados. Sin porcentajes teatrales.</p></div>
+<section class="grid" id="engines"></section>
+<section class="truth"><div><strong>Regla de visibilidad</strong><span>Un motor no puede llamar “progreso” a una idea, un plan o un cambio sin verificar. Cada avance visible debe dejar un recibo concreto aquí.</span></div><div class="mark">TRUTH → RECEIPT</div></section>
+</main>
+<script>
+const defs=[['A','INTELLIGENCE'],['B','MEMORY'],['C','SKILLS'],['D','PERFORMANCE'],['E','WORLD']];
+const root=document.getElementById('engines');
+function safe(v,f){return typeof v==='string'&&v.trim()?v.trim():f}
+function card(letter,focus,data){const el=document.createElement('article');el.className='card';const when=data&&data.updatedAt?new Date(data.updatedAt).toLocaleString('es-PA',{dateStyle:'medium',timeStyle:'short'}):'sin recibo aún';el.innerHTML=`<div class="engine">MOTOR ${letter}</div><div class="focus">${focus}</div><div class="state">${safe(data&&data.status,'ACTIVO')}</div><div class="receipt">${safe(data&&data.receipt,'Esperando el primer cambio verificado de este motor.')}</div><div class="updated">${when}</div>`;return el}
+Promise.all(defs.map(async([l,f])=>{try{const r=await fetch(`growth/${l.toLowerCase()}.json?v=${Date.now()}`,{cache:'no-store'});return[l,f,r.ok?await r.json():{}]}catch{return[l,f,{}]}})).then(rows=>rows.forEach(([l,f,d])=>root.appendChild(card(l,f,d))));
+</script>
+</body>
+</html>
