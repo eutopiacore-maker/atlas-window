@@ -1,1 +1,1 @@
-{"engine":"A","focus":"INTELLIGENCE","status":"ACTIVE","receipt":"Atlas ahora impide que evidencia de una estrategia anterior valide automáticamente una decisión nueva con significado distinto, y exige respaldo propio antes de responder directo.","updatedAt":"2026-08-31T11:17:59Z"}
+{"engine":"A","focus":"INTELLIGENCE","status":"ACTIVE","receipt":"Atlas conserva los rollbacks como historia causal, pero ya no deja que una estrategia revertida fuerce conflicto activo cuando una estrategia nueva tiene respaldo propio.","updatedAt":"2026-08-31T12:36:00Z"}
