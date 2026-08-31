@@ -1,1 +1,1 @@
-{"engine":"A","focus":"INTELLIGENCE","status":"ACTIVE","receipt":"Atlas ahora evalúa una estrategia nueva solo contra su propia expectativa y sus propias observaciones, sin heredar predicciones de una estrategia causal anterior.","updatedAt":"2026-08-31T14:25:00Z"}
+{"engine":"A","focus":"INTELLIGENCE","status":"ACTIVE","receipt":"Atlas ya no trata una observación con confianza cero o inválida como evidencia suficiente para respaldar una decisión; en esos casos exige profundizar antes de responder directo.","updatedAt":"2026-08-31T15:32:00Z"}
