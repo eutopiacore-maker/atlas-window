@@ -1,0 +1,2 @@
+route_id,sample_id,timestamp_local,lat,lon,location_note,walking_surface,shade_present,shade_source,shade_covers_walking_line,crossing_wait_shade,obstruction,photo_ref,observer_note
+atlas-demo-route,1,2026-09-01T12:00:00-05:00,,,Example start,sidewalk,no,none,no,n-a,none,,Replace this demo row with a real observation
