@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ATLAS // Shade Field Recorder v0.1</title>
+<style>
+:root{font-family:system-ui,sans-serif;color-scheme:light dark}body{max-width:760px;margin:auto;padding:20px}h1{letter-spacing:.04em}label{display:block;margin:12px 0 4px}input,select,textarea,button{font:inherit;width:100%;box-sizing:border-box;padding:10px}button{margin-top:12px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{border:1px solid #8886;border-radius:12px;padding:14px;margin:14px 0}.muted{opacity:.72;font-size:.9rem}.ok{font-weight:700}.danger{font-weight:700}table{width:100%;border-collapse:collapse;font-size:.85rem}th,td{border-bottom:1px solid #8885;padding:6px;text-align:left}@media(max-width:600px){.row{grid-template-columns:1fr}}
+</style></head>
+<body>
+<h1>ATLAS // SHADE FIELD RECORDER</h1>
+<p>Offline-first recorder for <strong>direct street observations</strong>. Nothing entered here becomes a claim about an entire route unless the sampling design supports it.</p>
+<div class="card"><strong>Evidence boundary</strong><p class="muted">This page records <b>observed</b> values and exports them. It does not infer thermal comfort, health effects, equity, route-wide shade, or causation. Those require separate evidence.</p></div>
+<div class="row"><div><label>Audit ID</label><input id="audit" placeholder="PTY-001"></div><div><label>Observer / team</label><input id="observer" placeholder="optional"></div></div>
+<div class="row"><div><label>Sampling method</label><select id="method"><option value="fixed-distance">fixed-distance</option><option value="decision-point">decision-point</option><option value="other">other</option></select></div><div><label>Interval (m, if fixed-distance)</label><input id="interval" type="number" min="0" step="0.1"></div></div>
+<hr>
+<div class="row"><div><label>Point ID</label><input id="point" placeholder="P01"></div><div><label>Timestamp</label><input id="time" type="datetime-local"></div></div>
+<div class="row"><div><label>Latitude</label><input id="lat" type="number" step="any" placeholder="optional"></div><div><label>Longitude</label><input id="lon" type="number" step="any" placeholder="optional"></div></div>
+<div class="row"><div><label>Shade</label><select id="shade"><option value="full">full</option><option value="partial">partial</option><option value="none">none</option></select></div><div><label>Shade source</label><select id="source"><option value="tree">tree</option><option value="building">building</option><option value="canopy">canopy</option><option value="mixed">mixed</option><option value="other">other</option><option value="unknown">unknown</option></select></div></div>
+<div class="row"><div><label>Crossing present?</label><select id="crossing"><option value="no">no</option><option value="yes">yes</option></select></div><div><label>Obstruction?</label><select id="obstruction"><option value="no">no</option><option value="yes">yes</option></select></div></div>
+<label>Observation note</label><textarea id="note" rows="2" placeholder="Describe only what you can support from direct observation."></textarea>
+<button id="add">Add observation</button>
+<div class="card"><span id="count" class="ok">0 observations</span><div style="overflow:auto"><table><thead><tr><th>Point</th><th>Time</th><th>Shade</th><th>Source</th><th>Crossing</th><th>Obstruction</th></tr></thead><tbody id="rows"></tbody></table></div><button id="export" disabled>Export ATLAS CSV</button><button id="clear" disabled>Clear local session</button></div>
+<p class="muted">Privacy: this tool makes no network requests and stores the current session only in this browser's local storage. Coordinates are optional. Review exported data before publishing it.</p>
+<script>
+const ids=['audit','observer','method','interval','point','time','lat','lon','shade','source','crossing','obstruction','note']; const $=id=>document.getElementById(id); let data=[];
+try{data=JSON.parse(localStorage.getItem('atlasShadeRecords')||'[]')}catch(e){data=[]}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){ $('rows').innerHTML=data.map(r=>`<tr><td>${esc(r.point_id)}</td><td>${esc(r.timestamp)}</td><td>${esc(r.shade)}</td><td>${esc(r.shade_source)}</td><td>${esc(r.crossing)}</td><td>${esc(r.obstruction)}</td></tr>`).join(''); $('count').textContent=`${data.length} observation${data.length===1?'':'s'}`; $('export').disabled=$('clear').disabled=!data.length; localStorage.setItem('atlasShadeRecords',JSON.stringify(data)); }
+$('add').onclick=()=>{ if(!$('audit').value.trim()||!$('point').value.trim()||!$('time').value){alert('Audit ID, Point ID and Timestamp are required.');return} if($('method').value==='fixed-distance'&&!$('interval').value){alert('Fixed-distance sampling requires an interval.');return} data.push({audit_id:$('audit').value.trim(),observer:$('observer').value.trim(),sampling_method:$('method').value,sampling_interval_m:$('interval').value,point_id:$('point').value.trim(),timestamp:$('time').value,latitude:$('lat').value,longitude:$('lon').value,shade:$('shade').value,shade_source:$('source').value,crossing:$('crossing').value,obstruction:$('obstruction').value,note:$('note').value.trim(),evidence_class:'observed'}); $('point').value=''; $('note').value=''; render(); };
+function csv(v){v=String(v??'');return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+$('export').onclick=()=>{const headers=['audit_id','observer','sampling_method','sampling_interval_m','point_id','timestamp','latitude','longitude','shade','shade_source','crossing','obstruction','note','evidence_class']; const out=[headers.join(','),...data.map(r=>headers.map(h=>csv(r[h])).join(','))].join('\n'); const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([out],{type:'text/csv'}));a.download=`ATLAS_SHADE_${data[0]?.audit_id||'AUDIT'}.csv`;a.click();URL.revokeObjectURL(a.href)};
+$('clear').onclick=()=>{if(confirm('Clear this local recording session?')){data=[];render()}}; render();
+</script></body></html>
