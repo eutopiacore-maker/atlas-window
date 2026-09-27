@@ -1,8 +1,8 @@
 {
   "schema": 6,
   "world": "Eutopia/Penonome",
-  "cycle": 666,
-  "updatedAt": "2026-09-27T17:52:59.134Z",
+  "cycle": 667,
+  "updatedAt": "2026-09-27T20:45:22.950Z",
   "phase": {
     "current": "landscape",
     "order": [
@@ -11,7 +11,7 @@
       "humans"
     ],
     "rule": "environment must remain causally self-sustaining before fauna or humans become active",
-    "updatedAt": "2026-09-27T17:52:59.420Z"
+    "updatedAt": "2026-09-27T20:45:23.135Z"
   },
   "topology": "synchronized-causal-rhizome",
   "regionalNature": {
@@ -145,13 +145,13 @@
   "metrics": {
     "population": 0,
     "plants": 4000,
-    "germinations": 126593,
+    "germinations": 126995,
     "deaths": 0,
-    "seeds": 52018,
-    "surfaceWater_L": 29131876.56,
-    "soilWater_L": 61813168.63,
+    "seeds": 52199,
+    "surfaceWater_L": 28859008.18,
+    "soilWater_L": 62071815.72,
     "meanSoilMoisture": 1,
-    "solar": 0.4173,
+    "solar": 0.4325,
     "waterMassResidual_L": 0,
     "cells": 1280,
     "cellMeters": 4.5,
@@ -160,20 +160,20 @@
   },
   "waterBalance": {
     "cellAreaM2": 20.25,
-    "storageBefore_L": 90959304.3911,
+    "storageBefore_L": 90945045.1857,
     "precipitation_L": 0,
-    "evaporation_L": 14180.1844,
-    "plantUptake_L": 79.021,
-    "storageAfter_L": 90945045.1857,
+    "evaporation_L": 14142.2779,
+    "plantUptake_L": 78.9998,
+    "storageAfter_L": 90930823.9081,
     "residual_L": 0
   },
   "landscape": {
     "budget": {
-      "erodedKg": 103.523996,
-      "transferredSedimentKg": 103.523996,
+      "erodedKg": 100.775747,
+      "transferredSedimentKg": 100.775747,
       "sedimentTransferResidualKg": 0,
-      "litterTurnoverKg": 0.026359,
-      "stabilizedOrganicKg": 0.037471
+      "litterTurnoverKg": 0.026283,
+      "stabilizedOrganicKg": 0.037829
     },
     "activeProcesses": [
       "atmosphere",
@@ -204,14 +204,6 @@
       "consecutiveViableCycles": 0,
       "requiredCycles": 12,
       "history": [
-        {
-          "cycle": 643,
-          "ok": false,
-          "waterResidualL": 0,
-          "sedimentResidualKg": 0,
-          "plants": 4000,
-          "meanSoilMoisture": 1
-        },
         {
           "cycle": 644,
           "ok": false,
@@ -395,6 +387,14 @@
           "sedimentResidualKg": 0,
           "plants": 4000,
           "meanSoilMoisture": 1
+        },
+        {
+          "cycle": 667,
+          "ok": false,
+          "waterResidualL": 0,
+          "sedimentResidualKg": 0,
+          "plants": 4000,
+          "meanSoilMoisture": 1
         }
       ]
     }
@@ -421,15 +421,15 @@
     "checks": {
       "terrain": {
         "ok": true,
-        "at": "2026-09-27T17:52:59.134Z"
+        "at": "2026-09-27T20:45:22.950Z"
       },
       "land": {
         "ok": true,
-        "at": "2026-09-27T17:52:59.134Z"
+        "at": "2026-09-27T20:45:22.950Z"
       },
       "vectors": {
         "ok": true,
-        "at": "2026-09-27T17:52:59.134Z"
+        "at": "2026-09-27T20:45:22.950Z"
       }
     },
     "landCover": {
