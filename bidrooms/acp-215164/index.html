@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>BIDROOMS · ACP 215164 · Adquisición de remos</title>
+<style>
+:root{
+  --bg:#050505;--panel:#0a0908;--panel2:#11100e;--ivory:#eee7dc;--text:#c8c0b6;--muted:#8e877f;
+  --gold:#d8b474;--gold2:#f0d09a;--copper:#a36842;--copper2:#cb9061;--line:rgba(216,180,116,.22);
+  --shadow:0 18px 50px rgba(0,0,0,.42)
+}
+*{box-sizing:border-box}html,body{margin:0;background:#050505;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
+body{min-height:100svh;overflow-x:hidden}.app{max-width:1220px;margin:auto;padding:0 18px 80px}.top{position:sticky;top:0;z-index:20;background:rgba(5,5,5,.93);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.topin{max-width:1220px;margin:auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px;min-width:0}.mark{width:44px;height:44px;border:1px solid #8d6b3c;position:relative;background:#090807}.mark:before,.mark:after{content:"";position:absolute;bottom:8px;width:8px;height:28px;background:linear-gradient(var(--gold2),#9b6d31);transform:skew(-24deg)}.mark:before{left:13px}.mark:after{right:13px;transform:skew(24deg)}
+.brand b{font-size:20px;color:#fff;letter-spacing:.08em}.brand span{display:block;font-size:10px;color:#817b74;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.flag{font-size:11px;color:#b9b2a9;border:1px solid #2a2723;padding:8px 10px}
+.hero{padding:44px 0 26px;border-bottom:1px solid var(--line);position:relative}.hero:after{content:"";position:absolute;right:0;top:20px;width:82px;height:220px;opacity:.35;background:repeating-linear-gradient(135deg,#d74b2b 0 7px,#f0a22e 7px 14px,#e6cc48 14px 21px,#1d6b88 21px 28px,#2d7b59 28px 35px,#050505 35px 44px);clip-path:polygon(35% 0,100% 0,65% 100%,0 100%)}
+.eyebrow{font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:#9e968c;margin-bottom:12px}.hero h1{margin:0;color:var(--ivory);font:400 clamp(42px,7vw,82px)/.95 Georgia,"Times New Roman",serif;letter-spacing:-.03em;max-width:830px}.hero p{max-width:780px;font-size:16px;line-height:1.6;color:#aaa29a}
+.statusgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px;max-width:960px}.stat{border:1px solid #26231f;background:#080807;padding:14px;min-height:94px}.stat small{display:block;color:#79736c;text-transform:uppercase;font-size:10px;letter-spacing:.12em}.stat strong{display:block;color:#ddd5ca;font-size:17px;margin-top:8px;line-height:1.25}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.btn{border:0;border-radius:0;padding:15px 18px;min-height:52px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.gold{color:#16110a;background:linear-gradient(#efd09a,#b9843f);border:1px solid #f3d7a5}.copper{color:#fff7ef;background:linear-gradient(#c7885d,#71432a);border:1px solid #ce946b}.quiet{background:#0c0b0a;color:#c7c0b8;border:1px solid #2c2925}
+.nav{position:sticky;top:73px;z-index:15;background:#050505;padding:10px 0;border-bottom:1px solid #171512;display:flex;gap:8px;overflow:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.tab{white-space:nowrap;border:1px solid #292621;background:#090807;color:#8f8981;padding:11px 13px;font-size:11px;text-transform:uppercase;letter-spacing:.08em}.tab.active{color:#17110a;background:linear-gradient(#e9c989,#ae7d3f);border-color:#d8b474}
+section.panel{display:none;padding:26px 0}.panel.active{display:block}.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:14px}.card{border:1px solid #28251f;background:linear-gradient(160deg,#0a0908,#060606);box-shadow:var(--shadow);padding:20px}.card h2,.card h3{color:#e3dbd0;margin:0 0 10px}.card h2{font:400 34px/1 Georgia,"Times New Roman",serif}.card h3{font-size:16px}.card p{line-height:1.6;color:#aaa29a;margin:8px 0}.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.fact{padding:13px;border:1px solid #24211d;background:#080807}.fact small{display:block;color:#716b64;text-transform:uppercase;font-size:9px;letter-spacing:.12em}.fact b{display:block;color:#d7cfc5;margin-top:6px;font-size:14px;line-height:1.35}
+.notice{border-left:2px solid #8f6d3e;padding:12px 14px;background:#090807;color:#aaa29a;font-size:13px;line-height:1.55;margin-top:12px}.source{font-size:11px;color:#8b847d;margin-top:12px}.source a{color:#d9c6a9}
+.req{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:15px 0;border-bottom:1px solid #1d1a17}.req input{margin-top:3px;accent-color:#b88949}.req strong{color:#d8d0c7}.req p{margin:4px 0 0;font-size:13px;color:#8f8880}.tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #2b2824;color:#8e877f;padding:6px 7px;white-space:nowrap}.doc,.event{display:grid;grid-template-columns:1fr auto;gap:12px;padding:15px 0;border-bottom:1px solid #1d1a17}.doc strong,.event strong{color:#d8d0c7}.doc p,.event p{font-size:13px;margin:5px 0 0;color:#8f8880}.doc a{color:#d8b474;text-decoration:none;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.lifecycle{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.life{border:1px solid #24211d;padding:12px;background:#080807}.life small{display:block;color:#6f6962;font-size:9px;text-transform:uppercase}.life b{display:block;color:#cfc7bd;margin-top:5px;font-size:12px}.life.now{border-color:#8d6b3c}.life.now b{color:#e3d1ae}
+.pricegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.field label{display:block;font-size:10px;letter-spacing:.1em;color:#8a837b;text-transform:uppercase;margin-bottom:6px}.field input,.field textarea{width:100%;border:1px solid #2b2823;background:#080807;color:#ece5db;padding:13px;border-radius:0;font-size:16px}.field textarea{min-height:100px;resize:vertical}.result{font:400 36px/1 Georgia,serif;color:#e4d3b1;margin-top:10px}.small{font-size:12px;color:#77716a;line-height:1.5}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:50;display:none;align-items:flex-start;justify-content:center;padding:calc(20px + env(safe-area-inset-top)) 14px 30px;overflow:auto}.modal.open{display:flex}.sheet{width:min(680px,100%);background:#080807;border:1px solid #7a5737;padding:20px;box-shadow:0 30px 100px #000}.sheet h2{font:400 34px/1 Georgia,serif;color:#eee6dc;margin:0 0 8px}.sheet .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.close{float:right;background:none;border:1px solid #302c27;color:#bdb5ac;padding:9px 12px}.receipt{white-space:pre-wrap;font-size:12px;color:#b8b0a8;margin-top:10px}
+footer{margin-top:26px;padding-top:18px;border-top:1px solid #1e1b18;color:#6f6963;font-size:11px;line-height:1.6}
+@media(max-width:780px){.topin{padding:12px 14px}.brand span{max-width:200px}.flag{display:none}.app{padding-left:14px;padding-right:14px}.hero{padding-top:30px}.hero:after{width:54px;height:150px;opacity:.22}.hero h1{font-size:44px;max-width:82%}.hero p{font-size:15px;max-width:86%}.statusgrid{grid-template-columns:1fr 1fr}.nav{top:69px}.grid{grid-template-columns:1fr}.facts{grid-template-columns:1fr 1fr}.lifecycle{grid-template-columns:1fr 1fr}.pricegrid,.sheet .fields{grid-template-columns:1fr}.actions .btn{width:100%}.card{padding:17px}.panel{padding-top:18px!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin">
+  <div class="brand"><div class="mark"></div><div><b>BIDROOMS</b><span>ATLAS · Procurement Room · ACP 215164</span></div></div>
+  <div class="flag">Público · sin cuenta</div>
+</div></header>
+
+<main class="app">
+<section class="hero">
+  <div class="eyebrow">Autoridad del Canal de Panamá · SLI · consulta 01-oct-2026</div>
+  <h1>Adquisición de remos.</h1>
+  <p>Room piloto construido sobre la licitación pública ACP <b>215164</b>. BIDROOMS organiza el expediente, requisitos, decisiones y handoffs; el SLI de la ACP sigue siendo la fuente y canal oficial.</p>
+  <div class="statusgrid">
+    <div class="stat"><small>Estado observado</small><strong>ANUNCIO</strong></div>
+    <div class="stat"><small>Cierre observado</small><strong>05-oct-2026 · 11:00 AM</strong></div>
+    <div class="stat"><small>Método</small><strong>Licitación Pública en Dos Etapas</strong></div>
+    <div class="stat"><small>Pago observado</small><strong>Neto 30 días</strong></div>
+  </div>
+  <div class="actions">
+    <a class="btn gold" target="_blank" rel="noopener" href="https://apps.pancanal.com/sli/LicitacionesBusqueda/Welcome">Abrir SLI oficial →</a>
+    <button class="btn copper" data-open="repModal">Represento una empresa</button>
+    <button class="btn quiet" data-open="questionModal">Consulta vía ATLAS</button>
+  </div>
+</section>
+
+<nav class="nav" id="nav">
+  <button class="tab active" data-tab="overview">Resumen</button>
+  <button class="tab" data-tab="requirements">Requisitos</button>
+  <button class="tab" data-tab="documents">Documentos</button>
+  <button class="tab" data-tab="amendments">Enmiendas</button>
+  <button class="tab" data-tab="submission">Oferta</button>
+  <button class="tab" data-tab="evaluation">Evaluación</button>
+  <button class="tab" data-tab="contract">Contrato</button>
+  <button class="tab" data-tab="finance">Finanzas</button>
+  <button class="tab" data-tab="evidence">Evidencia</button>
+</nav>
+
+<section class="panel active" id="overview">
+  <div class="grid">
+    <article class="card">
+      <div class="eyebrow">Room overview</div><h2>Qué se está comprando</h2>
+      <div class="facts">
+        <div class="fact"><small>Ítem</small><b>INV-OAR, BOAT, ASH, 8 FEET</b></div>
+        <div class="fact"><small>Part number ACP</small><b>MAR-HAR-00017</b></div>
+        <div class="fact"><small>Cantidad</small><b>216 unidades</b></div>
+        <div class="fact"><small>Categoría</small><b>Ship & Marine Parts</b></div>
+        <div class="fact"><small>Entrega</small><b>DAP Panamá</b></div>
+        <div class="fact"><small>Lugar</small><b>Corozal · Edificio 652</b></div>
+        <div class="fact"><small>Flete</small><b>A cargo del contratista</b></div>
+        <div class="fact"><small>Comprador observado</small><b>Antonio Ramboa Moreno</b></div>
+      </div>
+      <div class="notice">Este Room no sustituye el pliego ni el SLI. Cuando un dato específico no ha sido extraído y verificado desde el pliego vigente, se marca como <b>CONFIRMAR EN PLIEGO</b> en vez de inferirse.</div>
+    </article>
+    <aside class="card">
+      <div class="eyebrow">Tiempo</div><h3 id="countdown">Calculando…</h3>
+      <p>Hasta el cierre observado en SLI: 05-oct-2026 11:00, hora de Panamá.</p>
+      <div class="eyebrow" style="margin-top:20px">Ciclo</div>
+      <div class="lifecycle">
+        <div class="life"><small>01</small><b>Publicado</b></div>
+        <div class="life now"><small>02</small><b>Preparación</b></div>
+        <div class="life"><small>03</small><b>Recepción</b></div>
+        <div class="life"><small>04</small><b>Evaluación</b></div>
+        <div class="life"><small>05</small><b>Adjudicación</b></div>
+        <div class="life"><small>06</small><b>Contrato</b></div>
+        <div class="life"><small>07</small><b>Entrega</b></div>
+        <div class="life"><small>08</small><b>Pago</b></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="panel" id="requirements">
+  <div class="grid">
+    <article class="card">
+      <div class="eyebrow">Readiness matrix</div><h2>Control previo a oferta</h2>
+      <div class="req"><input type="checkbox" data-ready="item"><div><strong>Objeto y cantidad entendidos</strong><p>216 remos de 8 pies; confirmar especificación completa del artículo en el pliego.</p></div><span class="tag">VERIFICADO + GATE</span></div>
+      <div class="req"><input type="checkbox" data-ready="identity"><div><strong>Identidad jurídica consistente</strong><p>Nombre legal, RUC/identificación empresarial y representación deben coincidir con el canal oficial.</p></div><span class="tag">CONTROL</span></div>
+      <div class="req"><input type="checkbox" data-ready="stage"><div><strong>Mecánica de dos etapas revisada</strong><p>No asumir qué documento va en cada etapa. Confirmar expresamente en Partes 1–4.</p></div><span class="tag">CONFIRMAR PLIEGO</span></div>
+      <div class="req"><input type="checkbox" data-ready="technical"><div><strong>Especificación técnica verificada</strong><p>Material, dimensiones, tolerancias, empaque y cualquier certificación requerida deben salir del pliego.</p></div><span class="tag">CONFIRMAR PLIEGO</span></div>
+      <div class="req"><input type="checkbox" data-ready="bond"><div><strong>Fianzas / garantías revisadas</strong><p>No se presupone que sean exigidas; verificar requisito específico del proceso.</p></div><span class="tag">CONFIRMAR PLIEGO</span></div>
+      <div class="req"><input type="checkbox" data-ready="delivery"><div><strong>Logística DAP costeada</strong><p>Entrega en Corozal, Edificio 652; flete observado a cargo del contratista.</p></div><span class="tag">VERIFICADO</span></div>
+      <div class="req"><input type="checkbox" data-ready="submission"><div><strong>Paquete final validado contra SLI</strong><p>BIDROOMS prepara; el envío oficial se realiza y confirma en ACP SLI.</p></div><span class="tag">HANDOFF OFICIAL</span></div>
+      <div class="notice" id="readyState">0 / 7 controles marcados.</div>
+    </article>
+    <aside class="card"><div class="eyebrow">Regla</div><h3>No convertir incertidumbre en requisito.</h3><p>Todo requisito exacto que no esté confirmado desde el expediente vigente permanece como gate. Esto evita que BIDROOMS introduzca una causal de rechazo por inventar instrucciones.</p></aside>
+  </div>
+</section>
+
+<section class="panel" id="documents">
+  <div class="grid"><article class="card">
+    <div class="eyebrow">Official document rail</div><h2>Expediente oficial</h2>
+    <div class="doc"><div><strong>Pliego de cargos · Partes 1 y 2</strong><p>Documento específico de la licitación 215164.</p></div><a target="_blank" rel="noopener" href="https://apps.pancanal.com/sli/Comunes/ImpresionPliegoCargo_1_2?po_header=1442984&p_rfq=215164">Abrir ↗</a></div>
+    <div class="doc"><div><strong>Pliego de cargos · Partes 3 y 4</strong><p>Documento específico de la licitación 215164.</p></div><a target="_blank" rel="noopener" href="https://apps.pancanal.com/sli/Comunes/ImpresionPliegoCargo_3_4?p_rfq=215164">Abrir ↗</a></div>
+    <div class="doc"><div><strong>Pliego Único / cláusulas de referencia</strong><p>Cláusulas generales oficiales de contratación ACP.</p></div><a target="_blank" rel="noopener" href="https://apps.pancanal.com/sli/Comunes/GetPliegoUnico">Abrir ↗</a></div>
+    <div class="doc"><div><strong>Portal SLI</strong><p>Fuente autoritativa para estado, cambios, participación y resultado.</p></div><a target="_blank" rel="noopener" href="https://apps.pancanal.com/sli/LicitacionesBusqueda/Welcome">Abrir ↗</a></div>
+  </article><aside class="card"><div class="eyebrow">Provenance</div><h3>Fuente oficial primero.</h3><p>BIDROOMS conserva el enlace al origen junto a cada dato. Si el Room y SLI discrepan, prevalece SLI hasta que ATLAS revalide y actualice el Room.</p></aside></div>
+</section>
+
+<section class="panel" id="amendments">
+  <div class="grid"><article class="card">
+    <div class="eyebrow">Change ledger</div><h2>Enmiendas y aclaraciones</h2>
+    <div class="event"><div><strong>Estado al 01-oct-2026</strong><p>En la inspección en vivo no se observaron enmiendas publicadas para esta licitación.</p></div><span class="tag">TIME-BOUNDED</span></div>
+    <div class="notice">Un cambio posterior debe activar: captura de la nueva versión → diff → requisitos afectados → deadlines afectados → invalidación selectiva del readiness → nueva evidencia.</div>
+    <div class="actions"><a class="btn gold" target="_blank" rel="noopener" href="https://apps.pancanal.com/sli/LicitacionesBusqueda/Welcome">Revalidar en SLI →</a><button class="btn quiet" data-open="questionModal">Preparar consulta</button></div>
+  </article><aside class="card"><div class="eyebrow">Aprendizaje del piloto</div><h3>Necesitamos Source Sync.</h3><p>Este Room es utilizable como control hoy, pero aún no detecta automáticamente una enmienda nueva. Esa es la siguiente capacidad que debe volverse durable.</p></aside></div>
+</section>
+
+<section class="panel" id="submission">
+  <div class="grid"><article class="card">
+    <div class="eyebrow">Official handoff</div><h2>Preparar → validar → enviar</h2>
+    <div class="event"><div><strong>1. Resolver todos los gates</strong><p>Revisar las Partes 1–4 vigentes y cualquier cambio publicado.</p></div><span class="tag">BIDROOMS</span></div>
+    <div class="event"><div><strong>2. Validar paquete</strong><p>Identidad, documentos, precios, formato y etapa correspondiente.</p></div><span class="tag">BIDROOMS</span></div>
+    <div class="event"><div><strong>3. Enviar por el canal oficial</strong><p>La acción jurídica/administrativa de presentación ocurre en ACP SLI.</p></div><span class="tag">ACP SLI</span></div>
+    <div class="event"><div><strong>4. Capturar recibo oficial</strong><p>Sin evidencia del SLI, BIDROOMS no debe declarar la oferta como presentada.</p></div><span class="tag">RECEIPT GATE</span></div>
+    <div class="actions"><a class="btn gold" target="_blank" rel="noopener" href="https://apps.pancanal.com/sli/">Ir al SLI →</a></div>
+  </article><aside class="card"><div class="eyebrow">Estado privado</div><h3>Readiness ≠ submission.</h3><p>Marcar una tarea en BIDROOMS solo controla preparación. Nunca sustituye el recibo oficial.</p></aside></div>
+</section>
+
+<section class="panel" id="evaluation">
+  <div class="grid"><article class="card">
+    <div class="eyebrow">Lifecycle slots</div><h2>Evaluación, competencia y adjudicación</h2>
+    <div class="event"><div><strong>Participantes públicos</strong><p>No se muestran hasta existir una fuente oficial pública verificable.</p></div><span class="tag">PENDIENTE</span></div>
+    <div class="event"><div><strong>Evaluación</strong><p>El Room queda preparado para registrar hitos públicos, solicitudes y resultados sin inventar información.</p></div><span class="tag">FUTURO</span></div>
+    <div class="event"><div><strong>Adjudicación</strong><p>Cuando exista resultado oficial se vinculará al expediente y a la organización adjudicataria.</p></div><span class="tag">FUTURO</span></div>
+    <div class="event"><div><strong>Protesta</strong><p>Ventanas y reglas solo se activarán con la base jurídica y evento correspondiente verificados.</p></div><span class="tag">RULE ENGINE</span></div>
+  </article><aside class="card"><div class="eyebrow">Igualdad</div><h3>Misma información pública para todos.</h3><p>BIDROOMS no publica información privada de un competidor. Solo consolida información común o públicamente verificable.</p></aside></div>
+</section>
+
+<section class="panel" id="contract">
+  <div class="grid"><article class="card">
+    <div class="eyebrow">Post-award</div><h2>Contrato, entrega y cierre</h2>
+    <div class="event"><div><strong>Contrato / orden</strong><p>Se crea únicamente después de evidencia oficial de adjudicación/formalización.</p></div><span class="tag">FUTURO</span></div>
+    <div class="event"><div><strong>Fianzas / garantías</strong><p>Registrar solo si el expediente aplicable las exige.</p></div><span class="tag">GATE</span></div>
+    <div class="event"><div><strong>Entrega DAP Panamá</strong><p>Corozal, Edificio 652. El Room puede controlar logística, recibo e inspección.</p></div><span class="tag">VERIFICADO</span></div>
+    <div class="event"><div><strong>Aceptación / discrepancias</strong><p>Receipts, faltantes, rechazo, reemplazo y cierre deben quedar como eventos del caso.</p></div><span class="tag">OPERATIONS</span></div>
+  </article><aside class="card"><div class="eyebrow">Modelo</div><h3>El Room no muere al adjudicar.</h3><p>La misma relación continúa hacia ejecución, aceptación, factura, pago y performance.</p></aside></div>
+</section>
+
+<section class="panel" id="finance">
+  <div class="grid"><article class="card">
+    <div class="eyebrow">Private pricing worksheet</div><h2>Ingeniería de precio</h2>
+    <p>Herramienta local de sesión. Estos números no se publican ni se guardan.</p>
+    <div class="pricegrid">
+      <div class="field"><label>Costo unitario</label><input inputmode="decimal" id="unitCost" placeholder="0.00"></div>
+      <div class="field"><label>Logística total</label><input inputmode="decimal" id="logistics" placeholder="0.00"></div>
+      <div class="field"><label>Otros costos</label><input inputmode="decimal" id="otherCost" placeholder="0.00"></div>
+      <div class="field"><label>Contingencia %</label><input inputmode="decimal" id="contingency" placeholder="5"></div>
+      <div class="field"><label>Margen %</label><input inputmode="decimal" id="margin" placeholder="20"></div>
+    </div>
+    <div class="result" id="priceResult">$0.00</div>
+    <div class="small" id="priceDetail">Precio total orientativo para 216 unidades. No sustituye análisis fiscal, contractual, técnico o logístico.</div>
+  </article><aside class="card"><div class="eyebrow">Cobro del contrato</div><h3>Neto 30 observado.</h3><p>El post-award debe modelar factura preparada → presentada → aceptada/rechazada → programada → pagada, con evidencia oficial de cada transición.</p></aside></div>
+</section>
+
+<section class="panel" id="evidence">
+  <div class="grid"><article class="card">
+    <div class="eyebrow">Evidence ledger</div><h2>Qué sabemos y por qué</h2>
+    <div class="event"><div><strong>Solicitud 215164</strong><p>Estado, fechas, método, ítem, cantidad, entrega, comprador y pago observados mediante consulta pública del SLI el 01-oct-2026.</p></div><span class="tag">LIVE OBSERVATION</span></div>
+    <div class="event"><div><strong>Partes 1–4</strong><p>Enlaces oficiales preservados para verificar reglas específicas del proceso.</p></div><span class="tag">OFFICIAL SOURCE</span></div>
+    <div class="event"><div><strong>Enmiendas</strong><p>Ninguna observada en la consulta de esa fecha. Este estado caduca y requiere revalidación.</p></div><span class="tag">TIME-BOUNDED</span></div>
+    <div class="event"><div><strong>Gates no resueltos</strong><p>Mecánica exacta de dos etapas, requisitos técnicos y fianzas no se inventan; deben comprobarse contra el pliego actual.</p></div><span class="tag">UNRESOLVED</span></div>
+  </article><aside class="card"><div class="eyebrow">Regla de verdad</div><h3>Fuente → dato → decisión.</h3><p>Todo cambio que pueda afectar una oferta debe poder rastrearse a evidencia verificable.</p></aside></div>
+</section>
+
+<footer>BIDROOMS · ACP 215164 Field Pilot · La fuente oficial conserva autoridad. Este Room organiza y controla el proceso; no representa a la ACP ni sustituye su SLI.</footer>
+</main>
+
+<div class="modal" id="repModal"><div class="sheet">
+  <button class="close" data-close="repModal">Cerrar</button><div class="eyebrow">Verificación interna</div><h2>Represento una empresa</h2>
+  <p class="small">No crea una cuenta pública. Los datos se usan para contacto/verificación interna vía ATLAS y no se guardan en este navegador.</p>
+  <form id="repForm"><div class="fields">
+    <div class="field"><label>Correo</label><input required type="email" name="email"></div>
+    <div class="field"><label>Nombre legal completo</label><input required name="name"></div>
+    <div class="field"><label>Cédula / identificación</label><input required name="id"></div>
+    <div class="field"><label>Empresa / entidad</label><input required name="company"></div>
+    <div class="field"><label>Cargo</label><input required name="role"></div>
+  </div><label class="small" style="display:block;margin:14px 0"><input required type="checkbox"> Declaro que estoy autorizado para actuar por la organización indicada.</label>
+  <button class="btn copper" type="submit">Enviar a ATLAS →</button><div class="receipt" id="repReceipt"></div></form>
+</div></div>
+
+<div class="modal" id="questionModal"><div class="sheet">
+  <button class="close" data-close="questionModal">Cerrar</button><div class="eyebrow">Consulta moderada</div><h2>Enviar consulta a ATLAS</h2>
+  <form id="questionForm">
+    <div class="field"><label>Empresa / entidad</label><input required name="company"></div>
+    <div class="field" style="margin-top:10px"><label>Pregunta</label><textarea required name="question"></textarea></div>
+    <button class="btn copper" type="submit" style="margin-top:12px">Preparar correo →</button>
+  </form>
+</div></div>
+
+<script>
+(function(){
+  var ATLAS='eutopiacore@gmail.com';
+  var tabs=document.querySelectorAll('.tab'), panels=document.querySelectorAll('.panel');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.classList.remove('active')}); panels.forEach(function(x){x.classList.remove('active')});
+    t.classList.add('active'); document.getElementById(t.dataset.tab).classList.add('active');
+    window.scrollTo({top:document.getElementById('nav').offsetTop-70,behavior:'smooth'});
+  })});
+  function open(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+  function close(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+  document.querySelectorAll('[data-open]').forEach(function(b){b.onclick=function(){open(b.dataset.open)}});
+  document.querySelectorAll('[data-close]').forEach(function(b){b.onclick=function(){close(b.dataset.close)}});
+  document.querySelectorAll('.modal').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)close(m.id)})});
+  function countdown(){
+    var end=new Date('2026-10-05T11:00:00-05:00').getTime(), now=Date.now(), d=end-now, el=document.getElementById('countdown');
+    if(d<=0){el.textContent='Cierre observado alcanzado';return}
+    var days=Math.floor(d/86400000), hrs=Math.floor((d%86400000)/3600000), mins=Math.floor((d%3600000)/60000);
+    el.textContent=days+' d · '+hrs+' h · '+mins+' min';
+  } countdown(); setInterval(countdown,60000);
+  var readyKey='bidrooms-215164-readiness';
+  var boxes=[].slice.call(document.querySelectorAll('[data-ready]'));
+  try{var saved=JSON.parse(localStorage.getItem(readyKey)||'{}');boxes.forEach(function(b){b.checked=!!saved[b.dataset.ready]})}catch(e){}
+  function ready(){var out={};boxes.forEach(function(b){out[b.dataset.ready]=b.checked});try{localStorage.setItem(readyKey,JSON.stringify(out))}catch(e){}
+    var n=boxes.filter(function(b){return b.checked}).length;document.getElementById('readyState').textContent=n+' / '+boxes.length+' controles marcados.'}
+  boxes.forEach(function(b){b.addEventListener('change',ready)});ready();
+  function n(id){return parseFloat((document.getElementById(id).value||'0').replace(',','.'))||0}
+  function pricing(){var base=n('unitCost')*216+n('logistics')+n('otherCost');var cont=base*(n('contingency')/100);var cost=base+cont;var m=n('margin')/100;var total=m>=.99?0:cost/(1-m);document.getElementById('priceResult').textContent=total.toLocaleString('en-US',{style:'currency',currency:'USD'});document.getElementById('priceDetail').textContent='Costo estimado: '+cost.toLocaleString('en-US',{style:'currency',currency:'USD'})+' · Unitario orientativo: '+(total/216).toLocaleString('en-US',{style:'currency',currency:'USD'})}
+  ['unitCost','logistics','otherCost','contingency','margin'].forEach(function(id){document.getElementById(id).addEventListener('input',pricing)});pricing();
+  document.getElementById('repForm').addEventListener('submit',function(e){e.preventDefault();var f=new FormData(e.currentTarget);var ref='BR-215164-'+Date.now().toString(36).toUpperCase();var body='BIDROOMS | REPRESENTATIVE | '+ref+'\n\nLicitación ACP: 215164 — Adquisición de remos\nNombre legal: '+f.get('name')+'\nCorreo: '+f.get('email')+'\nCédula/ID: '+f.get('id')+'\nEmpresa/entidad: '+f.get('company')+'\nCargo: '+f.get('role')+'\n\nSolicito verificación interna de representación para este proceso.';document.getElementById('repReceipt').textContent='Referencia '+ref+'. Se abrirá tu correo para enviar los datos a ATLAS. Esta página no persiste esos campos.';setTimeout(function(){location.href='mailto:'+ATLAS+'?subject='+encodeURIComponent('BIDROOMS | ACP 215164 | '+ref)+'&body='+encodeURIComponent(body)},300)});
+  document.getElementById('questionForm').addEventListener('submit',function(e){e.preventDefault();var f=new FormData(e.currentTarget);var body='Licitación ACP 215164 — Adquisición de remos\nEmpresa: '+f.get('company')+'\nPregunta: '+f.get('question')+'\n\nSolicito a ATLAS revisar la fuente/requisito afectado y preparar el handoff al canal oficial si corresponde.';location.href='mailto:'+ATLAS+'?subject='+encodeURIComponent('BIDROOMS | Consulta ACP 215164')+'&body='+encodeURIComponent(body)});
+})();
+</script>
+</body>
+</html>
