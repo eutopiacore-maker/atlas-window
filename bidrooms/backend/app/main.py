@@ -1,3 +1,4 @@
+import hashlib
 import os
 from datetime import datetime, timezone
 from typing import Optional
@@ -37,11 +38,17 @@ def system():
 def create_intake(payload:Intake):
     if not engine:
         raise HTTPException(503,"DATABASE_URL is not configured")
+    raw=payload.government_id.strip()
+    safe={
+      **payload.model_dump(exclude={"government_id"}),
+      "government_id_hash":hashlib.sha256(raw.encode("utf-8")).hexdigest(),
+      "government_id_last4":raw[-4:] if raw else None
+    }
     with engine.begin() as c:
         row=c.execute(text("""
           insert into operations.intake_cases
-          (kind,room_id,organization_id,email,legal_name,government_id,company,role,message,status,created_at)
-          values(:kind,:room_id,:organization_id,:email,:legal_name,:government_id,:company,:role,:message,'RECEIVED',now())
+          (kind,room_id,organization_id,email,legal_name,government_id_hash,government_id_last4,company,role,message,status,created_at)
+          values(:kind,:room_id,:organization_id,:email,:legal_name,:government_id_hash,:government_id_last4,:company,:role,:message,'RECEIVED',now())
           returning id
-        """),payload.model_dump()).scalar_one()
+        """),safe).scalar_one()
     return {"id":row,"status":"RECEIVED","received_at":datetime.now(timezone.utc).isoformat()}
