@@ -1,0 +1,39 @@
+{
+  "schema": "bidrooms-public-manifest/v1",
+  "version": "1.0.0",
+  "updated_at": "2026-10-02T14:14:00-05:00",
+  "design_canon": "luxury+nature+executive+panama-dark-gradients+smoked-glass",
+  "public_accounts": false,
+  "atlas_contact": "eutopiacore@gmail.com",
+  "organizations": [
+    {
+      "id": "acp",
+      "name": "Autoridad del Canal de Panamá",
+      "type": "Entidad pública autónoma",
+      "jurisdiction": "Panamá",
+      "status": "PUBLIC_VERIFIED",
+      "profile": "organizations/acp/"
+    },
+    {
+      "id": "panamacompra",
+      "name": "PanamaCompra",
+      "type": "Sistema público de contratación",
+      "jurisdiction": "Panamá",
+      "status": "PUBLIC_VERIFIED",
+      "profile": null
+    }
+  ],
+  "rooms": [
+    {
+      "id": "acp-215164",
+      "owner_id": "acp",
+      "title": "Adquisición de remos",
+      "number": "215164",
+      "status": "ANUNCIO",
+      "phase": "Preparación",
+      "closes_at": "2026-10-05T11:00:00-05:00",
+      "checked_at": "2026-10-01",
+      "route": "acp-215164/"
+    }
+  ]
+}
