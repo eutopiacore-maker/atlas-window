@@ -1,0 +1,186 @@
+{
+  "schema": "bidrooms-procurement-room/v1",
+  "id": "acp-215164",
+  "owner_id": "acp",
+  "owner_name": "Autoridad del Canal de Panamá",
+  "owner_acronym": "ACP",
+  "number": "215164",
+  "title": "Adquisición de remos",
+  "status": "ANUNCIO",
+  "phase": "Preparación / consultas",
+  "checked_at": "2026-10-01",
+  "published_at": "2026-09-25T09:11:00-05:00",
+  "closes_at": "2026-10-05T11:00:00-05:00",
+  "method": "Licitación Pública en Dos Etapas",
+  "item": {
+    "code": "MAR-HAR-00017",
+    "name": "INV-OAR, BOAT, ASH, 8 FEET",
+    "quantity": 216,
+    "unit": "unidades"
+  },
+  "delivery": {
+    "incoterm": "DAP Panamá",
+    "location": "Corozal · Edificio 652",
+    "freight": "A cargo del contratista"
+  },
+  "payment_terms": "Neto 30 días",
+  "buyer": "Antonio Ramboa Moreno",
+  "meta": [
+    {
+      "label": "Organización",
+      "value": "Autoridad del Canal de Panamá"
+    },
+    {
+      "label": "Área",
+      "value": "Mantenimiento y Operaciones"
+    },
+    {
+      "label": "Categoría",
+      "value": "Equipamiento marítimo"
+    },
+    {
+      "label": "Ubicación de entrega",
+      "value": "Corozal, Panamá"
+    }
+  ],
+  "official_system": {
+    "name": "ACP SLI",
+    "url": "https://apps.pancanal.com/sli/LicitacionesBusqueda/Welcome"
+  },
+  "documents": [
+    {
+      "id": "pliego-12",
+      "title": "ACP 215164 — Pliego (Partes 1 y 2)",
+      "kind": "Documento oficial · SLI",
+      "url": "https://apps.pancanal.com/sli/Comunes/ImpresionPliegoCargo_1_2?po_header=1442984&p_rfq=215164"
+    },
+    {
+      "id": "pliego-34",
+      "title": "ACP 215164 — Pliego (Partes 3 y 4)",
+      "kind": "Documento oficial · SLI",
+      "url": "https://apps.pancanal.com/sli/Comunes/ImpresionPliegoCargo_3_4?p_rfq=215164"
+    },
+    {
+      "id": "pliego-unico",
+      "title": "Pliego Único / cláusulas de referencia",
+      "kind": "Cláusulas generales oficiales ACP",
+      "url": "https://apps.pancanal.com/sli/Comunes/GetPliegoUnico"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "item",
+      "title": "Objeto y cantidad entendidos",
+      "detail": "216 remos; confirmar especificación completa del artículo.",
+      "state": "GATE"
+    },
+    {
+      "id": "identity",
+      "title": "Identidad jurídica consistente",
+      "detail": "Nombre legal, RUC/ID y representación coherentes.",
+      "state": "CONTROL"
+    },
+    {
+      "id": "stage",
+      "title": "Mecánica de dos etapas",
+      "detail": "No inferir; revisar Partes 1–4.",
+      "state": "CONFIRMAR"
+    },
+    {
+      "id": "technical",
+      "title": "Especificación técnica",
+      "detail": "Material, dimensiones, empaque y certificaciones.",
+      "state": "CONFIRMAR"
+    },
+    {
+      "id": "bond",
+      "title": "Fianzas / garantías",
+      "detail": "Solo si el proceso específico las exige.",
+      "state": "CONFIRMAR"
+    },
+    {
+      "id": "delivery",
+      "title": "Logística DAP costeada",
+      "detail": "Corozal · Edificio 652 · flete a cargo del contratista.",
+      "state": "VERIFICADO"
+    },
+    {
+      "id": "submission",
+      "title": "Paquete final validado",
+      "detail": "Preparar en BIDROOMS; presentar y confirmar en SLI.",
+      "state": "HANDOFF"
+    }
+  ],
+  "timeline": [
+    {
+      "label": "Publicación",
+      "state": "done",
+      "date": "25 Sep 2026"
+    },
+    {
+      "label": "Consultas / Aclaraciones",
+      "state": "now",
+      "date": "En curso"
+    },
+    {
+      "label": "Enmiendas",
+      "state": "future",
+      "date": "0 observadas"
+    },
+    {
+      "label": "Cierre de ofertas",
+      "state": "future",
+      "date": "05 Oct · 11:00"
+    },
+    {
+      "label": "Evaluación",
+      "state": "future",
+      "date": "Pendiente"
+    },
+    {
+      "label": "Adjudicación",
+      "state": "future",
+      "date": "Pendiente"
+    },
+    {
+      "label": "Contrato",
+      "state": "future",
+      "date": "Pendiente"
+    },
+    {
+      "label": "Ejecución",
+      "state": "future",
+      "date": "Pendiente"
+    },
+    {
+      "label": "Facturación / pago",
+      "state": "future",
+      "date": "Pendiente"
+    },
+    {
+      "label": "Cierre",
+      "state": "future",
+      "date": "Pendiente"
+    }
+  ],
+  "amendments": [],
+  "clarifications": [],
+  "public_participants": [],
+  "evidence": [
+    {
+      "label": "Solicitud 215164",
+      "state": "LIVE_OBSERVATION",
+      "detail": "Estado, fechas, método, ítem, cantidad, entrega, comprador y pago observados en SLI el 01-oct-2026."
+    },
+    {
+      "label": "Partes 1–4",
+      "state": "OFFICIAL_SOURCE",
+      "detail": "Enlaces oficiales preservados para verificar reglas específicas."
+    },
+    {
+      "label": "Enmiendas",
+      "state": "TIME_BOUNDED",
+      "detail": "Ninguna observada al 01-oct-2026; requiere revalidación."
+    }
+  ]
+}
