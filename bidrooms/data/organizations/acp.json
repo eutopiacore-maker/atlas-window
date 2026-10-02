@@ -1,0 +1,29 @@
+{
+  "schema": "bidrooms-organization/v1",
+  "id": "acp",
+  "name": "Autoridad del Canal de Panamá",
+  "acronym": "ACP",
+  "type": "Entidad pública autónoma",
+  "jurisdiction": "República de Panamá",
+  "status": "PUBLIC_VERIFIED",
+  "checked_at": "2026-10-01",
+  "procurement_system": {
+    "name": "Sistema de Licitaciones por Internet (SLI)",
+    "url": "https://apps.pancanal.com/sli/"
+  },
+  "sources": [
+    {
+      "name": "Canal de Panamá · Proveedores",
+      "url": "https://pancanal.com/proveedores/",
+      "kind": "official"
+    },
+    {
+      "name": "ACP · SLI",
+      "url": "https://apps.pancanal.com/sli/",
+      "kind": "official"
+    }
+  ],
+  "room_ids": [
+    "acp-215164"
+  ]
+}
