@@ -1,0 +1,10 @@
+{
+  "schema": "atlas-c1-fastlane-envelope/v1",
+  "enabled": false,
+  "command_id": "bootstrap",
+  "issued_at": "2026-10-03T00:00:00Z",
+  "expires_at": "2026-10-03T00:00:01Z",
+  "key": "",
+  "iv": "",
+  "data": ""
+}
