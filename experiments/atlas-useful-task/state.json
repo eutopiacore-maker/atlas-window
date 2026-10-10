@@ -2,17 +2,30 @@
   "schema": "atlas-useful-task-state/v1",
   "task_id": "audit-local-html-references",
   "task": "Audit local script/link references in atlas-window HTML files and report broken targets.",
-  "status": "COMPLETED",
+  "status": "VERIFIED",
   "audit_run_count": 1,
   "result_ref": "experiments/atlas-useful-task/report.json",
   "result_sha256": "5bed35f57166fd966b7457848d4aab8252a8a6cfaf4356a023b88b688e9eb388",
-  "verification": null,
+  "verification": {
+    "status": "PASS",
+    "verified_generation": 2,
+    "verified_run_id": "38052307112",
+    "report_sha256": "5bed35f57166fd966b7457848d4aab8252a8a6cfaf4356a023b88b688e9eb388",
+    "audit_run_count_observed": 1,
+    "broken_reference_count": 0
+  },
   "history": [
     {
       "generation": 1,
       "event": "TASK_EXECUTED",
       "run_id": "38052282464",
       "at": "2026-10-10T12:32:01.970Z"
+    },
+    {
+      "generation": 2,
+      "event": "PRIOR_COMPLETION_RECOGNIZED_AND_VERIFIED",
+      "run_id": "38052307112",
+      "at": "2026-10-10T12:32:33.722Z"
     }
   ]
 }
