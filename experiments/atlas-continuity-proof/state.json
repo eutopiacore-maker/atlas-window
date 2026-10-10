@@ -1,8 +1,8 @@
 {
   "schema": "atlas-continuity-proof/v1",
   "proof_id": "atlas-continuity-proof-20261010",
-  "generation": 1,
-  "last_heartbeat_at": "2026-10-10T12:27:36.535Z",
+  "generation": 2,
+  "last_heartbeat_at": "2026-10-10T12:28:07.093Z",
   "lineage": [
     {
       "schema": "atlas-runner-handoff/v1",
@@ -15,6 +15,18 @@
       "hostname": "runnervmmprz5",
       "parent_digest": "edc41dd4bc3cfe7cf75355eb485582ad164fbe264a6fcb4dee4185731d85bc23",
       "observed_at": "2026-10-10T12:27:36.535Z"
+    },
+    {
+      "schema": "atlas-runner-handoff/v1",
+      "generation_before": 1,
+      "generation_after": 2,
+      "workflow_run_id": "38052032837",
+      "job": "heartbeat",
+      "runner_name": "GitHub Actions 1000013956",
+      "runner_os": "Linux",
+      "hostname": "runnervmmprz5",
+      "parent_digest": "4d1e91c530bf3859e9d3979293f2704f9eb8e38904b9b7263512154ddf0fcced",
+      "observed_at": "2026-10-10T12:28:07.093Z"
     }
   ]
 }
