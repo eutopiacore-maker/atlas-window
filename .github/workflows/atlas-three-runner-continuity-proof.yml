@@ -1,0 +1,92 @@
+name: ATLAS Three-Runner Continuity Proof
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/atlas-three-runner-continuity-proof.yml'
+      - 'experiments/atlas-continuity-proof/**'
+
+permissions:
+  contents: read
+
+jobs:
+  pulse-1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generation 0 to 1
+        run: node experiments/atlas-continuity-proof/handoff.js experiments/atlas-continuity-proof/state.json state-1.json 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atlas-state-1
+          path: state-1.json
+          retention-days: 1
+
+  pulse-2:
+    needs: pulse-1
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: atlas-state-1
+          path: incoming
+      - name: Generation 1 to 2
+        run: node experiments/atlas-continuity-proof/handoff.js incoming/state-1.json state-2.json 2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atlas-state-2
+          path: state-2.json
+          retention-days: 1
+
+  pulse-3:
+    needs: pulse-2
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: atlas-state-2
+          path: incoming
+      - name: Generation 2 to 3
+        run: node experiments/atlas-continuity-proof/handoff.js incoming/state-2.json state-3.json 3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atlas-state-3
+          path: state-3.json
+          retention-days: 1
+
+  verify:
+    needs: pulse-3
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: atlas-state-3
+          path: proof
+      - name: Verify real continuity chain
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const s = JSON.parse(fs.readFileSync('proof/state-3.json','utf8'));
+          if (s.generation !== 3) throw new Error('final generation is not 3');
+          if (!Array.isArray(s.lineage) || s.lineage.length !== 3) throw new Error('lineage length is not 3');
+          for (let i=0;i<3;i++) {
+            const r=s.lineage[i];
+            if (r.generation_before !== i || r.generation_after !== i+1) throw new Error('broken generation chain at '+i);
+          }
+          const jobs=s.lineage.map(x=>x.job);
+          const hosts=s.lineage.map(x=>x.hostname);
+          if (new Set(jobs).size !== 3) throw new Error('jobs are not distinct');
+          console.log('ATLAS_CONTINUITY_PROOF_PASS');
+          console.log('ATLAS_FINAL_GENERATION='+s.generation);
+          console.log('ATLAS_HANDOFF_JOBS='+jobs.join(','));
+          console.log('ATLAS_RUNNER_HOSTS='+hosts.join(','));
+          console.log(JSON.stringify(s,null,2));
+          NODE
