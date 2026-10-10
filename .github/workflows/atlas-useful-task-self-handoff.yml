@@ -1,0 +1,85 @@
+name: ATLAS Useful Task Self-Handoff
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/atlas-useful-task-self-handoff.yml'
+  workflow_dispatch:
+    inputs:
+      state_branch:
+        description: Branch holding ATLAS task state
+        required: true
+        default: experiment/atlas-useful-task-20261010
+        type: string
+      expected_generation:
+        description: Generation this runner must execute
+        required: true
+        default: '1'
+        type: string
+      max_generation:
+        description: Final bounded generation
+        required: true
+        default: '2'
+        type: string
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: atlas-useful-task-self-handoff
+  cancel-in-progress: false
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      STATE_BRANCH: ${{ inputs.state_branch || 'experiment/atlas-useful-task-20261010' }}
+      EXPECTED_GENERATION: ${{ inputs.expected_generation || '1' }}
+      MAX_GENERATION: ${{ inputs.max_generation || '2' }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout persistent task branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.STATE_BRANCH }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Execute ATLAS useful-task pulse
+        shell: bash
+        run: |
+          set -euo pipefail
+          node experiments/atlas-useful-task/pulse.js
+
+      - name: Persist ATLAS state and result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "atlas-runtime-bot"
+          git config user.email "atlas-runtime-bot@users.noreply.github.com"
+          git add experiments/atlas-useful-task/state.json
+          if [ -f experiments/atlas-useful-task/report.json ]; then
+            git add experiments/atlas-useful-task/report.json
+          fi
+          git commit -m "test(useful-task): generation $EXPECTED_GENERATION checkpoint"
+          git push origin "HEAD:$STATE_BRANCH"
+          echo "ATLAS_USEFUL_TASK_CHECKPOINT=$EXPECTED_GENERATION"
+
+      - name: Dispatch successor pulse
+        if: fromJSON(env.EXPECTED_GENERATION) < fromJSON(env.MAX_GENERATION)
+        shell: bash
+        run: |
+          set -euo pipefail
+          next=$((EXPECTED_GENERATION + 1))
+          printf '{"ref":"main","inputs":{"state_branch":"%s","expected_generation":"%s","max_generation":"%s"}}'             "$STATE_BRANCH" "$next" "$MAX_GENERATION" > /tmp/dispatch.json
+          gh api             --method POST             -H "Accept: application/vnd.github+json"             "repos/$GITHUB_REPOSITORY/actions/workflows/atlas-useful-task-self-handoff.yml/dispatches"             --input /tmp/dispatch.json
+          echo "ATLAS_USEFUL_TASK_SUCCESSOR_DISPATCHED=$next"
+
+      - name: Final marker
+        if: fromJSON(env.EXPECTED_GENERATION) >= fromJSON(env.MAX_GENERATION)
+        shell: bash
+        run: |
+          echo "ATLAS_USEFUL_TASK_PROOF_COMPLETE=True"
