@@ -1,0 +1,11 @@
+{
+  "schema": "atlas-useful-task-report/v1",
+  "task_id": "audit-local-html-references",
+  "generated_at": "2026-10-10T12:32:01.963Z",
+  "workflow_run_id": "38052282464",
+  "runner_name": "GitHub Actions 1000013963",
+  "html_files_scanned": 16,
+  "local_references_checked": 12,
+  "broken_reference_count": 0,
+  "broken_references": []
+}
