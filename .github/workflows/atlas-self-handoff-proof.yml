@@ -81,3 +81,5 @@ jobs:
         run: |
           echo "ATLAS_SELF_HANDOFF_PROOF_COMPLETE=True"
           echo "ATLAS_FINAL_GENERATION=$EXPECTED_GENERATION"
+
+# trigger: 2026-10-10
