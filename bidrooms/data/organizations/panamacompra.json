@@ -1,0 +1,15 @@
+{
+  "id": "panamacompra",
+  "name": "PanamaCompra",
+  "type": "Sistema oficial de contratación",
+  "jurisdiction": "Panamá",
+  "status": "PUBLIC_SOURCE_IDENTIFIED",
+  "room_ids": [],
+  "sources": [
+    {
+      "name": "PanamaCompra",
+      "kind": "Portal oficial público; sin afiliación",
+      "url": "https://www.panamacompra.gob.pa/"
+    }
+  ]
+}

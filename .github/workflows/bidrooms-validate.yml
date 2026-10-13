@@ -7,9 +7,19 @@ on:
   pull_request:
     paths:
       - "bidrooms/**"
+  workflow_run:
+    workflows: ["pages build and deployment"]
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: bidrooms-validate-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
   validate:
+    if: github.event_name != 'workflow_run'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -18,6 +28,30 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - run: python bidrooms/scripts/build_public.py
       - run: python bidrooms/scripts/validate_public_data.py
+      - run: python -m unittest discover -s bidrooms/qa -p 'test_*.py' -v
       - run: python -m py_compile bidrooms/backend/app/main.py
-      - run: node --check bidrooms/assets/app.js
+      - run: node --check bidrooms/assets/app.js && node --check bidrooms/assets/navigation.js
+      - run: npm install --prefix bidrooms/qa --no-save playwright@1.64.0
+      - run: bidrooms/qa/node_modules/.bin/playwright install --with-deps chromium
+      - run: node bidrooms/qa/browser.mjs
+  deployed-public-regression:
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --prefix bidrooms/qa --no-save playwright@1.64.0
+      - run: bidrooms/qa/node_modules/.bin/playwright install --with-deps chromium
+      - run: node bidrooms/qa/browser.mjs
+        env:
+          BIDROOMS_VERIFY_URL: https://eutopiacore-maker.github.io/atlas-window/bidrooms/

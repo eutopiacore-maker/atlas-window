@@ -1,0 +1,101 @@
+{
+  "checked_at": "2026-10-13",
+  "phase": "Evaluación técnica parcial",
+  "status": "Expediente incompleto",
+  "item": {
+    "quantity": 1,
+    "unit": "expediente",
+    "code": "Procedimiento documentado"
+  },
+  "delivery": {
+    "incoterm": "No generalizado",
+    "location": "Consultar pliego"
+  },
+  "payment_terms": "Consultar documentos de cada expediente",
+  "public_participants": [],
+  "requirements": [],
+  "meta": [
+    {
+      "label": "Autoridad",
+      "value": "La entidad oficial conserva sus decisiones"
+    },
+    {
+      "label": "Revisión",
+      "value": "Validación profesional pendiente"
+    },
+    {
+      "label": "Alcance",
+      "value": "Referencia pública; operaciones privadas no habilitadas"
+    }
+  ],
+  "id": "acp-215004",
+  "owner_id": "acp",
+  "owner_acronym": "ACP",
+  "owner_name": "Autoridad del Canal de Panamá",
+  "number": "215004",
+  "title": "Reparación de losa de muelle de Diablo y columnas de puente de acceso",
+  "regime": "acp",
+  "method": "Licitación pública presencial, precio más bajo observado",
+  "summary": "Expediente auténtico observado en SLI. Pliego, anexos y textos de enmiendas no recuperados; no hay extracción de requisitos ni validación integral.",
+  "closes_at": "2026-10-16T13:00:00-05:00",
+  "official_system": {
+    "url": "https://apps.pancanal.com/sli/"
+  },
+  "documents": [
+    {
+      "id": "acp-pliego-anexos",
+      "title": "Pliego y anexos",
+      "kind": "Originales no recuperados",
+      "url": null,
+      "sha256": null,
+      "acquisition_status": "BLOQUEADO_POLITICA_URL_NAVEGADOR"
+    }
+  ],
+  "amendments": [
+    {
+      "title": "Contador de enmiendas: 3",
+      "date": "25/09/2026",
+      "detail": "Observado en la interfaz SLI. No se recuperaron los textos, por lo que no se determina su efecto."
+    }
+  ],
+  "clarifications": [],
+  "timeline": [
+    {
+      "label": "Publicación observada",
+      "date": "02/09/2026 07:21, Panamá"
+    },
+    {
+      "label": "Última revisión mostrada",
+      "date": "25/09/2026 15:18, Panamá"
+    },
+    {
+      "label": "Cierre mostrado",
+      "date": "16/10/2026 13:00, Panamá"
+    }
+  ],
+  "workflow": {
+    "amendment_term": "Enmiendas ACP",
+    "pricing": false,
+    "professional_authority": "Revisión humana; no certificación automática"
+  },
+  "analysis": {
+    "documents_expected": 2,
+    "documents_processed": 0,
+    "candidates": 0,
+    "ocr_pages": 0,
+    "corpus_complete": false,
+    "limitation": "ACP: originales bloqueados por política URL del navegador. Los dos grupos identificados (pliego/anexos y enmiendas) no equivalen a un inventario completo."
+  },
+  "evidence": [
+    {
+      "label": "Fuente",
+      "detail": "Interfaz pública SLI, consulta de obras, número 215004; nota derivada, no PDF original.",
+      "state": "Observado"
+    },
+    {
+      "label": "Requisitos y reglas",
+      "detail": "Desconocidos hasta recuperar los originales y efectuar revisión.",
+      "state": "Pendiente"
+    }
+  ]
+}

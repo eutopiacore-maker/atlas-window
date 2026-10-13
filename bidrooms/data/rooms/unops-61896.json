@@ -1,0 +1,220 @@
+{
+  "checked_at": "2026-10-13",
+  "phase": "Evaluación técnica parcial",
+  "status": "Expediente incompleto",
+  "item": {
+    "quantity": 1,
+    "unit": "expediente",
+    "code": "Procedimiento documentado"
+  },
+  "delivery": {
+    "incoterm": "No generalizado",
+    "location": "Consultar pliego"
+  },
+  "payment_terms": "Consultar documentos de cada expediente",
+  "public_participants": [],
+  "requirements": [],
+  "meta": [
+    {
+      "label": "Autoridad",
+      "value": "La entidad oficial conserva sus decisiones"
+    },
+    {
+      "label": "Revisión",
+      "value": "Validación profesional pendiente"
+    },
+    {
+      "label": "Alcance",
+      "value": "Referencia pública; operaciones privadas no habilitadas"
+    }
+  ],
+  "id": "unops-61896",
+  "owner_id": "unops",
+  "owner_acronym": "UNOPS",
+  "owner_name": "Oficina de las Naciones Unidas de Servicios para Proyectos",
+  "number": "ITB/2026/61896",
+  "regime": "unops",
+  "title": "Materiales y herramientas para puentes en Panamá — acuerdo a largo plazo",
+  "method": "Llamado internacional a licitación, acuerdo a largo plazo",
+  "summary": "Caso histórico oficial UNGM 294506. Seis documentos originales procesados localmente, con referencias por página, párrafo o celda. Faltan tres transferencias y revisión humana.",
+  "closes_at": "2026-04-27T22:00:00+00:00",
+  "official_system": {
+    "url": "https://www.ungm.org/Public/Notice/294506"
+  },
+  "documents": [
+    {
+      "id": "unops-instructions",
+      "title": "Instrucciones para licitantes",
+      "kind": "Documento público oficial",
+      "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987048",
+      "version": "PUBLICADA_EN_AVISO_294506",
+      "sha256": "870d095ba925b69a12164ac587905595afff3474eb57e60d5bd090ba145abd9a",
+      "bytes": 229858,
+      "hash_checkpoint_available": true,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente"
+    },
+    {
+      "id": "unops-price-form",
+      "title": "Formulario de oferta de precios, XLSX",
+      "kind": "Documento público oficial",
+      "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987050",
+      "version": "PUBLICADA_EN_AVISO_294506",
+      "sha256": null,
+      "bytes": 15388,
+      "hash_checkpoint_available": false,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente"
+    },
+    {
+      "id": "unops-offer-forms",
+      "title": "Anexos de oferta, DOCX",
+      "kind": "Documento público oficial",
+      "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987051",
+      "version": "PUBLICADA_EN_AVISO_294506",
+      "sha256": null,
+      "bytes": 1320706,
+      "hash_checkpoint_available": false,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente"
+    },
+    {
+      "id": "unops-contract-annexes",
+      "title": "Anexos al contrato",
+      "kind": "Documento público oficial",
+      "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987052",
+      "version": "PUBLICADA_EN_AVISO_294506",
+      "sha256": null,
+      "bytes": 266728,
+      "hash_checkpoint_available": false,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente"
+    },
+    {
+      "id": "unops-acta-2",
+      "title": "Acta de segunda reunión previa",
+      "kind": "Documento público oficial",
+      "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=2002076",
+      "version": "PUBLICADA_EN_AVISO_294506",
+      "sha256": null,
+      "bytes": null,
+      "hash_checkpoint_available": false,
+      "acquisition_status": "TRANSFERENCIA_NO_MATERIALIZADA",
+      "processing_state": "No recuperado"
+    },
+    {
+      "id": "unops-acta-1",
+      "title": "Acta de primera reunión previa",
+      "kind": "Documento público oficial",
+      "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=2002077",
+      "version": "PUBLICADA_EN_AVISO_294506",
+      "sha256": null,
+      "bytes": null,
+      "hash_checkpoint_available": false,
+      "acquisition_status": "TRANSFERENCIA_NO_MATERIALIZADA",
+      "processing_state": "No recuperado"
+    },
+    {
+      "id": "unops-presentation-1",
+      "title": "Reunión informativa 24/03",
+      "kind": "Documento público oficial",
+      "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=2002078",
+      "version": "PUBLICADA_EN_AVISO_294506",
+      "sha256": null,
+      "bytes": null,
+      "hash_checkpoint_available": false,
+      "acquisition_status": "TRANSFERENCIA_NO_MATERIALIZADA",
+      "processing_state": "No recuperado"
+    },
+    {
+      "id": "unops-presentation-2",
+      "title": "Reunión informativa 07/04",
+      "kind": "Documento público oficial",
+      "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=2002079",
+      "version": "PUBLICADA_EN_AVISO_294506",
+      "sha256": null,
+      "bytes": 2687541,
+      "hash_checkpoint_available": false,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente"
+    },
+    {
+      "id": "unops-requirements-amendment2",
+      "title": "Lista de requerimientos, enmienda 2",
+      "kind": "Documento público oficial",
+      "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=2003477",
+      "version": "ENMIENDA_2",
+      "sha256": null,
+      "bytes": 279954,
+      "hash_checkpoint_available": false,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente"
+    }
+  ],
+  "amendments": [
+    {
+      "title": "Enmienda 1",
+      "date": "15/04/2026",
+      "detail": "El aviso registra cambio de fecha y documentos de reuniones. Archivos de reuniones incompletos."
+    },
+    {
+      "title": "Enmienda 2",
+      "date": "17/04/2026",
+      "detail": "Revisión de lista de requerimientos; archivo original recuperado. Documento anterior no disponible para comparación completa."
+    },
+    {
+      "title": "Enmienda 3",
+      "date": "22/04/2026",
+      "detail": "El aviso registra cierre el 27/04/2026 a las 22:00 UTC; no es una convocatoria abierta en octubre."
+    }
+  ],
+  "clarifications": [
+    {
+      "title": "Aclaraciones oficiales publicadas 17 y 21 de abril; interpretación y alcance requieren cotejo profesional."
+    }
+  ],
+  "timeline": [
+    {
+      "label": "Publicado",
+      "date": "19/03/2026"
+    },
+    {
+      "label": "Tres enmiendas registradas",
+      "date": "15, 17 y 22/04/2026"
+    },
+    {
+      "label": "Fecha final en aviso",
+      "date": "27/04/2026 22:00 UTC"
+    }
+  ],
+  "workflow": {
+    "amendment_term": "Enmiendas UNOPS",
+    "pricing": false,
+    "professional_authority": "Autoridad UNOPS y revisión humana"
+  },
+  "analysis": {
+    "documents_expected": 9,
+    "documents_processed": 6,
+    "candidates": 398,
+    "ocr_pages": 0,
+    "corpus_complete": false,
+    "limitation": "Tres transferencias no materializadas. Los resultados completos y cinco huellas no pudieron trasladarse desde el entorno offline; no se inventan. Precisión, F1 y cobertura crítica desconocidas."
+  },
+  "evidence": [
+    {
+      "label": "Procesamiento local",
+      "detail": "45 páginas PDF, 42 tablas detectadas y 398 candidatos en seis archivos. DOCX/XLSX usan párrafo/hoja/fila, no páginas ficticias.",
+      "state": "Ejecutado"
+    },
+    {
+      "label": "Revisión profesional",
+      "detail": "No hay estándar humano independiente ni validación jurídica.",
+      "state": "Pendiente"
+    },
+    {
+      "label": "Integración privada",
+      "detail": "No enviar documentos empresariales a servicios externos. Esta superficie no presenta ofertas oficiales.",
+      "state": "No habilitada"
+    }
+  ]
+}
