@@ -1,7 +1,7 @@
 {
   "schema": "bidrooms-public-manifest/v1",
-  "version": "1.0.0",
-  "updated_at": "2026-10-02T14:14:00-05:00",
+  "version": "1.1.0",
+  "updated_at": "2026-10-13T20:10:00Z",
   "design_canon": "luxury+nature+executive+panama-dark-gradients+smoked-glass",
   "public_accounts": false,
   "atlas_contact": "eutopiacore@gmail.com",
@@ -21,6 +21,22 @@
       "jurisdiction": "Panamá",
       "status": "PUBLIC_VERIFIED",
       "profile": null
+    },
+    {
+      "id": "municipio-panama",
+      "name": "Municipio de Panamá",
+      "type": "Gobierno municipal · información pública",
+      "jurisdiction": "Panamá",
+      "status": "PUBLIC_SOURCE_IDENTIFIED",
+      "profile": "organizations/?id=municipio-panama"
+    },
+    {
+      "id": "unops",
+      "name": "UNOPS",
+      "type": "Organismo internacional · información pública",
+      "jurisdiction": "Internacional",
+      "status": "PUBLIC_SOURCE_IDENTIFIED",
+      "profile": "organizations/?id=unops"
     }
   ],
   "rooms": [
@@ -34,6 +50,54 @@
       "closes_at": "2026-10-05T11:00:00-05:00",
       "checked_at": "2026-10-01",
       "route": "acp-215164/"
+    },
+    {
+      "id": "acp-215004",
+      "owner_id": "acp",
+      "title": "Reparación de losa de muelle de Diablo y columnas de puente de acceso",
+      "number": "215004",
+      "status": "Expediente incompleto",
+      "phase": "Evaluación técnica parcial",
+      "closes_at": "2026-10-16T13:00:00-05:00",
+      "checked_at": "2026-10-13",
+      "regime": "acp",
+      "route": "room/?id=acp-215004"
+    },
+    {
+      "id": "panama-mupa-268",
+      "owner_id": "municipio-panama",
+      "title": "Materiales metálicos para trabajos de construcción en comunidades del distrito capital",
+      "number": "MUPA-0-00-0-26-CM-000268",
+      "status": "Expediente incompleto",
+      "phase": "Evaluación técnica parcial",
+      "closes_at": "2026-03-31T14:00:00-05:00",
+      "checked_at": "2026-10-13",
+      "regime": "panama-ley22",
+      "route": "room/?id=panama-mupa-268"
+    },
+    {
+      "id": "unops-61896",
+      "owner_id": "unops",
+      "title": "Materiales y herramientas para puentes en Panamá — acuerdo a largo plazo",
+      "number": "ITB/2026/61896",
+      "status": "Expediente incompleto",
+      "phase": "Evaluación técnica parcial",
+      "closes_at": "2026-04-27T22:00:00+00:00",
+      "checked_at": "2026-10-13",
+      "regime": "unops",
+      "route": "room/?id=unops-61896"
     }
+  ],
+  "build_id": "bidrooms-public-20261013-r1",
+  "compatibility": {
+    "public_schema": 1,
+    "safe_navigation": true,
+    "scope": "PUBLIC_REGISTRY_ONLY"
+  },
+  "assets": [
+    "assets/theme.56088ede936cc43ab1677e57836e792e22364812.css",
+    "assets/navigation.aa26945cd9f43a768140c55d111526b0d19a4740.js",
+    "assets/app.7ecd6837081c565c535749731ea1a985d7efc55c.js",
+    "assets/config.8a3a2b2e274b49872b4dec5d9ebb6dad600c40ea.js"
   ]
 }

@@ -1,52 +1,11 @@
-# BIDROOMS SYSTEM STATE
+# BidRooms — checkpoint técnico público 13/10/2026
 
-status: DATA_DRIVEN_PUBLIC_APP_ACTIVE
-updated: 2026-10-02
-public_surface: GitHub Pages
-design_canon: luxury + nature + executive + Panama dark gradients + smoked glass
-public_accounts: false
+Producto existente: https://eutopiacore-maker.github.io/atlas-window/bidrooms/ . Baseline Pages observado: 2110aaa583f2cafecd3f2655db5275c85fe5edd1, ejecución 38426315021, HTTP 200. API privada no configurada.
 
-## Active objects
-- organization: acp
-- procurement room: acp-215164
+Salas públicas: ACP 215004, MUPA-0-00-0-26-CM-000268 y UNOPS ITB/2026/61896. Los tres expedientes están incompletos. Motor especializado conservado en ATLAS privado, no copiado aquí.
 
-## Canonical public data
-- data/manifest.json
-- data/organizations/*.json
-- data/rooms/*.json
+Primera ejecución auténtica local: seis originales UNOPS, 45 páginas PDF, 42 tablas, 398 candidatos; seis originales municipales, 14 páginas OCR español, 89 candidatos. Séptimo original municipal, pliego de 19 páginas, rechazado por falso positivo /OpenAction. Filtro corregido con prueba de seguridad; reejecución auténtica sin resultado observado por environment_offline. ACP sin originales recuperados. Precisión/F1, cobertura crítica y revisión profesional pendientes. Registro privado sin captura ni envío de ID personal. No patrocinio ni colaboración institucional implícitos.
 
-## Shared runtime
-- assets/theme.css
-- assets/app.js
-- assets/config.js
-- room/index.html (generic renderer)
-- acp-215164/index.html (stable pretty URL shell)
+Recursos versionados por contenido y detección discreta en navegación pública; marcas y borradores personales no equivalen a aprobación. NO anuncia protección de propuestas privadas, subidas, sesiones autenticadas ni API no probadas. CI y Pages aportan evidencia de ejecución; este archivo no sustituye sus pruebas.
 
-## Update contract
-A new procurement normally requires only:
-1. data/rooms/<id>.json
-2. manifest.json entry using route room/?id=<id>
-3. organization JSON only if the owner is new
-
-No visual rebuild is required.
-
-## Private/API path
-- backend/app/main.py
-- backend/migrations/001_init.sql
-- backend/Dockerfile
-- representative government ID hashed before database storage
-
-## Validation
-- scripts/validate_public_data.py
-- .github/workflows/bidrooms-validate.yml
-- JSON validation
-- Python compile check
-- JavaScript syntax check
-
-## Current boundary
-Public app: deployed/static/data-driven.
-Private API + PostgreSQL: code present, not hosted yet.
-Intake fallback until API deployment: ATLAS email.
-
-## Next action
-Deploy PostgreSQL + FastAPI → set assets/config.js apiBase → switch representative intake automatically to POST /api/v1/intake → build ACP source-sync against the same room schema.
+Recuperación: conservar commits y recursos inmutables; reversión mediante commit revisado, no reset destructivo. Este cambio no migra datos ni modifica cuentas. Backend PostgreSQL y capacidad privada deben alojarse y verificarse antes de habilitar operaciones empresariales.

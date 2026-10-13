@@ -1,0 +1,17 @@
+{
+  "id": "unops",
+  "name": "UNOPS",
+  "type": "Organismo internacional",
+  "jurisdiction": "Internacional",
+  "status": "PUBLIC_SOURCE_IDENTIFIED",
+  "room_ids": [
+    "unops-61896"
+  ],
+  "sources": [
+    {
+      "name": "Aviso oficial ITB/2026/61896",
+      "kind": "Fuente oficial pública; no colaboración institucional",
+      "url": "https://www.ungm.org/Public/Notice/294506"
+    }
+  ]
+}

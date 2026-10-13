@@ -1,0 +1,205 @@
+{
+  "checked_at": "2026-10-13",
+  "phase": "Evaluación técnica parcial",
+  "status": "Expediente incompleto",
+  "item": {
+    "quantity": 1,
+    "unit": "expediente",
+    "code": "Procedimiento documentado"
+  },
+  "delivery": {
+    "incoterm": "No generalizado",
+    "location": "Consultar pliego"
+  },
+  "payment_terms": "Consultar documentos de cada expediente",
+  "public_participants": [],
+  "requirements": [],
+  "meta": [
+    {
+      "label": "Autoridad",
+      "value": "La entidad oficial conserva sus decisiones"
+    },
+    {
+      "label": "Revisión",
+      "value": "Validación profesional pendiente"
+    },
+    {
+      "label": "Alcance",
+      "value": "Referencia pública; operaciones privadas no habilitadas"
+    }
+  ],
+  "id": "panama-mupa-268",
+  "owner_id": "municipio-panama",
+  "owner_acronym": "MUPA",
+  "owner_name": "Municipio de Panamá",
+  "number": "MUPA-0-00-0-26-CM-000268",
+  "regime": "panama-ley22",
+  "title": "Materiales metálicos para trabajos de construcción en comunidades del distrito capital",
+  "method": "Compra menor; marco aplicable requiere cotejo del pliego",
+  "summary": "Caso gubernamental alternativo a MOP/IDAAN, cuyos originales no fueron accesibles desde este entorno. Fuente municipal muestra adjudicación. Siete archivos originales recuperados; dos visores sin URL.",
+  "closes_at": "2026-03-31T14:00:00-05:00",
+  "official_system": {
+    "url": "https://apps.mupa.gob.pa/compras/pliego/?id=277"
+  },
+  "documents": [
+    {
+      "id": "mupa-pliego",
+      "title": "Pliego de cargos",
+      "kind": "Documento público oficial",
+      "url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/PLIEGO%20DE%20CARGOS%20MATERIALES%20METALICOS%20RENGLON%20277%20REQ%20445.pdf",
+      "version": "23/03/2026",
+      "sha256": "f7311e2440cac854f984893a2f934b8cae9d3a3434001c8f75843054bf8d4821",
+      "bytes": 437031,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Reejecución pendiente tras corregir filtro"
+    },
+    {
+      "id": "mupa-convocatoria-1",
+      "title": "Convocatoria original",
+      "kind": "Documento público oficial",
+      "url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/AVISO%20CONVOCATORIA%20RENGLON%20277.pdf",
+      "version": "23/03/2026",
+      "sha256": "6507541b807d601c8f8188204a8bab890e5f11edd4fe498eeb131ed7b1054535",
+      "bytes": 239814,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente con OCR"
+    },
+    {
+      "id": "mupa-apertura-1",
+      "title": "Acta de apertura original",
+      "kind": "Documento público oficial",
+      "url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/Digitalizaci%C3%83%C2%B3n27-03-2026-110954%20(1).pdf",
+      "version": "27/03/2026",
+      "sha256": "8329f9540f5801fa05f2dec667fe68918c3e593b286115fd9a57b5302c913100",
+      "bytes": 589625,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente con OCR"
+    },
+    {
+      "id": "mupa-convocatoria-2",
+      "title": "Nueva convocatoria",
+      "kind": "Documento público oficial",
+      "url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/AVISO%20CONVOCATORIA%20No%202%20mupa%20268.pdf",
+      "version": "27/03/2026",
+      "sha256": "f7cb0120d0bd4c5d18a95e0a0f1ca037511855955db251a1917cb67a48b032df",
+      "bytes": 244043,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente con OCR"
+    },
+    {
+      "id": "mupa-apertura-2",
+      "title": "Segunda acta de apertura",
+      "kind": "Documento público oficial",
+      "url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/Digitalizaci%C3%83%C2%B3n31-03-2026-160936.pdf",
+      "version": "31/03/2026",
+      "sha256": "ee5f887e3d78f4baa409f01c47fb52fde8ac32bbea041b3d633b7005a99a2fde",
+      "bytes": 626059,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente con OCR"
+    },
+    {
+      "id": "mupa-adjudicacion",
+      "title": "Resolución de adjudicación",
+      "kind": "Documento público oficial",
+      "url": null,
+      "version": "28/04/2026",
+      "sha256": null,
+      "bytes": null,
+      "acquisition_status": "VISOR_SIN_URL_PUBLICADA",
+      "processing_state": "No recuperado"
+    },
+    {
+      "id": "mupa-orden-1",
+      "title": "Orden de compra, primera publicación",
+      "kind": "Documento público oficial",
+      "url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/oc4200673212.pdf",
+      "version": "28/04/2026",
+      "sha256": "0589b4294073a551ca0e07f07087109c93f20f9b653a5bbb5e17e5a82a8b4a7b",
+      "bytes": 1579250,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente con OCR"
+    },
+    {
+      "id": "mupa-orden-2",
+      "title": "Orden de compra, segunda publicación",
+      "kind": "Documento público oficial",
+      "url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/3212%20%20%2007-05-2026-154257.pdf",
+      "version": "07/05/2026",
+      "sha256": "854fd996e368b1494d3a70ef3f336ebb22816e7ffc49d00e89f58c1d3b8cdd55",
+      "bytes": 1713746,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente con OCR"
+    },
+    {
+      "id": "mupa-recepcion",
+      "title": "Acta de recepción",
+      "kind": "Documento público oficial",
+      "url": null,
+      "version": "17/06/2026",
+      "sha256": null,
+      "bytes": null,
+      "acquisition_status": "VISOR_SIN_URL_PUBLICADA",
+      "processing_state": "No recuperado"
+    }
+  ],
+  "amendments": [
+    {
+      "title": "Nueva convocatoria, publicación del 27/03",
+      "date": "27/03/2026",
+      "detail": "Original recuperado. La cronología difiere de la convocatoria inicial; requiere cotejo humano con las actas."
+    }
+  ],
+  "clarifications": [],
+  "timeline": [
+    {
+      "label": "Publicación",
+      "date": "23/03/2026"
+    },
+    {
+      "label": "Primera acta publicada",
+      "date": "27/03/2026"
+    },
+    {
+      "label": "Nueva convocatoria",
+      "date": "27/03/2026"
+    },
+    {
+      "label": "Segundo acto mostrado",
+      "date": "31/03/2026"
+    },
+    {
+      "label": "Adjudicado en página oficial",
+      "date": "Consulta 13/10/2026; resolución no recuperada"
+    }
+  ],
+  "workflow": {
+    "amendment_term": "Adendas y convocatorias",
+    "pricing": false,
+    "professional_authority": "Revisión multidisciplinaria pendiente"
+  },
+  "analysis": {
+    "documents_expected": 9,
+    "documents_processed": 6,
+    "candidates": 89,
+    "ocr_pages": 14,
+    "corpus_complete": false,
+    "limitation": "Dos documentos sin URL en el visor y pliego pendiente de reejecución tras corregir un falso positivo de seguridad. Los 89 candidatos fueron extraídos localmente; su listado completo no se importó a esta publicación."
+  },
+  "evidence": [
+    {
+      "label": "Integridad",
+      "detail": "Siete originales descargados y con SHA-256 registrado. Dos documentos no recuperados.",
+      "state": "Parcial"
+    },
+    {
+      "label": "OCR local",
+      "detail": "14 páginas escaneadas leídas con Tesseract español; 89 candidatos, exactitud profesional sin medir.",
+      "state": "Ejecutado localmente"
+    },
+    {
+      "label": "Pliego",
+      "detail": "19 páginas; navegación interna /XYZ confundida inicialmente con acción activa. Corrección probada con fixtures; reejecución auténtica pendiente.",
+      "state": "Pendiente"
+    }
+  ]
+}

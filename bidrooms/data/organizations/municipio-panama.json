@@ -1,0 +1,17 @@
+{
+  "id": "municipio-panama",
+  "name": "Municipio de Panamá",
+  "type": "Gobierno municipal",
+  "jurisdiction": "Panamá",
+  "status": "PUBLIC_SOURCE_IDENTIFIED",
+  "room_ids": [
+    "panama-mupa-268"
+  ],
+  "sources": [
+    {
+      "name": "Procedimiento 268, renglón 277",
+      "kind": "Fuente oficial pública; sin afiliación",
+      "url": "https://apps.mupa.gob.pa/compras/pliego/?id=277"
+    }
+  ]
+}
