@@ -7,7 +7,7 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 manifest = json.loads((ROOT/'data/manifest.json').read_text())
 assets = {}
-for name in ['app.js','theme.css','navigation.js','config.js']:
+for name in ['app.js','theme.css','navigation.js','config.js','needs.js']:
     raw = (ROOT/'assets'/name).read_bytes()
     # SHA de blob Git: misma identidad que la usada al conservar estos recursos.
     digest = hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()

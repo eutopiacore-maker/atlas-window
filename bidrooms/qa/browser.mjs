@@ -11,15 +11,26 @@ if(scratch)await cp('bidrooms',join(scratch,'bidrooms'),{recursive:true});
 const server=scratch?spawn('python',['-m','http.server','8765','--bind','127.0.0.1','--directory',scratch],{stdio:'ignore'}):null;
 const origin=remote||'http://127.0.0.1:8765/bidrooms/';
 for(let i=0;i<50;i++){try{if((await fetch(origin)).ok)break;}catch{}await new Promise(r=>setTimeout(r,100));}
-const browser=await chromium.launch({headless:true});let passed=0;
+const browser=await chromium.launch({headless:true,executablePath:process.env.BIDROOMS_CHROMIUM_EXECUTABLE||undefined});let passed=0;
 const check=name=>{passed++;console.log('BIDROOMS_BROWSER_PASS',name);};
 try{
  const context=await browser.newContext({viewport:{width:390,height:844}});
  const home=await context.newPage(),errors=[];home.on('pageerror',e=>errors.push(e.message));
  await home.goto(origin);await home.waitForSelector('#directory .card');
  const manifest=await(await fetch(new URL('data/manifest.json',origin))).json();
- assert.equal(manifest.version,'1.1.0');assert.equal(manifest.rooms.length,4);check('directorio y ruta histórica conservada');
+ assert.equal(manifest.version,'1.2.0');assert.equal(manifest.rooms.length,4);check('directorio y ruta histórica conservada');
  assert.equal(await home.locator('input[name="id"]').count(),0);check('sin identificación personal ni correo con ID');
+ await home.locator('[data-example]').first().click();await home.locator('#needForm button[type="submit"]').click();
+ await home.waitForSelector('#needResult .need-options');
+ assert.match(await home.locator('#needResult').innerText(),/puentes/i);
+ assert.match(await home.locator('#needResult').innerText(),/elegibilidad permanece desconocida/i);
+ assert.equal(await home.locator('#privateLogin:visible,#privateDocuments:visible').count(),0);
+ check('objetivo libre conduce a fuentes reales; datos privados bloqueados sin API');
+ await home.locator('#needObjective').fill('Necesito un servicio inexistente zzqa999');
+ await home.locator('#needForm button[type="submit"]').click();
+ await home.waitForFunction(()=>document.getElementById('needResult').textContent.includes('No hay una coincidencia'));
+ assert.match(await home.locator('#needResult').innerText(),/no se han confirmado oportunidades/i);
+ check('incertidumbre explícita ante falta de respaldo');
  await home.locator('#globalSearch').fill('UNOPS');
  assert.match(await home.locator('#directory').innerText(),/UNOPS/);
  assert.doesNotMatch(await home.locator('#directory').innerText(),/Reparación de losa/);check('búsqueda funcional');

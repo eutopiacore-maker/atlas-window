@@ -13,7 +13,104 @@
   },
   "payment_terms": "Consultar documentos de cada expediente",
   "public_participants": [],
-  "requirements": [],
+  "requirements": [
+    {
+      "id": "300fd7fac0a0d64edc7c55b56ef290c2",
+      "title": "Las propuestas deben tener una validez de CIENTO VEINTE (120) DÍAS HÁBILES.",
+      "detail": "Candidato de clasificación FECHA. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/PLIEGO%20DE%20CARGOS%20MATERIALES%20METALICOS%20RENGLON%20277%20REQ%20445.pdf",
+      "source_version": "23/03/2026",
+      "page": 5,
+      "section": null,
+      "document_title": "Pliego de cargos",
+      "document_sha256": "f7311e2440cac854f984893a2f934b8cae9d3a3434001c8f75843054bf8d4821",
+      "certainty": "CONFIRMADA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "Las propuestas deben tener una validez de CIENTO VEINTE (120) DÍAS HÁBILES."
+    },
+    {
+      "id": "5553d6d56720f84dc4bddff1d7251c27",
+      "title": "identificación del acto público, nombre del proponente y fecha del acto en el departamento",
+      "detail": "Candidato de clasificación FECHA. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/PLIEGO%20DE%20CARGOS%20MATERIALES%20METALICOS%20RENGLON%20277%20REQ%20445.pdf",
+      "source_version": "23/03/2026",
+      "page": 5,
+      "section": null,
+      "document_title": "Pliego de cargos",
+      "document_sha256": "f7311e2440cac854f984893a2f934b8cae9d3a3434001c8f75843054bf8d4821",
+      "certainty": "CONFIRMADA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "identificación del acto público, nombre del proponente y fecha del acto en el departamento"
+    },
+    {
+      "id": "68401b5d5ccc0abda2c42de44c89c92f",
+      "title": "plazo para formalizar la adjudicación y la firma del contrato; la forma de pago; las",
+      "detail": "Candidato de clasificación ECONOMICO. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/PLIEGO%20DE%20CARGOS%20MATERIALES%20METALICOS%20RENGLON%20277%20REQ%20445.pdf",
+      "source_version": "23/03/2026",
+      "page": 4,
+      "section": null,
+      "document_title": "Pliego de cargos",
+      "document_sha256": "f7311e2440cac854f984893a2f934b8cae9d3a3434001c8f75843054bf8d4821",
+      "certainty": "CONFIRMADA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "plazo para formalizar la adjudicación y la firma del contrato; la forma de pago; las"
+    },
+    {
+      "id": "0336f1b5114e80ba8d83ee2c87cab17f",
+      "title": "4. PRECIO DE REFERENCIA",
+      "detail": "Candidato de clasificación ECONOMICO. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/PLIEGO%20DE%20CARGOS%20MATERIALES%20METALICOS%20RENGLON%20277%20REQ%20445.pdf",
+      "source_version": "23/03/2026",
+      "page": 5,
+      "section": null,
+      "document_title": "Pliego de cargos",
+      "document_sha256": "f7311e2440cac854f984893a2f934b8cae9d3a3434001c8f75843054bf8d4821",
+      "certainty": "CONFIRMADA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "4. PRECIO DE REFERENCIA"
+    },
+    {
+      "id": "aa79b610ee1c187365e25c2cb5712340",
+      "title": "necesariamente: La forma de adjudicación; el método de evaluación cuando proceda y los",
+      "detail": "Candidato de clasificación CRITERIO. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/PLIEGO%20DE%20CARGOS%20MATERIALES%20METALICOS%20RENGLON%20277%20REQ%20445.pdf",
+      "source_version": "23/03/2026",
+      "page": 4,
+      "section": null,
+      "document_title": "Pliego de cargos",
+      "document_sha256": "f7311e2440cac854f984893a2f934b8cae9d3a3434001c8f75843054bf8d4821",
+      "certainty": "CONFIRMADA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "necesariamente: La forma de adjudicación; el método de evaluación cuando proceda y los"
+    },
+    {
+      "id": "42b4402eae70fa499dfdd5c52c5787f7",
+      "title": "criterios de ponderación; la determinación del precio de referencia por rubro o total; la",
+      "detail": "Candidato de clasificación CRITERIO. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://apps.mupa.gob.pa/compras/api/uploads/2026/documentos/277/PLIEGO%20DE%20CARGOS%20MATERIALES%20METALICOS%20RENGLON%20277%20REQ%20445.pdf",
+      "source_version": "23/03/2026",
+      "page": 4,
+      "section": null,
+      "document_title": "Pliego de cargos",
+      "document_sha256": "f7311e2440cac854f984893a2f934b8cae9d3a3434001c8f75843054bf8d4821",
+      "certainty": "CONFIRMADA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "criterios de ponderación; la determinación del precio de referencia por rubro o total; la"
+    }
+  ],
   "meta": [
     {
       "label": "Autoridad",
@@ -36,7 +133,7 @@
   "regime": "panama-ley22",
   "title": "Materiales metálicos para trabajos de construcción en comunidades del distrito capital",
   "method": "Compra menor; marco aplicable requiere cotejo del pliego",
-  "summary": "Caso gubernamental alternativo a MOP/IDAAN, cuyos originales no fueron accesibles desde este entorno. Fuente municipal muestra adjudicación. Siete archivos originales recuperados; dos visores sin URL.",
+  "summary": "Expediente municipal: siete PDF originales procesados, incluido el pliego. Dos archivos sin URL siguen pendientes.",
   "closes_at": "2026-03-31T14:00:00-05:00",
   "official_system": {
     "url": "https://apps.mupa.gob.pa/compras/pliego/?id=277"
@@ -51,7 +148,7 @@
       "sha256": "f7311e2440cac854f984893a2f934b8cae9d3a3434001c8f75843054bf8d4821",
       "bytes": 437031,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Reejecución pendiente tras corregir filtro"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "mupa-convocatoria-1",
@@ -62,7 +159,7 @@
       "sha256": "6507541b807d601c8f8188204a8bab890e5f11edd4fe498eeb131ed7b1054535",
       "bytes": 239814,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente con OCR"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "mupa-apertura-1",
@@ -73,7 +170,7 @@
       "sha256": "8329f9540f5801fa05f2dec667fe68918c3e593b286115fd9a57b5302c913100",
       "bytes": 589625,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente con OCR"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "mupa-convocatoria-2",
@@ -84,7 +181,7 @@
       "sha256": "f7cb0120d0bd4c5d18a95e0a0f1ca037511855955db251a1917cb67a48b032df",
       "bytes": 244043,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente con OCR"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "mupa-apertura-2",
@@ -95,7 +192,7 @@
       "sha256": "ee5f887e3d78f4baa409f01c47fb52fde8ac32bbea041b3d633b7005a99a2fde",
       "bytes": 626059,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente con OCR"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "mupa-adjudicacion",
@@ -117,7 +214,7 @@
       "sha256": "0589b4294073a551ca0e07f07087109c93f20f9b653a5bbb5e17e5a82a8b4a7b",
       "bytes": 1579250,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente con OCR"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "mupa-orden-2",
@@ -128,7 +225,7 @@
       "sha256": "854fd996e368b1494d3a70ef3f336ebb22816e7ffc49d00e89f58c1d3b8cdd55",
       "bytes": 1713746,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente con OCR"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "mupa-recepcion",
@@ -179,16 +276,16 @@
   },
   "analysis": {
     "documents_expected": 9,
-    "documents_processed": 6,
-    "candidates": 89,
+    "documents_processed": 7,
+    "candidates": 247,
     "ocr_pages": 14,
     "corpus_complete": false,
-    "limitation": "Dos documentos sin URL en el visor y pliego pendiente de reejecución tras corregir un falso positivo de seguridad. Los 89 candidatos fueron extraídos localmente; su listado completo no se importó a esta publicación."
+    "limitation": "Sin estándar humano independiente ni validación profesional. Faltan dos originales publicados en visores sin URL."
   },
   "evidence": [
     {
       "label": "Integridad",
-      "detail": "Siete originales descargados y con SHA-256 registrado. Dos documentos no recuperados.",
+      "detail": "Medición local: 33 páginas PDF, 13 tablas y 247 candidatos; 7 archivos. No es precisión ni cobertura crítica.",
       "state": "Parcial"
     },
     {

@@ -4,11 +4,30 @@ from datetime import datetime, timezone
 from typing import Optional
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, EmailStr
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, event
+from .workspace import make_router
+from fastapi.middleware.cors import CORSMiddleware
 
 DATABASE_URL=os.getenv("DATABASE_URL")
 app=FastAPI(title="BIDROOMS API",version="0.1.0")
 engine=create_engine(DATABASE_URL,pool_pre_ping=True) if DATABASE_URL else None
+if engine is not None and engine.dialect.name=='sqlite':
+    @event.listens_for(engine,'connect')
+    def sqlite_integrity(dbapi_connection, connection_record):
+        dbapi_connection.execute('PRAGMA foreign_keys=ON')
+app.include_router(make_router(engine, os.getenv('BIDROOMS_SHARED_ROOT'),
+    allowed_origins=tuple(x.strip() for x in os.getenv('BIDROOMS_ALLOWED_ORIGINS','').split(',') if x.strip()),
+    qa=os.getenv('BIDROOMS_QA_MODE')=='1' and bool(DATABASE_URL and DATABASE_URL.startswith('sqlite:///'))))
+app.add_middleware(CORSMiddleware, allow_origins=[x.strip() for x in os.getenv('BIDROOMS_ALLOWED_ORIGINS','').split(',') if x.strip()],
+    allow_credentials=True, allow_methods=['GET','POST','PATCH','DELETE'], allow_headers=['Content-Type','X-BR-CSRF','X-Document-Name','If-Match'])
+
+@app.middleware('http')
+async def private_headers(request, call_next):
+    response=await call_next(request)
+    if request.url.path.startswith('/api/'):
+        response.headers['Cache-Control']='no-store'
+        response.headers['X-Content-Type-Options']='nosniff'
+    return response
 
 class Intake(BaseModel):
     kind:str
@@ -36,6 +55,8 @@ def system():
 
 @app.post("/api/v1/intake",status_code=202)
 def create_intake(payload:Intake):
+    if os.getenv('BIDROOMS_ENABLE_LEGACY_INTAKE') != '1':
+        raise HTTPException(503,"Registro anterior no habilitado; no introduzca identificación personal")
     if not engine:
         raise HTTPException(503,"DATABASE_URL is not configured")
     raw=payload.government_id.strip()
