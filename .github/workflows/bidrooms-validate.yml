@@ -37,7 +37,7 @@ jobs:
       - run: bidrooms/qa/node_modules/.bin/playwright install --with-deps chromium
       - run: node bidrooms/qa/browser.mjs
   deployed-public-regression:
-    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
+    if: (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
