@@ -72,7 +72,7 @@ async function room(){
 
  if(r.workflow?.pricing===false){$("#finance .price").hidden=true;$("#priceResult").hidden=true;}
  if(r.workflow?.amendment_term){const t=$('[data-tab="amendments"]');if(t)t.textContent=r.workflow.amendment_term;}
- const tabs=$(".tab"), panels=$$(".panel"); tabs.forEach(t=>t.addEventListener("click",()=>{tabs.forEach(x=>x.classList.remove("active"));panels.forEach(x=>x.classList.remove("active"));t.classList.add("active");$("#"+t.dataset.tab).classList.add("active")}));
+ const tabs=$$(".tab"), panels=$$(".panel"); tabs.forEach(t=>t.addEventListener("click",()=>{tabs.forEach(x=>x.classList.remove("active"));panels.forEach(x=>x.classList.remove("active"));t.classList.add("active");$("#"+t.dataset.tab).classList.add("active")}));
  const initialSection=new URLSearchParams(location.search).get("section");if(initialSection&&panels.some(x=>x.id===initialSection)){tabs.forEach(x=>x.classList.toggle("active",x.dataset.tab===initialSection));panels.forEach(x=>x.classList.toggle("active",x.id===initialSection));}
  const readyKey="bidrooms-ready-"+r.id; let state={}; try{state=JSON.parse(localStorage.getItem(readyKey)||"{}")}catch(e){}
  function syncReady(){const boxes=$$("[data-ready]");boxes.forEach(b=>{if(state[b.dataset.ready])b.checked=true;b.addEventListener("change",()=>{state[b.dataset.ready]=b.checked;try{localStorage.setItem(readyKey,JSON.stringify(state))}catch(e){}$$('[data-ready="'+b.dataset.ready+'"]').forEach(x=>x.checked=b.checked);updateReady()})});updateReady()}

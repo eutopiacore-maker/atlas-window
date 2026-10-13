@@ -26,7 +26,7 @@ try{
  const pages=await Promise.all(['acp-215004','panama-mupa-268','unops-61896'].map(async id=>{
   const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));
   await p.goto(new URL('room/?id='+id,origin).href);await p.waitForSelector('#analysisStatus');
-  assert.match(await p.locator('#analysisStatus').innerText(),/incompleto/i);
+  assert.match(await p.locator('#analysisStatus').innerText(),/incompleto/i);assert.equal(await p.locator('#fatal').innerText(),'');
   await p.locator('[data-tab="documents"]').click();try{await p.waitForSelector('#documents.active',{timeout:5000});}catch(error){console.log("BIDROOMS_DIAGNOSTIC",JSON.stringify({id,errors,fatal:await p.locator("#fatal").innerText(),tabs:await p.locator(".tab").evaluateAll(xs=>xs.map(x=>({text:x.textContent,tab:x.dataset.tab,active:x.className}))),panels:await p.locator(".panel").evaluateAll(xs=>xs.map(x=>({id:x.id,active:x.className}))),build:await p.locator('meta[name="bidrooms-build"]').getAttribute("content")}));throw error;}
   assert.ok(await p.locator('#documents .doc').count()>0);
   assert.equal(await p.locator('input[name="id"]').count(),0);return p;
