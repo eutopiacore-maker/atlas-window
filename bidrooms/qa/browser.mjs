@@ -33,7 +33,7 @@ try{
  const home=await context.newPage(),errors=[];home.on('pageerror',e=>errors.push(e.message));
  await home.goto(origin);await home.waitForSelector('#directory .card');
  const manifest=await(await fetch(new URL('data/manifest.json',origin))).json();
- assert.equal(manifest.version,'1.2.0');assert.equal(manifest.rooms.length,4);check('directorio y ruta histórica conservada');
+ assert.equal(manifest.version,'1.2.1');assert.equal(manifest.rooms.length,4);check('directorio y ruta histórica conservada');
  assert.equal(await home.locator('input[name="id"]').count(),0);check('sin identificación personal ni correo con ID');
  await home.locator('[data-example]').first().click();await home.locator('#needForm button[type="submit"]').click();
  await home.waitForSelector('#needResult .need-options');
