@@ -1,7 +1,7 @@
 {
   "schema": "bidrooms-public-manifest/v1",
-  "version": "1.2.0",
-  "updated_at": "2026-10-13T20:10:00Z",
+  "version": "1.2.1",
+  "updated_at": "2026-10-14T04:24:28.778954+00:00",
   "design_canon": "luxury+nature+executive+panama-dark-gradients+smoked-glass",
   "public_accounts": false,
   "atlas_contact": "eutopiacore@gmail.com",
@@ -88,7 +88,7 @@
       "route": "room/?id=unops-61896"
     }
   ],
-  "build_id": "bidrooms-public-20261013-r2",
+  "build_id": "bidrooms-public-20261014-r3",
   "compatibility": {
     "public_schema": 1,
     "safe_navigation": true,
@@ -97,8 +97,8 @@
   "assets": [
     "assets/app.7ecd6837081c565c535749731ea1a985d7efc55c.js",
     "assets/theme.48489342efabc54a4b1a02fb6ea7b9c85ad5a222.css",
-    "assets/navigation.63e5484eb6f17057a131dee55211e7b1f8c427c9.js",
+    "assets/navigation.b3bd472b1023c3dfd968db026ca624cc0c4892ab.js",
     "assets/config.b41819937ef1d042129abc62d6e8a7deb3221ca9.js",
-    "assets/needs.8e75d0e47a89d86bee11a6eddb46b952b338bb6e.js"
+    "assets/needs.5bb41e5b0174dac0011f2cc5ee4d9e217aaf9418.js"
   ]
 }
