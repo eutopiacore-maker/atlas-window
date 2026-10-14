@@ -30,9 +30,10 @@ jobs:
           node-version: "22"
       - run: python bidrooms/scripts/build_public.py
       - run: python bidrooms/scripts/validate_public_data.py
+      - run: python -m pip install -r bidrooms/backend/requirements.txt httpx==0.28.1
       - run: python -m unittest discover -s bidrooms/qa -p 'test_*.py' -v
-      - run: python -m py_compile bidrooms/backend/app/main.py
-      - run: node --check bidrooms/assets/app.js && node --check bidrooms/assets/navigation.js
+      - run: python -m py_compile bidrooms/backend/app/main.py bidrooms/backend/app/workspace.py
+      - run: node --check bidrooms/assets/app.js && node --check bidrooms/assets/navigation.js && node --check bidrooms/assets/needs.js
       - run: npm install --prefix bidrooms/qa --no-save playwright@1.64.0
       - run: bidrooms/qa/node_modules/.bin/playwright install --with-deps chromium
       - run: node bidrooms/qa/browser.mjs
@@ -55,3 +56,16 @@ jobs:
       - run: node bidrooms/qa/browser.mjs
         env:
           BIDROOMS_VERIFY_URL: https://eutopiacore-maker.github.io/atlas-window/bidrooms/
+
+  live-compatible-upgrade:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/development/bidrooms-needs-20261013'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --prefix bidrooms/qa --no-save playwright@1.64.0
+      - run: bidrooms/qa/node_modules/.bin/playwright install --with-deps chromium
+      - run: node bidrooms/qa/live_upgrade.mjs

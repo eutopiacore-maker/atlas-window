@@ -11,7 +11,9 @@ class PublicIntegrity(unittest.TestCase):
     def test_no_false_full_validation(self):
         for path in (ROOT/'data/rooms').glob('*.json'):
             case=json.loads(path.read_text())
-            if 'analysis' in case:self.assertGreater(case['analysis']['documents_expected'],case['analysis']['documents_processed'])
+            if 'analysis' in case:
+                self.assertGreaterEqual(case['analysis']['documents_expected'],case['analysis']['documents_processed'])
+                self.assertFalse(case['analysis']['corpus_complete'])
     def test_sources_and_recorded_hashes(self):
         for path in (ROOT/'data/rooms').glob('*.json'):
             for doc in json.loads(path.read_text())['documents']:

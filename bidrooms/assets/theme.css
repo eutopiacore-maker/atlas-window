@@ -31,3 +31,14 @@ a{color:inherit}.topbar{position:sticky;top:0;z-index:30;height:66px;padding:0 2
 @media(max-width:520px){.brand b{font-size:18px}.hero h1,.page h1{font-size:42px}.g5{grid-template-columns:1fr 1fr}.hero:before{width:78%;opacity:.32}}
 
 [hidden]{display:none!important}.hash{display:block;overflow-wrap:anywhere;font-size:11px;color:var(--text);margin-top:8px}details{margin-top:9px}summary{cursor:pointer;color:var(--gold-hi);font-size:12px}.source-link{display:inline-block;min-height:32px;padding:6px 0;color:var(--gold-hi);font-size:12px}.req input{width:20px;height:20px}.row>div{min-width:0}.btn,.tab{min-height:44px;font-size:11px}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}#analysisStatus{margin:12px 0}.pill{max-width:140px;white-space:normal}
+.need-workspace{padding:24px;border:1px solid var(--line2);background:rgba(8,14,17,.7)}
+.need-workspace label{display:block;margin:10px 0 8px;font-size:14px;color:#e5d3b2}
+.need-workspace textarea,.need-workspace input:not([type=file]){display:block;width:100%;padding:14px;border:1px solid var(--line2);background:#0b1114;color:#f3eee6;font:inherit;font-size:16px;box-sizing:border-box}
+.need-workspace textarea{min-height:110px;resize:vertical;line-height:1.6}.need-workspace .btn{cursor:pointer;min-height:44px;font-size:13px;text-transform:none}
+.need-examples,.need-options,.need-documents,#needActions{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0}
+.need-workspace h2{font-size:24px;margin:24px 0 12px}.need-workspace h3{font-size:18px}.need-workspace h4{font-size:16px;line-height:1.5}
+.need-workspace .muted,.need-workspace p{font-size:14px;line-height:1.6}.need-workspace blockquote{margin:12px 0;border-left:2px solid #a76545;padding-left:12px;line-height:1.6}
+.need-workspace [hidden]{display:none!important}.need-result{margin-top:24px;border-top:1px solid var(--line2)}.need-result .source-link{display:block;margin-top:12px}
+.need-workspace :focus-visible{outline:2px solid #dbb981;outline-offset:3px}.need-workspace button:disabled{opacity:.6;cursor:wait}
+.private-login{max-width:600px}.private-login button{margin-top:16px}#needFiles{font-size:16px;max-width:100%}
+@media(max-width:600px){.need-workspace{padding:16px}.need-examples,.need-options,.need-documents,#needActions{grid-template-columns:1fr}.need-workspace .actions .btn{width:100%;text-align:center}.hero h1{font-size:38px}}

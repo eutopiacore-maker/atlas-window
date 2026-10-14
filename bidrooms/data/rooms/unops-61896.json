@@ -13,7 +13,136 @@
   },
   "payment_terms": "Consultar documentos de cada expediente",
   "public_participants": [],
-  "requirements": [],
+  "requirements": [
+    {
+      "id": "982e984754b6b6f96bc3287eade46e6c",
+      "title": "Antes de la fecha límite para la presentación de ofertas, UNOPS podrá, a su discreción, modificar los",
+      "detail": "Candidato de clasificación FECHA. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987048",
+      "source_version": "PUBLICADA_EN_AVISO_294506",
+      "page": 1,
+      "section": null,
+      "document_title": "Instrucciones para licitantes",
+      "document_sha256": "870d095ba925b69a12164ac587905595afff3474eb57e60d5bd090ba145abd9a",
+      "certainty": "INFERIDA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "Antes de la fecha límite para la presentación de ofertas, UNOPS podrá, a su discreción, modificar los"
+    },
+    {
+      "id": "8f120dd72b46a87410e16145f804d18c",
+      "title": "A fin de dar a los licitantes un plazo razonable para incorporar estas modificaciones en su oferta, UNOPS",
+      "detail": "Candidato de clasificación FECHA. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987048",
+      "source_version": "PUBLICADA_EN_AVISO_294506",
+      "page": 1,
+      "section": null,
+      "document_title": "Instrucciones para licitantes",
+      "document_sha256": "870d095ba925b69a12164ac587905595afff3474eb57e60d5bd090ba145abd9a",
+      "certainty": "INFERIDA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "A fin de dar a los licitantes un plazo razonable para incorporar estas modificaciones en su oferta, UNOPS"
+    },
+    {
+      "id": "14dcf5cd1db70022dcdd5478aa3c31d4",
+      "title": "A24: 20.0 | B24: CABLE | C24: 1-1/4\"ø CON ALMA DE ACERO NO GALVANIZADO CON RESISTENCIA A LA ROTURA MÍNIMA DE 158,800 lbf (ROLLO DE 300M) | D24: ROLLO | E24: 7.0",
+      "detail": "Candidato de clasificación TECNICO. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987050",
+      "source_version": "PUBLICADA_EN_AVISO_294506",
+      "page": null,
+      "section": "Hoja LOTE 1 MATERIALES METÁLICOS, fila 24",
+      "document_title": "Formulario de oferta de precios, XLSX",
+      "document_sha256": "fa97ae9e2af966f47b3fb9e3875db221d71782887e5ebea846e40c5e4df41ea3",
+      "certainty": "CONFIRMADA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "A24: 20.0 | B24: CABLE | C24: 1-1/4\"ø CON ALMA DE ACERO NO GALVANIZADO CON RESISTENCIA A LA ROTURA MÍNIMA DE 158,800 lbf (ROLLO DE 300M) | D24: ROLLO | E24: 7.0"
+    },
+    {
+      "id": "54977afc53549ad96f30b16ffe95d981",
+      "title": "1-1/4\"ø CON ALMA DE ACERO NO GALVANIZADO CON RESISTENCIA A LA ROTURA MÍNIMA DE 158,800 lbf (ROLLO DE 300M)",
+      "detail": "Candidato de clasificación TECNICO. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987051",
+      "source_version": "PUBLICADA_EN_AVISO_294506",
+      "page": null,
+      "section": "Párrafo 244",
+      "document_title": "Anexos de oferta, DOCX",
+      "document_sha256": "0aea1110f915ee0eaa5c5d4f04b356cb645509257ac89e68406e66069389fb9f",
+      "certainty": "CONFIRMADA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "1-1/4\"ø CON ALMA DE ACERO NO GALVANIZADO CON RESISTENCIA A LA ROTURA MÍNIMA DE 158,800 lbf (ROLLO DE 300M)"
+    },
+    {
+      "id": "11e049dbad55b35c298397757eb733e0",
+      "title": "de la licitación. Toda oferta que presente un precio ajustable será considerada no conforme y será",
+      "detail": "Candidato de clasificación ECONOMICO. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987048",
+      "source_version": "PUBLICADA_EN_AVISO_294506",
+      "page": 6,
+      "section": null,
+      "document_title": "Instrucciones para licitantes",
+      "document_sha256": "870d095ba925b69a12164ac587905595afff3474eb57e60d5bd090ba145abd9a",
+      "certainty": "INFERIDA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "de la licitación. Toda oferta que presente un precio ajustable será considerada no conforme y será"
+    },
+    {
+      "id": "5565358c3961dd38ef30e413b1daa274",
+      "title": "ofertas a dólares estadounidenses (USD), según el tipo de cambio oficial de las Naciones Unidas vigente",
+      "detail": "Candidato de clasificación ECONOMICO. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987048",
+      "source_version": "PUBLICADA_EN_AVISO_294506",
+      "page": 7,
+      "section": null,
+      "document_title": "Instrucciones para licitantes",
+      "document_sha256": "870d095ba925b69a12164ac587905595afff3474eb57e60d5bd090ba145abd9a",
+      "certainty": "INFERIDA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "ofertas a dólares estadounidenses (USD), según el tipo de cambio oficial de las Naciones Unidas vigente"
+    },
+    {
+      "id": "44a86718307a3ac88a6120e9286e2c8a",
+      "title": "de licitación o especificaciones, y / o en el proceso de evaluación de ofertas de dicha licitación; o",
+      "detail": "Candidato de clasificación CRITERIO. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987048",
+      "source_version": "PUBLICADA_EN_AVISO_294506",
+      "page": 1,
+      "section": null,
+      "document_title": "Instrucciones para licitantes",
+      "document_sha256": "870d095ba925b69a12164ac587905595afff3474eb57e60d5bd090ba145abd9a",
+      "certainty": "INFERIDA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "de licitación o especificaciones, y / o en el proceso de evaluación de ofertas de dicha licitación; o"
+    },
+    {
+      "id": "e0aeed5b835cd1da04ed1a4a9efd71d0",
+      "title": "(vii) realizar su propia evaluación sobre la naturaleza y el alcance de los bienes/servicios",
+      "detail": "Candidato de clasificación CRITERIO. Cita literal en texto extraído; requiere cotejo y revisión humana.",
+      "state": "Candidato · revisión pendiente",
+      "source_url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987048",
+      "source_version": "PUBLICADA_EN_AVISO_294506",
+      "page": 4,
+      "section": null,
+      "document_title": "Instrucciones para licitantes",
+      "document_sha256": "870d095ba925b69a12164ac587905595afff3474eb57e60d5bd090ba145abd9a",
+      "certainty": "INFERIDA",
+      "literal_verified": true,
+      "legal_validated": false,
+      "quote": "(vii) realizar su propia evaluación sobre la naturaleza y el alcance de los bienes/servicios"
+    }
+  ],
   "meta": [
     {
       "label": "Autoridad",
@@ -36,7 +165,7 @@
   "regime": "unops",
   "title": "Materiales y herramientas para puentes en Panamá — acuerdo a largo plazo",
   "method": "Llamado internacional a licitación, acuerdo a largo plazo",
-  "summary": "Caso histórico oficial UNGM 294506. Seis documentos originales procesados localmente, con referencias por página, párrafo o celda. Faltan tres transferencias y revisión humana.",
+  "summary": "Caso histórico oficial UNGM 294506: nueve archivos públicos originales procesados. Revisión profesional y completitud integral pendientes.",
   "closes_at": "2026-04-27T22:00:00+00:00",
   "official_system": {
     "url": "https://www.ungm.org/Public/Notice/294506"
@@ -52,7 +181,7 @@
       "bytes": 229858,
       "hash_checkpoint_available": true,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "unops-price-form",
@@ -60,11 +189,11 @@
       "kind": "Documento público oficial",
       "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987050",
       "version": "PUBLICADA_EN_AVISO_294506",
-      "sha256": null,
+      "sha256": "fa97ae9e2af966f47b3fb9e3875db221d71782887e5ebea846e40c5e4df41ea3",
       "bytes": 15388,
-      "hash_checkpoint_available": false,
+      "hash_checkpoint_available": true,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "unops-offer-forms",
@@ -72,11 +201,11 @@
       "kind": "Documento público oficial",
       "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987051",
       "version": "PUBLICADA_EN_AVISO_294506",
-      "sha256": null,
+      "sha256": "0aea1110f915ee0eaa5c5d4f04b356cb645509257ac89e68406e66069389fb9f",
       "bytes": 1320706,
-      "hash_checkpoint_available": false,
+      "hash_checkpoint_available": true,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "unops-contract-annexes",
@@ -84,11 +213,11 @@
       "kind": "Documento público oficial",
       "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=1987052",
       "version": "PUBLICADA_EN_AVISO_294506",
-      "sha256": null,
+      "sha256": "d21f3fe9e670b7ca352d70d8391ddeb904a5a8f8834a53288c50ff905746e5a8",
       "bytes": 266728,
-      "hash_checkpoint_available": false,
+      "hash_checkpoint_available": true,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "unops-acta-2",
@@ -96,11 +225,11 @@
       "kind": "Documento público oficial",
       "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=2002076",
       "version": "PUBLICADA_EN_AVISO_294506",
-      "sha256": null,
-      "bytes": null,
-      "hash_checkpoint_available": false,
-      "acquisition_status": "TRANSFERENCIA_NO_MATERIALIZADA",
-      "processing_state": "No recuperado"
+      "sha256": "187dd0e3cc19e95d1ad20de78217d2fb79b1ba187fb0bfe7df31360078f16658",
+      "bytes": 108360,
+      "hash_checkpoint_available": true,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "unops-acta-1",
@@ -108,11 +237,11 @@
       "kind": "Documento público oficial",
       "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=2002077",
       "version": "PUBLICADA_EN_AVISO_294506",
-      "sha256": null,
-      "bytes": null,
-      "hash_checkpoint_available": false,
-      "acquisition_status": "TRANSFERENCIA_NO_MATERIALIZADA",
-      "processing_state": "No recuperado"
+      "sha256": "5dba8c1d49e97b35c48a61f2c0e11d84aeb4f392f2abebe65f0a10739217fcd4",
+      "bytes": 108275,
+      "hash_checkpoint_available": true,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "unops-presentation-1",
@@ -120,11 +249,11 @@
       "kind": "Documento público oficial",
       "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=2002078",
       "version": "PUBLICADA_EN_AVISO_294506",
-      "sha256": null,
-      "bytes": null,
-      "hash_checkpoint_available": false,
-      "acquisition_status": "TRANSFERENCIA_NO_MATERIALIZADA",
-      "processing_state": "No recuperado"
+      "sha256": "bfa5eb9278864e4a75b0f498134fd576d56898df8784da2d17a165b4937eb251",
+      "bytes": 2687399,
+      "hash_checkpoint_available": true,
+      "acquisition_status": "BYTES_VERIFICADOS",
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "unops-presentation-2",
@@ -132,11 +261,11 @@
       "kind": "Documento público oficial",
       "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=2002079",
       "version": "PUBLICADA_EN_AVISO_294506",
-      "sha256": null,
+      "sha256": "487da2442b50f33488820ad5729e2f742f58ee41261e05d2b6588f48b3d8b039",
       "bytes": 2687541,
-      "hash_checkpoint_available": false,
+      "hash_checkpoint_available": true,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     },
     {
       "id": "unops-requirements-amendment2",
@@ -144,11 +273,11 @@
       "kind": "Documento público oficial",
       "url": "https://www.ungm.org/Public/Notice/DownloadDocument?noticeId=294506&documentId=2003477",
       "version": "ENMIENDA_2",
-      "sha256": null,
+      "sha256": "1ad1d91671aeb1584df083ddd9153222c7e8e8ebec22a607e14544c2ecb3721f",
       "bytes": 279954,
-      "hash_checkpoint_available": false,
+      "hash_checkpoint_available": true,
       "acquisition_status": "BYTES_VERIFICADOS",
-      "processing_state": "Procesado localmente"
+      "processing_state": "Procesado localmente; cotejo humano pendiente"
     }
   ],
   "amendments": [
@@ -194,16 +323,16 @@
   },
   "analysis": {
     "documents_expected": 9,
-    "documents_processed": 6,
-    "candidates": 398,
+    "documents_processed": 9,
+    "candidates": 442,
     "ocr_pages": 0,
     "corpus_complete": false,
-    "limitation": "Tres transferencias no materializadas. Los resultados completos y cinco huellas no pudieron trasladarse desde el entorno offline; no se inventan. Precisión, F1 y cobertura crítica desconocidas."
+    "limitation": "Sin estándar humano independiente ni validación profesional. Nueve archivos públicos procesados. Detalles restringidos de eSourcing y versiones anteriores no cotejados."
   },
   "evidence": [
     {
       "label": "Procesamiento local",
-      "detail": "45 páginas PDF, 42 tablas detectadas y 398 candidatos en seis archivos. DOCX/XLSX usan párrafo/hoja/fila, no páginas ficticias.",
+      "detail": "Medición local: 55 páginas PDF, 75 tablas y 442 candidatos; 9 archivos. No es precisión ni cobertura crítica.",
       "state": "Ejecutado"
     },
     {

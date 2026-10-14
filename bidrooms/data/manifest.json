@@ -1,6 +1,6 @@
 {
   "schema": "bidrooms-public-manifest/v1",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "updated_at": "2026-10-13T20:10:00Z",
   "design_canon": "luxury+nature+executive+panama-dark-gradients+smoked-glass",
   "public_accounts": false,
@@ -88,16 +88,17 @@
       "route": "room/?id=unops-61896"
     }
   ],
-  "build_id": "bidrooms-public-20261013-r1",
+  "build_id": "bidrooms-public-20261013-r2",
   "compatibility": {
     "public_schema": 1,
     "safe_navigation": true,
     "scope": "PUBLIC_REGISTRY_ONLY"
   },
   "assets": [
-    "assets/theme.56088ede936cc43ab1677e57836e792e22364812.css",
-    "assets/navigation.aa26945cd9f43a768140c55d111526b0d19a4740.js",
     "assets/app.7ecd6837081c565c535749731ea1a985d7efc55c.js",
-    "assets/config.8a3a2b2e274b49872b4dec5d9ebb6dad600c40ea.js"
+    "assets/theme.48489342efabc54a4b1a02fb6ea7b9c85ad5a222.css",
+    "assets/navigation.63e5484eb6f17057a131dee55211e7b1f8c427c9.js",
+    "assets/config.b41819937ef1d042129abc62d6e8a7deb3221ca9.js",
+    "assets/needs.8e75d0e47a89d86bee11a6eddb46b952b338bb6e.js"
   ]
 }
