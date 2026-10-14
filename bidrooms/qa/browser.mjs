@@ -10,6 +10,21 @@ const scratch=remote?null:await mkdtemp(join(tmpdir(),'bidrooms-qa-'));
 if(scratch)await cp('bidrooms',join(scratch,'bidrooms'),{recursive:true});
 const server=scratch?spawn('python',['-m','http.server','8765','--bind','127.0.0.1','--directory',scratch],{stdio:'ignore'}):null;
 const origin=remote||'http://127.0.0.1:8765/bidrooms/';
+if(remote){
+ const expected=JSON.parse(await readFile('bidrooms/data/manifest.json','utf8')).build_id;
+ let ready=false;
+ for(let n=0;n<90;n++){
+  try{
+   const response=await fetch(new URL('data/manifest.json?_qa_ready='+Date.now(),origin),{cache:'no-store'});
+   const published=await response.json();
+   const html=await(await fetch(new URL('?_qa_ready='+Date.now(),origin),{cache:'no-store'})).text();
+   if(response.ok&&published.build_id===expected&&html.includes('name="bidrooms-build" content="'+expected+'"')){ready=true;break;}
+  }catch{}
+  await new Promise(r=>setTimeout(r,1000));
+ }
+ assert.ok(ready,'La compilación objetivo no está publicada; prueba bloqueada, no aprobada');
+}
+
 for(let i=0;i<50;i++){try{if((await fetch(origin)).ok)break;}catch{}await new Promise(r=>setTimeout(r,100));}
 const browser=await chromium.launch({headless:true,executablePath:process.env.BIDROOMS_CHROMIUM_EXECUTABLE||undefined});let passed=0;
 const check=name=>{passed++;console.log('BIDROOMS_BROWSER_PASS',name);};
