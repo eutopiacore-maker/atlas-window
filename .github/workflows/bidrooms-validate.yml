@@ -56,3 +56,16 @@ jobs:
       - run: node bidrooms/qa/browser.mjs
         env:
           BIDROOMS_VERIFY_URL: https://eutopiacore-maker.github.io/atlas-window/bidrooms/
+
+  live-compatible-upgrade:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/development/bidrooms-needs-20261013'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --prefix bidrooms/qa --no-save playwright@1.64.0
+      - run: bidrooms/qa/node_modules/.bin/playwright install --with-deps chromium
+      - run: node bidrooms/qa/live_upgrade.mjs

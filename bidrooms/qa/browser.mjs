@@ -62,8 +62,17 @@ try{
   const oldAsset=initial.assets.find(x=>x.startsWith('assets/app.'));
   next.assets=initial.assets.map(x=>x===oldAsset?newAsset:x);
   const legacyPath=join(root,'acp-215164/index.html'),html=await readFile(legacyPath,'utf8');
+  const homePath=join(root,'index.html'),homeHtml=await readFile(homePath,'utf8');
+  const needDraft='Necesito planificar la revisión de materiales para puentes';
+  await home.locator('#needObjective').fill(needDraft);
+  await writeFile(homePath,homeHtml.replace(oldAsset,newAsset).replaceAll(initial.build_id,next.build_id));
   await writeFile(legacyPath,html.replace(oldAsset,newAsset).replaceAll(initial.build_id,next.build_id));
-  await writeFile(manifestPath,JSON.stringify(next));await legacy.locator('[data-tab="overview"]').click();
+  await writeFile(manifestPath,JSON.stringify(next));
+  await home.locator('#directory a.result[href*="room/?id=unops-61896"]').click();await home.waitForSelector('#analysisStatus');
+  await home.locator('a.brand.js-home').click();await home.waitForFunction(()=>document.body.dataset.qaComponent==='version2');
+  await home.waitForFunction(expected=>document.getElementById('needObjective').value===expected,needDraft);
+  assert.equal(await home.locator('#needObjective').inputValue(),needDraft);check('actualización pública conserva objetivo libre durante navegación');
+  await legacy.locator('[data-tab="overview"]').click();
   await legacy.waitForFunction(()=>document.body.dataset.qaComponent==='version2');
   assert.equal(await legacy.locator('#overview [data-ready]').first().isChecked(),true);
   await legacy.locator('[data-tab="finance"]').click();
